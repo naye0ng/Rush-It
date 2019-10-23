@@ -1,6 +1,6 @@
 # Rush-it : 서두르다 %%
 
-<img src="https://i.ibb.co/fnnnZCK/6-D7054-B5-770-E-4594-8-F6-D-69491-F034-BE1.png" alt="rush-it logo" width=250px>
+<img src="https://i.ibb.co/fnnnZCK/6-D7054-B5-770-E-4594-8-F6-D-69491-F034-BE1.png" alt="rush-it logo" width=250px align="center">
 
 > `우르르 쾅쾅`, 누구도 막을 수 없는 천재지변. 당신의 뱃속에서 일어날 수 있습니다.
 >
