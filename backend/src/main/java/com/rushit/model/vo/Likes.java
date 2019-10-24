@@ -1,17 +1,19 @@
 package com.rushit.model.vo;
 
-public class Like {
+public class Likes {
 
 	String toilet_id;
 	String user_id;
-	boolean like;
+	boolean likes;
 	
-	public Like() {};
-	public Like(String toilet_id, String user_id, boolean like) {
+	public Likes() {
+		
+	};
+	public Likes(String toilet_id, String user_id, boolean likes) {
 		super();
 		this.toilet_id = toilet_id;
 		this.user_id = user_id;
-		this.like = like;
+		this.likes = likes;
 	}
 	
 	public String getToilet_id() {
@@ -27,15 +29,15 @@ public class Like {
 		this.user_id = user_id;
 	}
 	public boolean isLike() {
-		return like;
+		return likes;
 	}
-	public void setLike(boolean like) {
-		this.like = like;
+	public void setLike(boolean likes) {
+		this.likes = likes;
 	}
 	
 	@Override
 	public String toString() {
-		return "Like [toilet_id=" + toilet_id + ", user_id=" + user_id + ", like=" + like + "]";
+		return "Like [toilet_id=" + toilet_id + ", user_id=" + user_id + ", like=" + likes + "]";
 	}
 	
 }

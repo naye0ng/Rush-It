@@ -1,9 +1,12 @@
 package com.rushit.model.service;
 
-import com.rushit.model.vo.Like;
+import java.util.List;
+
+import com.rushit.model.vo.Likes;
+
 
 public interface LikeService {
-	boolean addLike(Like like);
-	
-	boolean deleteLike(Like like);
+	List<Likes> searchAll();
+	boolean addLike(Likes likes);
+	boolean deleteLike(Likes likes);
 }

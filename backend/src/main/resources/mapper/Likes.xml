@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="likes">
+
+	<select id="selectLikeList" resultMap="LikeResultMap">
+		SELECT	toilet_id, user_id, likes
+		FROM	likes
+	</select>
+	
+	<resultMap type="Likes" id="LikeResultMap">
+		<result column="toilet_id" property="toilet_id" />
+		<result column="user_id" property="user_id" />
+		<result column="likes" property="likes"/>
+	</resultMap>
+	
+	<insert id="insertLike" parameterType="Likes">
+		INSERT INTO	likes(toilet_id, user_id, likes) VALUES(#{toilet_id}, #{user_id}, #{likes})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="Likes">
+		DELETE
+		FROM	likes
+		WHERE	toilet_id=#{toilet_id} AND user_id={user_id}
+	</delete>
+</mapper>

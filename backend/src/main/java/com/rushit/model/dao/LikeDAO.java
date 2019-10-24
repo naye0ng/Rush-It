@@ -1,9 +1,11 @@
 package com.rushit.model.dao;
 
-import com.rushit.model.vo.Like;
+import java.util.List;
+
+import com.rushit.model.vo.Likes;
 
 public interface LikeDAO {
-	void insertLike(Like like);
-	
-	void deleteLike(Like like);
+	List<Likes> searchAll();
+	void insertLike(Likes likes);
+	void deleteLike(Likes likes);
 }
