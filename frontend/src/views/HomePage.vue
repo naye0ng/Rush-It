@@ -1,6 +1,12 @@
 <template>
   <div class="hello">
     <div>
+    <b-button>Button</b-button>
+    <b-button variant="primary">Button</b-button>
+    <b-button variant="success">Button</b-button>
+    <b-button variant="outline-primary">Button</b-button>
+  </div>
+    <div>
       <h2>Example heading <b-badge>New</b-badge></h2>
       <h3>Example heading <b-badge>New</b-badge></h3>
       <h4>Example heading <b-badge>New</b-badge></h4>
