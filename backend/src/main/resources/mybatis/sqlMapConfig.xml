@@ -4,13 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.ssafy.model.vo.Likes" alias="Likes"/>
+		<typeAlias type="com.ssafy.model.vo.Love" alias="Love"/>
 		<typeAlias type="com.ssafy.model.vo.Review" alias="Review"/>
 		<typeAlias type="com.ssafy.model.vo.Toilet" alias="Toilet"/>
 		<typeAlias type="com.ssafy.model.vo.User" alias="User"/>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="mapper/Likes.xml"/>
+		<mapper resource="mapper/Love.xml"/>
 	</mappers>
 </configuration>
