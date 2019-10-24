@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.ssafy.model.vo.Like" alias="Like"/>
+		<typeAlias type="com.ssafy.model.vo.Review" alias="Review"/>
+		<typeAlias type="com.ssafy.model.vo.Toilet" alias="Toilet"/>
+		<typeAlias type="com.ssafy.model.vo.User" alias="User"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mapper/Like.xml"/>
+		<mapper resource="mapper/Review.xml"/>
+		<mapper resource="mapper/Toilet.xml"/>
+		<mapper resource="mapper/User.xml"/>
+	</mappers>
+</configuration>

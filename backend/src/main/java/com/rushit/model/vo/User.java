@@ -1,4 +1,4 @@
-package com.team3.model.vo;
+package com.rushit.model.vo;
 
 public class User {
 	
