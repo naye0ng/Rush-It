@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="love">
+
+	<select id="selectLoveList" resultMap="LoveResultMap">
+		SELECT	toilet_id, user_id, love
+		FROM	love
+	</select>
+	
+	<resultMap type="Love" id="LoveResultMap">
+		<result column="toilet_id" property="toilet_id" />
+		<result column="user_id" property="user_id" />
+		<result column="love" property="love"/>
+	</resultMap>
+	
+	<insert id="insertLove" parameterType="Love">
+		INSERT
+		INTO	love(toilet_id, user_id, love)
+		VALUES(#{toilet_id}, #{user_id}, #{love})
+	</insert>
+	
+	<delete id="deleteLove" parameterType="Love">
+		DELETE
+		FROM	love
+		WHERE	toilet_id=#{toilet_id} AND user_id={user_id}
+	</delete>
+</mapper>
