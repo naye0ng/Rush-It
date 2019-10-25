@@ -5,29 +5,22 @@
 <mapper namespace="user">
 
 	<select id="loginUser" parameterType="User" resultMap="UserResultMap">
-		SELECT	id, nick
+		SELECT	id, nick, gender
 		FROM	user
 		WHERE	id like #{id} AND pw like #{pw}
 	</select>
 
-	<select id="findUser" parameterType="User" resultMap="SimpleUserResultMap">
-		SELECT	id, nick
+	<select id="findUser" parameterType="User" resultMap="UserResultMap">
+		SELECT	id, nick, gender
 		FROM	user
 		WHERE	id like #{id}
 	</select>
 	
 	<resultMap type="User" id="UserResultMap">
 		<result column="id" property="id" />
-		<result column="pw" property="pw" />
 		<result column="nick" property="nick"/>
 		<result column="gender" property="gender"/>
 	</resultMap>
-	
-	<resultMap type="User" id="SimpleUserResultMap">
-		<result column="id" property="id" />		
-		<result column="nick" property="nick"/>
-	</resultMap>
-	
 	
 	<insert id="insertUser" parameterType="User">
 		INSERT
