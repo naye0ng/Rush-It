@@ -1,13 +1,21 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
+    <Authentication />
+    <Navigation />
   </div>
 </template>
 
 <script>
+import Authentication from '../src/components/template/Authentication'
+import Navigation from '../src/components/template/Navigation'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components : {
+    Authentication,
+    Navigation
+  }
 }
 </script>
 
@@ -18,6 +26,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
