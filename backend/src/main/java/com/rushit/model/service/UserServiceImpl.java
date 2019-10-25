@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findUser(String id) {
-		System.out.println();
 		return userDao.findUser(id);
 	}
 }
