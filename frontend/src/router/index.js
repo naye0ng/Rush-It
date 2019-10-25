@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/views/HelloWorld'
+import HomePage from '@/views/HomePage'
 
 Vue.use(Router)
 
 export default new Router({
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'HomePage',
+      component: HomePage
     }
   ]
 })
