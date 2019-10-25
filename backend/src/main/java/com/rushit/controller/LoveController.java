@@ -35,7 +35,7 @@ public class LoveController {
 	}
 	
 	
-	@GetMapping("/lovAdd")
+	@GetMapping("/loveAdd")
 	public ResponseEntity<Boolean> registerLove(){
 		Love love = new Love("test", "test", true);
 		System.out.println("INSERT");
