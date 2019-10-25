@@ -33,6 +33,102 @@ public class Toilet {
 		this.diaper = diaper;
 		this.bell = bell;
 	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLocation_x() {
+		return location_x;
+	}
+
+	public void setLocation_x(String location_x) {
+		this.location_x = location_x;
+	}
+
+	public String getLocation_y() {
+		return location_y;
+	}
+
+	public void setLocation_y(String location_y) {
+		this.location_y = location_y;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public boolean isHandicapped() {
+		return handicapped;
+	}
+
+	public void setHandicapped(boolean handicapped) {
+		this.handicapped = handicapped;
+	}
+
+	public boolean isDiaper() {
+		return diaper;
+	}
+
+	public void setDiaper(boolean diaper) {
+		this.diaper = diaper;
+	}
+
+	public boolean isBell() {
+		return bell;
+	}
+
+	public void setBell(boolean bell) {
+		this.bell = bell;
+	}
 
 	@Override
 	public String toString() {

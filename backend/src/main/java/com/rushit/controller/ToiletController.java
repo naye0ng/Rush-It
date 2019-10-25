@@ -35,9 +35,10 @@ public class ToiletController {
 	}
 
 	@RequestMapping("/toilet/{toilet_id}")
-	public void toiletDetail(@PathVariable String toilet_id, @RequestParam User user_id) {
+	public void toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
 		Toilet t=ts.selectToilet(toilet_id);
-		
+		User u=us.findUser(user_id);
+		String getId=t.getId();
 		
 	}
 	

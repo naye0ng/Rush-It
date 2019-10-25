@@ -15,8 +15,23 @@
 		where id = #{id}
 	</select>
 	
+	<select id="selectReviewList" resultMap="ReviewResultMap" parameterType="String">
+		select id, toilet_id, user_id, review, rating, timestamp
+		from review
+		where toilet_id like "%{toilet_id}%"
+	</select>
+	
 	<delete id="deleteReview" parameterType="int">
 		delete from review where id={id}
 	</delete>
+	
+	<resultMap type="Review" id="ReviewResultMap">
+		<id column="id" property="id"/>
+		<result column="toilet_id" property="toilet_id"/>
+		<result column="user_id" property="user_id"/>
+		<result column="review" property="review"/>
+		<result column="rating" property="rating"/>
+		<result column="timestamp" property="timestamp"/>
+	</resultMap>
 	
 </mapper>
