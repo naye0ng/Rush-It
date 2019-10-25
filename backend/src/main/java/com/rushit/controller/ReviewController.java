@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,8 +36,8 @@ public class ReviewController {
 		response.getWriter().print("hello");
 	}
 	
-	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public ResponseEntity<Boolean> registerReview(){
+	@PostMapping(path="/register")
+	public ResponseEntity<Boolean> registerReview(@RequestBody Review review){
 		System.out.println("hrer");
 		Review review2= new Review(3, "하위", "ㅇㄷ", "으앜아크", 4, "2019-09-03");
 		return rs.addReview(review2) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);

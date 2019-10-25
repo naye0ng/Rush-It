@@ -14,7 +14,6 @@ import com.rushit.model.vo.Love;
 
 @RequestMapping
 @RestController
-
 public class LoveController {
 	private LoveService loveService;
 	
