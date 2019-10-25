@@ -31,6 +31,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateUser(String id, String nick) {
 		userDao.updateUser(id, nick);
-		return userDao.findUser(id, nick);
+		return userDao.findUser(id);
+	}
+
+	@Override
+	public User findUser(String id) {
+		System.out.println();
+		return userDao.findUser(id);
 	}
 }

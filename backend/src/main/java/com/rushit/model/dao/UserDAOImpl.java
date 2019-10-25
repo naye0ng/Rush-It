@@ -30,10 +30,9 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findUser(String id, String nick) {
+	public User findUser(String id) {
 		User user = new User();
 		user.setId(id);
-		user.setNick(nick);
 		return session.selectOne("user.findUser", user);
 	}
 
