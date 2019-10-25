@@ -7,7 +7,8 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
-
+    curx : 1,
+    cury : 2
 }
 
 export default new Vuex.Store({
