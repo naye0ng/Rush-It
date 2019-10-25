@@ -29,7 +29,18 @@ public class LoveDAOImpl implements LoveDAO {
 	}
 
 	@Override
-	public List<Love> searchAllLove() {
-		return session.selectList("love.selectLoveList");
+	public boolean selectLove(Love love) {
+		return session.selectOne("love.selectLove", love);
 	}
+
+	@Override
+	public int loveToilet(String toilet_id) {
+		return session.selectOne("love.amountOfLove", toilet_id);
+	}
+
+	@Override
+	public int disloveToilet(String toilet_id) {
+		return session.selectOne("love.amountOfDislove", toilet_id);
+	}
+
 }

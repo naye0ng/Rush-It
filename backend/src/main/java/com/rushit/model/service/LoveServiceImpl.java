@@ -33,9 +33,19 @@ public class LoveServiceImpl implements LoveService {
 	}
 
 	@Override
-	public List<Love> getAllLove() {
-		System.out.println("likeServiceSelect");
-		return loveDao.searchAllLove();
+	public boolean checkLove(Love love) {
+		return loveDao.selectLove(love);
 	}
+
+	@Override
+	public int toiletLoveCnt(String toilet_id) {
+		return loveDao.loveToilet(toilet_id);
+	}
+
+	@Override
+	public int toiletDisloveCnt(String toilet_id) {
+		return loveDao.disloveToilet(toilet_id);
+	}
+
 
 }
