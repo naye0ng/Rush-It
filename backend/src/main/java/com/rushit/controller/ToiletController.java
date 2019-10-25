@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.ToiletService;
+import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Toilet;
 import com.rushit.model.vo.User;
 
-@RequestMapping
+@RequestMapping	
 @RestController
 public class ToiletController {
 	private ToiletService ts;
 	private ReviewService rs;
+	private UserService us;
 
 	@Autowired
 	public void setTs(ToiletService ts) {
@@ -25,6 +27,11 @@ public class ToiletController {
 	@Autowired
 	public void setRs(ReviewService rs) {
 		this.rs = rs;
+	}
+	
+	@Autowired
+	public void setUs(UserService us) {
+		this.us = us;
 	}
 
 	@RequestMapping("/toilet/{toilet_id}")
