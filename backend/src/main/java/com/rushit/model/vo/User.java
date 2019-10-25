@@ -12,10 +12,10 @@ public class User {
 	
 	public User(String id, String nick, String pw, String gender) {
 		super();
-		this.id = id;
-		this.nick = nick;
-		this.pw = pw;
-		this.gender = gender;
+		setId(id);
+		setNick(nick);
+		setPw(pw);
+		setGender(gender);
 	}
 	public String getId() {
 		return id;
