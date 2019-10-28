@@ -1,6 +1,7 @@
 package com.rushit.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rushit.model.service.ReviewService;
@@ -44,13 +44,20 @@ public class ReviewController {
 	}
 	
 	@RequestMapping("/select/{toilet_id}")
-	public ResponseEntity<Review> getReivewbyToilet(@PathVariable String toilet_id) {
-		Review rev= rs.selectReview(number);
-		System.out.println(rev+"thisishere");
-		if(rev==null)
-			return new ResponseEntity<Review>(HttpStatus.NOT_FOUND);
-		return new ResponseEntity<Review>(rev, HttpStatus.OK);
-		
+	public ResponseEntity<List<Review>> getReivewbyToilet(@PathVariable String toilet_id) {
+		List<Review> list= rs.selectReviewListByToilet(toilet_id);
+		if(list.size()==0) {
+			return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
 	}
 	
+	@RequestMapping("/select/{user_id}")
+	public ResponseEntity<List<Review>> getReivewbyUser(@PathVariable String user_id) {
+		List<Review> list= rs.selectReviewListByUser(user_id);
+		if(list.size()==0) {
+			return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
+	}
 }

@@ -1,5 +1,6 @@
 package com.rushit.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,6 @@ public class FavServiceImpl implements FavService {
 		return true;
 	}
 
-	@Override
-	public boolean checkFav(Fav findToilet) {
-		return favDao.selectFav(findToilet);
-	}
 
 	@Override
 	public int toiletFavCnt(String toilet_id) {
@@ -45,6 +42,16 @@ public class FavServiceImpl implements FavService {
 	@Override
 	public int toiletNotFavCnt(String toilet_id) {
 		return favDao.notFavToilet(toilet_id);
+	}
+
+	@Override
+	public boolean selectIsFav(HashMap<String, String> map) {
+		return favDao.selectIsFav(map);
+	}
+
+	@Override
+	public Fav selectFav(HashMap<String, String> map) {
+		return favDao.selectFav(map);
 	}
 
 

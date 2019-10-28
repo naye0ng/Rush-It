@@ -13,9 +13,6 @@ import com.rushit.model.vo.Review;
 public class ReviewDAOImpl implements ReviewDAO {
 	private SqlSession session;
 
-	/* (non-Javadoc)
-	 * @see com.team3.model.dao.ReviewDao#setSession(org.apache.ibatis.session.SqlSession)
-	 */
 	@Autowired
 	public void setSession(SqlSession session) {
 		this.session = session;
@@ -27,14 +24,6 @@ public class ReviewDAOImpl implements ReviewDAO {
 	@Override
 	public void insertReview(Review review) {
 		session.insert("review.insertReview",review);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.team3.model.dao.ReviewDao#selectReviewList(int)
-	 */
-	@Override
-	public List<Review> selectReviewList(int number){
-		return session.selectList("review.selectReviewList", number);
 	}
 	
 	/* (non-Javadoc)
@@ -57,10 +46,15 @@ public class ReviewDAOImpl implements ReviewDAO {
 	public Review selectReview(Fav love) {
 		return session.selectOne("review.selectReview", love);
 	}
-	
+
 	@Override
-	public List<Review> selectReviewList(String id){
-		return session.selectList("review.selectReviewList", id);
+	public List<Review> selectReviewListbyUser(String user_id) {
+		return session.selectList("review.selectReviewByUser", user_id);
+	}
+
+	@Override
+	public List<Review> selectReviewListbyToilet(String toilet_id) {
+		return session.selectList("review.selectReviewByToilet", toilet_id);
 	}
 }
 

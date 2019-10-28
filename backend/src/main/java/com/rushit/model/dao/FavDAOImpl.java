@@ -1,5 +1,7 @@
 package com.rushit.model.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +27,15 @@ public class FavDAOImpl implements FavDAO {
 	public void deleteFav(Fav delFavToilet) {
 		session.delete("fav.deleteFav", delFavToilet);
 	}
-
+	
 	@Override
-	public boolean selectFav(Fav findFavToilet) {
-		return session.selectOne("fav.selectFav", findFavToilet);
+	public boolean selectIsFav(HashMap<String, String> map) {
+		return session.selectOne("fav.selectIsFav", map);
+	}
+	
+	@Override
+	public Fav selectFav(HashMap<String, String> map) {
+		return session.selectOne("fav.selectFav", map);
 	}
 
 	@Override
@@ -40,5 +47,6 @@ public class FavDAOImpl implements FavDAO {
 	public int notFavToilet(String toilet_id) {
 		return session.selectOne("fav.amountOfNotFav", toilet_id);
 	}
+
 
 }

@@ -9,8 +9,10 @@ public interface ReviewService {
 	
 	Review selectReview(Fav love);
 
-	List<Review> selectReviewList(String toilet_id);
+	List<Review> selectReviewListByToilet(String toilet_id);
 
+	List<Review> selectReviewListByUser(String user_id);
+	
 	boolean addReview(Review review);
 
 	boolean deleteReview(int number);

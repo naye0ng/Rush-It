@@ -4,6 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="review">
+	<insert id="insertReview" parameterType="review">
 		insert into review(id, toilet_id, user_id, review, rating, timestamp)
 		values(#{id},#{toilet_id},#{user_id},#{review},#{rating},#{timestamp})
 	</insert>

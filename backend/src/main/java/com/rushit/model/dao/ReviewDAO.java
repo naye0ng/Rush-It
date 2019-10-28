@@ -9,14 +9,14 @@ public interface ReviewDAO {
 
 	void insertReview(Review review);
 
-	List<Review> selectReviewList(int number);
+	List<Review> selectReviewListbyUser(String user_id);
+	
+	List<Review> selectReviewListbyToilet(String toilet_id);
 	
 	Review selectReview(Fav love);
 
 	void deleteAnswerList(int number);
 
 	void deleteAnswer(int number);
-
-	List<Review> selectReviewList(String id);
 
 }

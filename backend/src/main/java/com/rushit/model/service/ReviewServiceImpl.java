@@ -25,18 +25,6 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.team3.model.service.ReviewService#selectReviewList(int)
-	 */
-	@Override
-	public List<Review>selectReviewList(String number){
-		return reviewDao.selectReviewList(number);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.team3.model.service.ReviewService#setReviewDao(com.team3.model.dao.ReviewDAO)
-	 */
-	
-	/* (non-Javadoc)
 	 * @see com.team3.model.service.ReviewService#addReview(com.team3.model.vo.Review)
 	 */
 	@Override
@@ -61,6 +49,16 @@ public class ReviewServiceImpl implements ReviewService {
 	public boolean deleteReviewList(int number) {
 		reviewDao.deleteAnswerList(number);
 		return true;
+	}
+
+	@Override
+	public List<Review> selectReviewListByToilet(String toilet_id) {
+		return reviewDao.selectReviewListbyToilet(toilet_id);
+	}
+
+	@Override
+	public List<Review> selectReviewListByUser(String user_id) {
+		return reviewDao.selectReviewListbyUser(user_id);
 	}
 
 		
