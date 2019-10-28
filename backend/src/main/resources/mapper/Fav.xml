@@ -2,24 +2,24 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="love">
+<mapper namespace="fav">
 
-	<select id="selectLove" parameterType="Love">
-		SELECT	l.love
-		FROM	love l
+	<select id="selectFav" parameterType="Fav">
+		SELECT	*
+		FROM	fav
 		WHERE	toilet_id=#{toilet_id} AND user_id=#{user_id}
 	</select>
 	
-	<select id="amountOfLove" parameterType="String">
+	<select id="amountOfFav" parameterType="String">
 		SELECT	COUNT(*)
-		FROM	love
-		WHERE	toilet_id=#{toilet_id} AND love = true
+		FROM	fav
+		WHERE	toilet_id=#{toilet_id} AND fav = true
 	</select>
 	
-	<select id="amountOFDislove" parameterType="String">
+	<select id="amountOfNotFav" parameterType="String">
 		SELECT	COUNT(*)
-		FROM	love
-		WHERE	toilet_id=#{toilet_id} AND love = false
+		FROM	fav
+		WHERE	toilet_id=#{toilet_id} AND fav = false
 	</select>
 	
 	<resultMap type="Love" id="LoveResultMap">
@@ -28,15 +28,15 @@
 		<result column="love" property="love"/>
 	</resultMap>
 	
-	<insert id="insertLove" parameterType="Love">
+	<insert id="insertFav" parameterType="Fav">
 		INSERT
-		INTO	love(toilet_id, user_id, love)
+		INTO	fav(toilet_id, user_id, love)
 		VALUES(#{toilet_id}, #{user_id}, #{love})
 	</insert>
 	
-	<delete id="deleteLove" parameterType="Love">
+	<delete id="deleteFav" parameterType="Fav">
 		DELETE
-		FROM	love
+		FROM	fav
 		WHERE	toilet_id=#{toilet_id} AND user_id={user_id}
 	</delete>
 </mapper>

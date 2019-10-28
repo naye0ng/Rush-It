@@ -4,14 +4,14 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.rushit.model.vo.Love" alias="Love"/>
+		<typeAlias type="com.rushit.model.vo.Fav" alias="Fav"/>
 		<typeAlias type="com.rushit.model.vo.Review" alias="Review"/>
 		<typeAlias type="com.rushit.model.vo.Toilet" alias="Toilet"/>
 		<typeAlias type="com.rushit.model.vo.User" alias="User"/>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="mapper/Love.xml"/>
+		<mapper resource="mapper/Fav.xml"/>
 		<mapper resource="mapper/Review.xml"/>
 		<mapper resource="mapper/Toilet.xml"/>
 		<mapper resource="mapper/User.xml"/>

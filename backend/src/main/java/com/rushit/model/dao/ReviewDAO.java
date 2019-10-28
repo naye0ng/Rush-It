@@ -2,7 +2,7 @@ package com.rushit.model.dao;
 
 import java.util.List;
 
-import com.rushit.model.vo.Love;
+import com.rushit.model.vo.Fav;
 import com.rushit.model.vo.Review;
 
 public interface ReviewDAO {
@@ -11,7 +11,7 @@ public interface ReviewDAO {
 
 	List<Review> selectReviewList(int number);
 	
-	Review selectReview(Love love);
+	Review selectReview(Fav love);
 
 	void deleteAnswerList(int number);
 

@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rushit.model.service.LoveService;
+import com.rushit.model.service.FavService;
 import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.ToiletService;
 import com.rushit.model.service.UserService;
-import com.rushit.model.vo.Love;
+import com.rushit.model.vo.Fav;
 import com.rushit.model.vo.Review;
 import com.rushit.model.vo.Toilet;
 import com.rushit.model.vo.User;
@@ -23,7 +23,7 @@ public class ToiletController {
 	private ToiletService ts;
 	private ReviewService rs;
 	private UserService us;
-	private LoveService ls;
+	private FavService ls;
 
 	@Autowired
 	public void setTs(ToiletService ts) {
@@ -41,7 +41,7 @@ public class ToiletController {
 	}
 
 	@Autowired
-	public void setLs(LoveService ls) {
+	public void setLs(FavService ls) {
 		this.ls = ls;
 	}
 
@@ -50,7 +50,7 @@ public class ToiletController {
 		Toilet t=ts.selectToilet(toilet_id);
 		User u=us.findUser(user_id);
 		String getId=t.getId();
-		Love temp=new Love(toilet_id, user_id, true);
+		Fav temp=new Fav(toilet_id, user_id, true);
 		//해당 유저가 좋아요 했는지 여부
 		boolean userLove=ls.checkLove(temp);
 		//전체 좋아요 갯수
