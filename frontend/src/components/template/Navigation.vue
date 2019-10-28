@@ -39,6 +39,7 @@ export default {
         }
         else if (target == 1){
             // 검색 화면으로 변경
+            router.push({ path: 'home' })
         }
         else{
             if(this.isLogin){
@@ -48,7 +49,7 @@ export default {
                     // 랭킹페이지러로 이동
                 }
             }else{
-                //로그인창 올려주기
+              //로그인창 활성화
               this.$store.commit('setAuthentication',{'isActive':true});
             }
 
