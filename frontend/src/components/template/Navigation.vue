@@ -1,76 +1,69 @@
 <template>
   <b-row id="navigation">
     <b-col>
-        <svg viewBox="0 0 100 100">
-          <g transform="translate(10 5) scale(0.8 0.9)">
-            <path
-              d="M 0 30 v 70 h 100 v -70 l -50 -30 z"
-              stroke="currentColor"
-              stroke-width="10"
-              fill="none"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-            />
-          </g>
-        </svg>
+      <div class="menu-list" v-bind:class="{active: currentMenu == 0 }" @click="changeCurrentMenu(0)">
+        <font-awesome-icon icon="home"/>
+      </div>
     </b-col>
     <b-col>
-      <a href="#">
-        <svg viewBox="0 0 100 100">
-          <g transform="translate(5 5) scale(0.9 0.9)">
-            <circle cx="45" cy="38" r="38" stroke="currentColor" stroke-width="10" fill="none" />
-            <line x1="66" y1="65" x2="100" y2="100" stroke="currentColor" stroke-width="10" />
-          </g>
-        </svg>
-      </a>
+      <div class="menu-list" v-bind:class="{active: currentMenu == 1 }" @click="changeCurrentMenu(1)">
+      <font-awesome-icon icon="search" />
+      </div>
     </b-col>
     <b-col>
-      <a href="#">
-        <svg viewBox="0 0 100 100">
-          <g transform="translate(5 5) scale(0.9 0.9)">
-            <circle cx="50" cy="35" r="18" stroke="currentColor" stroke-width="10" fill="none" />
-            <rect
-              x="15"
-              y="75"
-              width="70"
-              height="50"
-              rx="25"
-              stroke="currentColor"
-              stroke-width="10"
-              fill="none"
-            />
-          </g>
-        </svg>
-      </a>
+      <div class="menu-list" v-bind:class="{active: currentMenu == 2 }" @click="changeCurrentMenu(2)">
+        <font-awesome-icon icon="child"/>
+      </div>
     </b-col>
     <b-col>
-      <a href="#">
-        <svg viewBox="0 0 100 100">
-          <g transform="translate(5 5) scale(0.9 0.9)">
-            <path
-              d="M 50 35 a 20 20 0 0 1 50 0 q 0 25 -50 60 q -50 -35 -50 -60 a 25 25 0 0 1 50 0"
-              stroke="currentColor"
-              stroke-width="10"
-              fill="none"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-            />
-          </g>
-        </svg>
-      </a>
+      <div class="menu-list" v-bind:class="{active: currentMenu == 3 }" @click="changeCurrentMenu(3)">
+        <font-awesome-icon icon="trophy" />
+      </div>
     </b-col>
   </b-row>
 </template>
-
 <script>
+import {mapState} from 'vuex';
+
 export default {
   name: "Navigation",
   data() {
     return {
     }
   },
+  methods: {
+    changeCurrentMenu(target) { 
+      this.$store.commit('setCurrentPage', target);
+      if (target == 0){
+            // home 화면으로 변경
+        }
+        else if (target == 1){
+            // 검색 화면으로 변경
+        }
+        else{
+            if(this.isLogin){
+                if(payload == 2){
+                    // 마이페이지로 이동
+                }else{
+                    // 랭킹페이지러로 이동
+                }
+            }else{
+                //로그인창 올려주기
+              this.$store.commit('setAuthentication',{'isActive':true});
+            }
+
+        
+            
+        }
+    }
+  },
   computed: {
-  }
+    ...mapState({
+      currentMenu: state => state.currentPage,
+      isLogin: state => state.authentication.isLogin,
+    }),
+  },
+
 }
 </script>
 <style>
@@ -80,6 +73,7 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
+  height: 68px;
   border-radius: 30px 30px 0 0;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
   background: #ffffff;
@@ -87,6 +81,22 @@ export default {
   margin: 0;
 }
 #navigation .col {
-  margin: 0 5%;
+  margin: 0;
+  height: 34px;
+  font-size:18px;
+  color: #262626;
+  position: relative;  
+}
+#navigation .col .menu-list::before {
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  top: calc(35% - 23px);
+  left: calc(50% - 23px);
+  border-radius: 50%;
+}
+#navigation .col .menu-list.active::before {
+  background: rgb(33, 64, 121, 0.1);
 }
 </style>
