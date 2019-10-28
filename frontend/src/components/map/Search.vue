@@ -4,7 +4,7 @@
       <b-input-group>
         <b-form-input v-model="search" placeholder="Search by name..."></b-form-input>
         <b-input-group-append>
-          <b-button>
+          <b-button >
             pooh!
           </b-button>
           <b-button>
@@ -17,12 +17,17 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
   name: 'Search',
-  data(){
-    return {
-      search : ''
-    }
+  computed: {
+    ...mapState({
+      search : state => state.map.search
+    })
+  },
+  mounted() {
+    console.log(this.search);
   }
 }
 </script>

@@ -10,7 +10,7 @@ const state = {
     curx : 1,
     cury : 2,
     map : {
-
+      search : ''
     }
 }
 
