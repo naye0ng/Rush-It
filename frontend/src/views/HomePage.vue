@@ -15,6 +15,11 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  methods :{
+    onSwipeLeft() {
+      console.log("스어ㅣ이[프!!")
+    }
   }
 }
 </script>
@@ -22,19 +27,20 @@ export default {
 #home{
   width:100%;
   height:100vh;
-  background-image: url('../assets/background-map.png');
-  background-size: 130vw;
 }
 #home::before{
   content: "";
   position: absolute;
   width:100%;
-  height:100%;
+  height:100vh;
   top: 0;
   left: 0;
-  opacity: 0.2;
-  background-color: #000000;
-  animation: map-focus 0.5s;
+  background-image: url('../assets/background-map.png');
+  background-size: 130vw;
+  /* opacity: 0.2; */
+  /* background-color: #000000; */
+  filter:blur(2px);
+  animation: map-focus 1s;
 }
 .gps-btn{
   width: 100%;
@@ -44,12 +50,12 @@ export default {
 }
 .gps-btn .description{
   position:absolute;
-  top: 15%;
+  top: 10%;
   left: 60%;
   display: inline-block;
   padding: 0.5% 2%;
-  border-bottom: 2px solid #F9A11B;
-  color: #FFFFFF;
+  border-bottom: 4px dotted #ed3336;
+  color: #262626;
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.08rem;
@@ -60,16 +66,16 @@ export default {
   position:absolute;
   width: 50%;
   height: 100%;
-  bottom: -45%;
-  left: -50%;
+  bottom: -60%;
+  left: -49%;
   transform: rotate(-25deg);
-  border-bottom: 2px solid #F9A11B;
+  border-bottom: 4px dotted #ed3336;
 }
 .gps-btn .pin{
   width: 40px;
   height: 40px;
   border-radius: 50% 50% 50% 0;
-  background: #F9A11B;
+  background: #ed3336;
   position: relative;
   transform: rotate(-45deg);
   left: 50%;
@@ -86,7 +92,6 @@ export default {
   background: #ffffff;
   position: absolute;
   border-radius: 50%;
-  box-shadow: inset 0px 2px 0px #89849b;
 }
 .gps-btn .bounce{
   animation-name: bounce;
@@ -117,18 +122,18 @@ export default {
   animation: pulsate 1s ease-out;
   animation-iteration-count: infinite;
   opacity: 0.0;
-  box-shadow: 0 0 1px 5px #F9A11B;
+  box-shadow: 0 0 1px 5px #ed33364f;
   animation-delay: 1.1s;
 }
 @keyframes map-focus{
   0%{
-    opacity: 0.0;
+    filter:blur(0px);
   }
   50%{
-    opacity: 0.1;
+    filter:blur(1px);
   }
   100%{
-    opacity: 0.2;
+    filter:blur(2px);
   }
 }
 @keyframes description-focus{

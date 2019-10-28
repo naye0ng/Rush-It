@@ -1,5 +1,5 @@
 <template>
-  <b-row id="AuthenticationForm">    
+  <b-row id="AuthenticationForm" class="show-up">    
     <div class="login-wrap">
 	    <div class="login-html">
 		    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
@@ -59,7 +59,7 @@ export default {
     bottom: 2rem;
     left: 0;
     width: 100%;
-    min-height: 55%;
+    min-height: 360px;
     border-radius: 30px 30px 0 0;
     box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
     padding: 1.5rem 1.5rem;
