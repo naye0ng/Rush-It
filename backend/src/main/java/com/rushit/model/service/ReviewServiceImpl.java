@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rushit.model.dao.ReviewDAO;
-import com.rushit.model.vo.Love;
+import com.rushit.model.vo.Fav;
 import com.rushit.model.vo.Review;
 
 @Service
@@ -20,7 +20,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Review selectReview(Love love) {
+	public Review selectReview(Fav love) {
 		return reviewDao.selectReview(love);
 	}
 	

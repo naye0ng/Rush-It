@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rushit.model.service.LoveService;
+import com.rushit.model.service.FavService;
 import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.ToiletService;
 import com.rushit.model.service.UserService;
-import com.rushit.model.vo.Love;
+import com.rushit.model.vo.Fav;
 import com.rushit.model.vo.Review;
 import com.rushit.model.vo.Toilet;
 import com.rushit.model.vo.User;
@@ -27,7 +27,7 @@ public class ToiletController {
 	private ToiletService ts;
 	private ReviewService rs;
 	private UserService us;
-	private LoveService ls;
+	private FavService ls;
 
 	@Autowired
 	public void setTs(ToiletService ts) {
@@ -45,7 +45,7 @@ public class ToiletController {
 	}
 
 	@Autowired
-	public void setLs(LoveService ls) {
+	public void setLs(FavService ls) {
 		this.ls = ls;
 	}
 
