@@ -2,20 +2,17 @@
   <div>
     <div id="map" style="width:100%;height:350px;">
     </div>
-    <Filter></Filter>
     <Detail :placeDetail="placeDetail"></Detail>
   </div>
 </template>
 
 <script>
 import Detail from '@/components/map/Detail'
-import Filter from '@/components/map/Filter'
 
 export default {
   name: 'Map',
   components:{
-    Detail,
-    Filter
+    Detail
   },
   props:{
     searchPlace: {type: String},

@@ -8,7 +8,10 @@ Vue.use(Vuex)
 
 const state = {
     curx : 1,
-    cury : 2
+    cury : 2,
+    map : {
+
+    }
 }
 
 export default new Vuex.Store({
