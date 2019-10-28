@@ -13,7 +13,7 @@
 		from toilet
 		where id like "%{id}%"
 	</select>
-	<delete id="deleteToilet" parameterMap="int">
+	<delete id="deleteToilet" parameterType="String">
 		delete from toilet where id like "%{id}%"
 	</delete>
 </mapper>
