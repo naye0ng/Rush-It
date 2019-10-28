@@ -3,7 +3,10 @@ package com.rushit.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.xml.ws.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,15 +50,16 @@ public class ToiletController {
 	}
 
 	@RequestMapping("/toilet/{toilet_id}")
-	public void toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
+	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
 		//map 형태로 loveService의 인자값에 넘겨준다.
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(toilet_id, user_id);
-		Toilet t=ts.selectToilet(toilet_id);
-		User u=us.findUser(user_id);
-		String getId=t.getId();
 		//해당 유저가 좋아요 했는지 여부
-		boolean userLove=ls.checkLove(map);
+		int userLove=0;
+		//review를  먼저 갔다와서 평가 했는지 안했는지 여부를 먼저 확인한다.
+		if(ls.checkLove(map)==null)
+		boolean checkLove=ls.checkLove(map);
+		
 		//전체 좋아요 갯수
 		int likeCount=ls.toiletLoveCnt(toilet_id);
 		//전체 싫어요 갯수
@@ -66,7 +70,16 @@ public class ToiletController {
 		for(int i=0; i<reviewList.size(); i++) {
 			reviewTotal+=reviewList.get(i).getRating();
 		}
-		
+		reviewTotal/=reviewList.size();
+		reviewTotal=Math.round((reviewTotal*10)/10.0);
+		//hashmap을 사용하여 key,value로 값으로 front에 전달한다.
+		HashMap<String, Object> ret= new HashMap<String,Object>();
+		ret.put("likeCount", likeCount);
+		ret.put("dislikeCount", dislikeCount);
+		ret.put("reviewList", reviewList);
+		ret.put("reviewTotal", reviewTotal);
+		ret.put("userLove", userLove);
+		return null;
 	}
 	
 	

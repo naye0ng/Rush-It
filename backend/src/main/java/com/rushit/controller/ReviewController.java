@@ -43,8 +43,8 @@ public class ReviewController {
 		return rs.addReview(review2) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
 	}
 	
-	@RequestMapping("/select/{number}")
-	public ResponseEntity<Review> getReivew(@PathVariable int number) {
+	@RequestMapping("/select/{toilet_id}")
+	public ResponseEntity<Review> getReivewbyToilet(@PathVariable String toilet_id) {
 		Review rev= rs.selectReview(number);
 		System.out.println(rev+"thisishere");
 		if(rev==null)
