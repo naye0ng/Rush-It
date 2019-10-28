@@ -1,10 +1,12 @@
 package com.rushit.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.rushit.model.dao.ToiletDAO;
 import com.rushit.model.vo.Toilet;
 
+@Service
 public class ToiletServiceImpl implements ToiletService {
 	
 	private ToiletDAO toiletDao;
@@ -17,7 +19,7 @@ public class ToiletServiceImpl implements ToiletService {
 	/* (non-Javadoc)
 	 * @see com.rushit.model.service.ToiletService#selectToilet(java.lang.String)
 	 */
-	@Override
+	@Override 
 	public Toilet selectToilet(String id) {
 		return toiletDao.selectToilet(id);
 	}

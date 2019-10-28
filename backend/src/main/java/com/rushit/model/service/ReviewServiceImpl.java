@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rushit.model.dao.ReviewDAO;
+import com.rushit.model.vo.Love;
 import com.rushit.model.vo.Review;
 
 @Service
@@ -19,15 +20,15 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Review selectReview(int number) {
-		return reviewDao.selectReview(number);
+	public Review selectReview(Love love) {
+		return reviewDao.selectReview(love);
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.team3.model.service.ReviewService#selectReviewList(int)
 	 */
 	@Override
-	public List<Review>selectReviewList(int number){
+	public List<Review>selectReviewList(String number){
 		return reviewDao.selectReviewList(number);
 	}
 	

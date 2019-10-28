@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.rushit.model.vo.Love;
 import com.rushit.model.vo.Review;
 
 @Component
@@ -53,8 +54,13 @@ public class ReviewDAOImpl implements ReviewDAO {
 	}
 
 	@Override
-	public Review selectReview(int number) {
-		return session.selectOne("review.selectReview", number);
+	public Review selectReview(Love love) {
+		return session.selectOne("review.selectReview", love);
+	}
+	
+	@Override
+	public List<Review> selectReviewList(String id){
+		return session.selectList("review.selectReviewList", id);
 	}
 }
 

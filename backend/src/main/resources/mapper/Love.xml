@@ -4,19 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="love">
 
-	<select id="selectLove" resultMap="LoveResultMap">
+	<select id="selectLove" parameterType="Love">
 		SELECT	l.love
 		FROM	love l
 		WHERE	toilet_id=#{toilet_id} AND user_id=#{user_id}
 	</select>
 	
-	<select id="amountOfLove">
+	<select id="amountOfLove" parameterType="String">
 		SELECT	COUNT(*)
 		FROM	love
 		WHERE	toilet_id=#{toilet_id} AND love = true
 	</select>
 	
-	<select id="amountOFDislove">
+	<select id="amountOFDislove" parameterType="String">
 		SELECT	COUNT(*)
 		FROM	love
 		WHERE	toilet_id=#{toilet_id} AND love = false

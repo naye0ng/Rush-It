@@ -2,9 +2,11 @@ package com.rushit.model.dao;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.rushit.model.vo.Toilet;
 
+@Component
 public class ToiletDAOImpl implements ToiletDAO {
 	
 	private SqlSession session;
