@@ -1,6 +1,6 @@
 package com.rushit.model.dao;
 
-import java.util.List;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ public class LoveDAOImpl implements LoveDAO {
 	}
 
 	@Override
-	public boolean selectLove(Love love) {
-		return session.selectOne("love.selectLove", love);
+	public boolean selectLove(HashMap<String, String> map) {
+		return session.selectOne("love.selectLove", map);
 	}
 
 	@Override

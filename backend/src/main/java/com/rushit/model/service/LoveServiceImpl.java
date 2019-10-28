@@ -1,5 +1,6 @@
 package com.rushit.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class LoveServiceImpl implements LoveService {
 	}
 
 	@Override
-	public boolean checkLove(Love love) {
-		return loveDao.selectLove(love);
+	public boolean checkLove(HashMap<String, String> map) {
+		return loveDao.selectLove(map);
 	}
 
 	@Override

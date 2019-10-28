@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="love">
 
-	<select id="selectLove" parameterType="Love">
+	<select id="selectLove" parameterType="map">
 		SELECT	l.love
 		FROM	love l
 		WHERE	toilet_id=#{toilet_id} AND user_id=#{user_id}

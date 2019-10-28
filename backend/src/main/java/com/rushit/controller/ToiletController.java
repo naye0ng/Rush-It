@@ -1,6 +1,7 @@
 package com.rushit.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,18 +48,24 @@ public class ToiletController {
 
 	@RequestMapping("/toilet/{toilet_id}")
 	public void toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
+		//map 형태로 loveService의 인자값에 넘겨준다.
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(toilet_id, user_id);
 		Toilet t=ts.selectToilet(toilet_id);
 		User u=us.findUser(user_id);
 		String getId=t.getId();
-		Love temp=new Love(toilet_id, user_id, true);
 		//해당 유저가 좋아요 했는지 여부
-		boolean userLove=ls.checkLove(temp);
+		boolean userLove=ls.checkLove(map);
 		//전체 좋아요 갯수
 		int likeCount=ls.toiletLoveCnt(toilet_id);
 		//전체 싫어요 갯수
 		int dislikeCount=ls.toiletDisloveCnt(toilet_id);
 		//리뷰 리스트
 		ArrayList<Review> reviewList= (ArrayList<Review>) rs.selectReviewList(toilet_id);
+		double reviewTotal=0;
+		for(int i=0; i<reviewList.size(); i++) {
+			reviewTotal+=reviewList.get(i).getRating();
+		}
 		
 	}
 	
