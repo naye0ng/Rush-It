@@ -5,8 +5,9 @@ import com.rushit.model.vo.User;
 public interface UserService {
 	
 	
-	User addUser(User user);
-	User loginUser(String id, String pw);
+	Boolean addUser(User user);
+	User loginUser(User user);
 	User findUser(String id);
-	User updateUser(String id, String nick);
+	User updateUser(User user);
+	Boolean deleteUser(User user);
 }

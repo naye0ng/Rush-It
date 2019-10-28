@@ -17,30 +17,33 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public void insertUser(User user) {
-		session.insert("user.insertUser", user);
+	public Boolean insertUser(User user) {
+		if(session.insert("user.insertUser", user) == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public User loginUser(String id, String pw) {
-		User user = new User();
-		user.setId(id);
-		user.setPw(pw);
-		return session.selectOne("user.loginUser", user);
+	public User loginUser(User loginUserInfo) {
+		return session.selectOne("user.loginUser", loginUserInfo);
 	}
 
 	@Override
 	public User findUser(String id) {
-		User user = new User();
-		user.setId(id);
-		return session.selectOne("user.findUser", user);
+		return session.selectOne("user.findUser", id);
 	}
 
 	@Override
-	public void updateUser(String id, String nick) {
-		User user = new User();
-		user.setId(id);
-		user.setNick(nick);
-		session.update("user.updateUser", user);
+	public void updateUser(User modifyUserInfo) {
+		session.update("user.updateUser", modifyUserInfo);
+	}
+
+	@Override
+	public Boolean deleteUser(User deleteUserInfo) {
+		if(session.delete("user.deleteUser", deleteUserInfo) == 1) {
+			return true;
+		}
+		return false;
 	}	
 }
