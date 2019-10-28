@@ -10,7 +10,7 @@
 		WHERE	id like #{id} AND pw like #{pw}
 	</select>
 
-	<select id="findUser" parameterType="User" resultMap="UserResultMap">
+	<select id="findUser" parameterType="String" resultMap="UserResultMap">
 		SELECT	id, nick, gender
 		FROM	user
 		WHERE	id like #{id}
@@ -33,5 +33,11 @@
 		SET		nick = #{nick}
 		WHERE	id = #{id}
 	</update>
+	
+	<delete id="deleteUser" parameterType="User">
+		DELETE
+		FROM	user
+		WHERE	id = #{id} AND pw = #{pw} 
+	</delete>
 	
 </mapper>

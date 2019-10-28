@@ -18,24 +18,35 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User addUser(User user) {
-		userDao.insertUser(user);
-		return userDao.loginUser(user.getId(), user.getPw());
+	public Boolean addUser(User newUserInfo) {
+		if(userDao.insertUser(newUserInfo)) {
+			userDao.loginUser(newUserInfo);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public User loginUser(String id, String pw) {
-		return userDao.loginUser(id, pw);
+	public User loginUser(User loginUserInfo) {
+		return userDao.loginUser(loginUserInfo);
 	}
 
 	@Override
-	public User updateUser(String id, String nick) {
-		userDao.updateUser(id, nick);
-		return userDao.findUser(id);
+	public User updateUser(User modifyUserInfo) {
+		userDao.updateUser(modifyUserInfo);
+		return userDao.findUser(modifyUserInfo.getId());
 	}
 
 	@Override
 	public User findUser(String id) {
 		return userDao.findUser(id);
+	}
+
+	@Override
+	public Boolean deleteUser(User deleteUserInfo) {
+		if(userDao.deleteUser(deleteUserInfo)) {
+			return true;
+		}
+		return false;
 	}
 }
