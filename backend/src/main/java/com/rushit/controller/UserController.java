@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rushit.model.service.UserService;
@@ -27,9 +26,14 @@ public class UserController {
 		System.out.println();
 		if(userService.addUser(newUserInfo)) {
 			System.out.println("Add Newbie Success");
+			AutoLogin(newUserInfo);
 		} else {
 			System.out.println("Fail to Add Newbie");
 		}
+	}
+	
+	public User AutoLogin(User UserInfo) {
+		return userService.loginUser(UserInfo);
 	}
 
 	@PostMapping("/user/{id}")
@@ -41,7 +45,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/user/{id}")
-	public @ResponseBody User ModifyUser(@PathVariable String id, @RequestBody String nick) {
+	public User ModifyUser(@PathVariable String id, @RequestBody String nick) {
 		User modifyUserInfo = new User();
 		modifyUserInfo.setId(id);
 		modifyUserInfo.setNick(nick);
