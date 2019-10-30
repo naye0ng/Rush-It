@@ -15,7 +15,10 @@ const state = {
     userID : '',
     userNickName : '',
   },
-  map : {}
+  map : { // map
+    search : '',
+    accessAuth : false
+  }
 }
 
 export default new Vuex.Store({

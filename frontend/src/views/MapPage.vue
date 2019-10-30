@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id = "map-page">
     <Search></Search>
     <Filters style="padding-top:10px"></Filters>
     <!--<input type="text" v-model="search" placeholder="장소 검색..." style="border: 1px solid black;">
@@ -36,3 +36,11 @@ export default {
   }
 }
 </script>
+
+<style>
+#map-page {
+  width : 90vw;
+  margin : 0px auto;
+  padding-top : 10px;
+}
+</style>
