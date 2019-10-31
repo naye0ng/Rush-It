@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.ToiletService;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
+import com.rushit.model.vo.Toilet;
 
 @RestController
 @RequestMapping("/toilet")
@@ -46,8 +48,16 @@ public class ToiletController {
 		this.fs = fs;
 	}
 
-	@GetMapping("/detail/{toilet_id}/{user_id}")
-	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @PathVariable String user_id) {
+	@GetMapping("/")
+	public ResponseEntity<HashMap<String, Object>> findToilet(@RequestParam Double user_x, @RequestParam Double user_y, @RequestParam Double sw_x, @RequestParam Double nw_x, @RequestParam Double nw_y, @RequestBody String keyword) {
+			
+		
+		HashMap<String, Object> ret= new HashMap<String,Object>();
+		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
+	}
+	
+	@GetMapping("/{toilet_id}")
+	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
 		System.out.println(toilet_id+" "+user_id);
 		//map 형태로 loveService의 인자값에 넘겨준다.
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -56,7 +66,7 @@ public class ToiletController {
 		//해당 유저가 좋아요 했는지 여부
 		int userLove=0;
 		//review를  먼저 갔다와서 평가 했는지 안했는지 여부를 먼저 확인한다.
-		if(fs.selectFav(map)==null) userLove=0;
+		if(fs.selectFav(map)==null) userLove=0; 
 		else if(fs.selectIsFav(map))userLove=1;
 		else if(!fs.selectIsFav(map))userLove=-1;
 		//전체 좋아요 갯수
@@ -71,6 +81,9 @@ public class ToiletController {
 		}
 		reviewTotal/=reviewList.size();
 		reviewTotal=Math.round((reviewTotal*10))/10.0;
+		//telephone, handicapped, state, time을 toilet_id로 조회
+		Toilet t=ts.selectToilet(toilet_id);
+		
 		//hashmap을 사용하여 key,value로 값으로 front에 전달한다.
 		HashMap<String, Object> ret= new HashMap<String,Object>();
 		ret.put("toilet_id", toilet_id);
@@ -79,9 +92,13 @@ public class ToiletController {
 		ret.put("reviewList", reviewList);
 		ret.put("reviewTotal", reviewTotal);
 		ret.put("userLove", userLove);
+		ret.put("telephone", t.getTelephone());
+		ret.put("handicapped", t.isHandicapped());
+		ret.put("state", t.getState());
+		ret.put("time", t.getTime());
 		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
 	}
 	
 	
-	
+		
 }
