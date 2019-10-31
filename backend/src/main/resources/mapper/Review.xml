@@ -9,16 +9,16 @@
 		values(#{id},#{toilet_id},#{user_id},#{review},#{rating},#{timestamp})
 	</insert>
 	
-	<select id="selectReviewByToilet" parameterType="String" >
+	<select id="selectReviewByToilet" resultMap="ReviewResultMap" parameterType="String" >
 		SELECT id, toilet_id, user_id, review, rating, timestamp
 		FROM review
-		WHERE toilet_id LIKE "#{toilet_id}"
+		WHERE toilet_id= #{toilet_id}
 	</select>
 	
 	<select id="selectReviewByUser" resultMap="ReviewResultMap" parameterType="String">
 		SELECT id, toilet_id, user_id, review, rating, timestamp
 		FROM review
-		WHERE user_id LIKE "#{user_id}"
+		WHERE user_id= #{user_id}
 	</select>
 	
 	<delete id="deleteReview" parameterType="int">

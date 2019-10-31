@@ -1,6 +1,9 @@
 package com.rushit.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,10 +38,16 @@ public class ReviewController {
 		response.getWriter().print("hello");
 	}
 	
-	@PostMapping(path="/register")
-	public ResponseEntity<Boolean> registerReview(@RequestBody Review review){
-		System.out.println("hrer");
-		Review review2= new Review(3, "하위", "ㅇㄷ", "으앜아크", 4, "2019-09-03");
+	@PostMapping("/register")
+	public ResponseEntity<Boolean> registerReview(String id){
+		SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		String today = null;
+		today = formatter.format(cal.getTime());
+		Timestamp ts = Timestamp.valueOf(today);
+		System.out.println( " Timestamp : " + ts);
+		
+		Review review2= new Review("123123", "siba", "넘넘 좋아요!", 3.5, ts);
 		return rs.addReview(review2) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
 	}
 	

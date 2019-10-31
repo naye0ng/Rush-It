@@ -3,25 +3,25 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fav">
-	<select id="selectFav" parameterType="map">
+	<select id="selectFav" parameterType="map" resultType="Fav">
 		SELECT	*
 		FROM	fav
 		WHERE	toilet_id=#{toilet_id} AND user_id=#{user_id}
 	</select>
 	
-	<select id="selectIsFav" parameterType="map">
+	<select id="selectIsFav" parameterType="map" resultType="boolean">
 		SELECT	 fav
 		FROM	 fav
 		WHERE	 toilet_id=#{toilet_id} AND user_id=#{user_id}
 	</select>
 	
-	<select id="amountOfFav" parameterType="String">
+	<select id="amountOfFav" parameterType="String" resultType="int">
 		SELECT	COUNT(*)
 		FROM	fav
 		WHERE	toilet_id=#{toilet_id} AND fav = true
 	</select>
 	
-	<select id="amountOfNotFav" parameterType="String">
+	<select id="amountOfNotFav" parameterType="String" resultType="int">
 		SELECT	COUNT(*)
 		FROM	fav
 		WHERE	toilet_id=#{toilet_id} AND fav = false
@@ -35,7 +35,7 @@
 	
 	<insert id="insertFav" parameterType="Fav">
 		INSERT
-		INTO	fav(toilet_id, user_id, love)
+		INTO	fav(toilet_id, user_id, fav)
 		VALUES(#{toilet_id}, #{user_id}, #{fav})
 	</insert>
 	

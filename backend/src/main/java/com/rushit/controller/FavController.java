@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rushit.model.service.FavService;
 import com.rushit.model.vo.Fav;
 
-@RequestMapping
 @RestController
+@RequestMapping("/fav")
 public class FavController {
 	private FavService favService;
 	
@@ -22,12 +22,12 @@ public class FavController {
 		this.favService = favService;
 	}
 	
-	@GetMapping("/fav")
-	public ResponseEntity<Boolean> registerFav(@RequestParam String user_id, @RequestParam String toilet_id, @RequestParam int state){
+	@GetMapping("/add")
+	public ResponseEntity<Boolean> registerFav(@RequestParam String toilet_id, @RequestParam String user_id, @RequestParam int state){
 		boolean favorite;
 		if(state == 1) favorite = true;
 		else favorite = false;
-		Fav addFav = new Fav("test", "test", favorite);
+		Fav addFav = new Fav(toilet_id, user_id, favorite);
 		return favService.addFav(addFav) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
 	}
 	
