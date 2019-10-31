@@ -92,10 +92,14 @@ public class ToiletController {
 		ret.put("reviewList", reviewList);
 		ret.put("reviewTotal", reviewTotal);
 		ret.put("userLove", userLove);
+<<<<<<< HEAD
 		ret.put("telephone", t.getTelephone());
 		ret.put("handicapped", t.isHandicapped());
 		ret.put("state", t.getState());
 		ret.put("time", t.getTime());
+=======
+		
+>>>>>>> f9dd8084c65a75e80b3056956b5d407d6311a6ab
 		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
 	}
 	
