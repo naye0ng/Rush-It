@@ -79,6 +79,7 @@ public class ToiletController {
 		ret.put("reviewList", reviewList);
 		ret.put("reviewTotal", reviewTotal);
 		ret.put("userLove", userLove);
+		
 		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
 	}
 	

@@ -20,6 +20,7 @@ public class FavDAOImpl implements FavDAO {
 	
 	@Override
 	public void insertFav(Fav newFavToilet) {
+		System.out.println(newFavToilet);
 		session.insert("fav.insertFav", newFavToilet);
 	}
 
