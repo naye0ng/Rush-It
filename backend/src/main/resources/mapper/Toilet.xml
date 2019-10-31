@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="toilet">
+	<insert id="insertToilet" parameterType="Toilet">
+		insert into toilet(id, name, location_x, location_y, state, address, type, telephone, time, handicapped, diaper, bell)
+		values(#{id}, #{name}, #{location_x}, #{location_y}, #{state}, #{address}, #{type}, #{telephone}, #{time}, #{handicapped}, #{diaper}, #{bell})
+	</insert>
+	<select id="selectToilet" parameterType="String">
+		select id, name, location_x, location_y, state, address, type, telephone, time, handicapeed, diaper, bell
+		from toilet
+		where id like "%{id}%"
+	</select>
+	<delete id="deleteToilet" parameterType="String">
+		delete from toilet where id like "%{id}%"
+	</delete>
+</mapper>
