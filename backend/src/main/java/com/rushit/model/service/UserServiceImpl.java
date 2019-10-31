@@ -20,7 +20,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Boolean addUser(User newUserInfo) {
 		if(userDao.insertUser(newUserInfo)) {
-			userDao.loginUser(newUserInfo);
 			return true;
 		}
 		return false;
