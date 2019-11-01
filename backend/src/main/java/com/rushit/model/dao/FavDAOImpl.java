@@ -19,18 +19,23 @@ public class FavDAOImpl implements FavDAO {
 	}
 	
 	@Override
-	public void insertFav(Fav newFavToilet) {
-		System.out.println(newFavToilet);
-		session.insert("fav.insertFav", newFavToilet);
+	public Boolean insertFav(Fav newFavToilet) {
+		if(session.insert("fav.insertFav", newFavToilet) == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void deleteFav(Fav delFavToilet) {
-		session.delete("fav.deleteFav", delFavToilet);
+	public Boolean deleteFav(Fav delFavToilet) {
+		if(session.delete("fav.deleteFav", delFavToilet) == 1) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
-	public boolean selectIsFav(HashMap<String, String> map) {
+	public Boolean selectIsFav(HashMap<String, String> map) {
 		return session.selectOne("fav.selectIsFav", map);
 	}
 	
