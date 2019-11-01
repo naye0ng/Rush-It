@@ -12,6 +12,7 @@
 import Authentication from '../src/components/template/Authentication'
 import Navigation from '../src/components/template/Navigation'
 import {mapState} from 'vuex';
+import store from 'vuex';
 
 export default {
   name: 'App',
@@ -24,6 +25,9 @@ export default {
       isActive: state => state.authentication.isActive
     }),
   },
+  created() { // test change to updated()
+    this.$store.commit('setUserPoint')
+  }
 }
 </script>
 

@@ -17,7 +17,11 @@ const state = {
   },
   map : { // map
     search : '',
-    accessAuth : false
+    accessAuth : false,
+    user_loc : { x : 37.5546788388674, y : 126.970606917394},
+    draw_map : null,
+    place_list : [],
+    markers : []
   }
 }
 

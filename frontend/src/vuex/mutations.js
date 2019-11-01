@@ -10,25 +10,61 @@ export default {
     setMapSearch(state, payload) {
         state.map.search = payload
     },
-    setMapPoint({commit}, payload) {
+    setMapPoint(state,payload) {
+        var moveLatLon = new kakao.maps.LatLng(state.map.user_loc.x, state.map.user_loc.y);
+        console.log("현재위치 : ", state.map.user_loc)
+
+        state.map.draw_map.panTo(moveLatLon); 
+    },
+    setUserPoint(state, payload) {
         if(navigator.geolocation) {
           // 날씨정보를 가져와 vuex에 저장하는 부분.
           navigator.geolocation.watchPosition(position => {
             // 위치 정보 허용한 경우.
             // 위도와 경도값을 받아온다.
-            state.map.x = position.coords.latitude;
-            state.map.y = position.coords.longitude;
+            state.map.user_loc.x = position.coords.latitude;
+            state.map.user_loc.y = position.coords.longitude;
           }, error => {
-            // 위치 정보 허용 안함. - 기본값[역삼]
-            state.map.x = 37.5108295
-            state.map.y = 127.02928809999999
+            // 위치 정보 허용 안함. - 기본값 [서울역]
           })
         }
         else {
           // navigator.geolocation 사용 불가 브라우져
-          state.map.x = 37.5108295
-          state.map.y = 127.02928809999999
         }
     
-      }
+    },
+    setMap(state, payload) {
+      // 맵 생성
+
+      // payload = document.getElementById('map');
+      var mapOption = {
+        center : new kakao.maps.LatLng(state.map.user_loc.x, state.map.user_loc.y),
+        level : 3
+      };
+
+      state.map.draw_map = new kakao.maps.Map(payload, mapOption);
+
+      // 지도가 움직일 때 Event Listener 달기
+      kakao.maps.event.addListener(state.map.draw_map, 'center_changed', function() {
+        // 지도의 중심좌표를 얻어옵니다 
+        var latlng = state.map.draw_map.getCenter(); 
+
+        // 영역 정보
+        var bounds = state.map.draw_map.getBounds();
+
+        // 남서쪽 정보
+        var sw = bounds.getSouthWest();
+        
+        // 북동쪽 정보
+        var ne = bounds.getNorthEast();
+        
+        // x : latlng.getLat()
+        // y : latlng.getLng()
+    
+        console.log(latlng + bounds)
+
+        // api 요청 보낸 후, list 받아오기
+    });
+
+    }
 }

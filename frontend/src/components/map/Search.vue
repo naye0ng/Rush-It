@@ -4,9 +4,11 @@
       <b-input-group>
         <b-form-input v-model="search" placeholder="Search by name..."></b-form-input>
         <b-input-group-append>
+          <!-- search 를 store state 에 저장. -->
           <b-button @click="setMapSearch(search)">
             pooh!
           </b-button>
+          <!-- map 을 현재 위치로 이동 -->
           <b-button @click="setMapPoint()">
             현재위치
           </b-button>
@@ -17,7 +19,8 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { mapMutations, mapActions} from 'vuex'
+import store from 'vuex'
 
 export default {
   name: 'Search',
@@ -28,9 +31,7 @@ export default {
   },
   methods : {
     ...mapMutations({
-      setMapSearch : 'setMapSearch'
-    }),
-    ...mapActions({
+      setMapSearch : 'setMapSearch',
       setMapPoint : 'setMapPoint'
     })
   }
