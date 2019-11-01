@@ -40,7 +40,7 @@ export default {
 <style>
 #map-page {
   width : 90vw;
-  margin : 0px auto;
+  margin : 0px auto; 
   padding-top : 10px;
 }
 </style>
