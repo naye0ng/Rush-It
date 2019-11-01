@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { VueHammer } from 'vue2-hammer'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faHome, faTrophy, faChild, faPoo } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faHome, faTrophy, faChild, faPoo, faCog, faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(BootstrapVue)
@@ -18,7 +18,7 @@ VueHammer.config.swipe = {
   threshold: 100
 };
 
-library.add(faSearch, faHome, faTrophy, faChild, faPoo )
+library.add(faSearch, faHome, faTrophy, faChild, faPoo, faCog, faStar )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
