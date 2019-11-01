@@ -1,11 +1,14 @@
 package com.rushit.model.dao;
 
+import java.util.List;
+
 import com.rushit.model.vo.User;
 
 public interface UserDAO {
-	Boolean insertUser(User user);
 	User loginUser(User user);
-	void updateUser(User user);
-	User findUser(String id);
+	List<User> findAllUsers();
+	User findUserById(String id);
+	Boolean insertUser(User user);
+	Boolean updateUser(User user);
 	Boolean deleteUser(User user);
 }
