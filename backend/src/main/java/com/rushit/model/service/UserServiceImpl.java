@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User loginUser(User loginUserInfo) {
+	public HashMap<String, String> loginUser(User loginUserInfo) {
 		return userDao.loginUser(loginUserInfo);
 	}
 
