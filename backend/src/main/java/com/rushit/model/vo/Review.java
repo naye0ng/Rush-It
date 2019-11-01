@@ -1,6 +1,7 @@
 package com.rushit.model.vo;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Review {
 	
@@ -9,11 +10,11 @@ public class Review {
 	String user_id;
 	String review;
 	double rating;
-	Timestamp timestamp;
+	Date timestamp;
 	
 	public Review() {};
 	
-	public Review(String toilet_id, String user_id, String review, double rating, Timestamp timestamp) {
+	public Review(String toilet_id, String user_id, String review, double rating, Date timestamp) {
 		super();
 		this.toilet_id = toilet_id;
 		this.user_id = user_id;
@@ -62,11 +63,11 @@ public class Review {
 		this.rating = rating;
 	}
 
-	public Timestamp getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 

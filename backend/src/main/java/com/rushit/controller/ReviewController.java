@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,17 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rushit.model.service.ReviewService;
 import com.rushit.model.vo.Review;
 
 @CrossOrigin(origins= {"*"})
-@RequestMapping("/review")
 @RestController
 public class ReviewController {
 
@@ -38,34 +44,42 @@ public class ReviewController {
 		response.getWriter().print("hello");
 	}
 	
-	@PostMapping("/register")
-	public ResponseEntity<Boolean> registerReview(String id){
-		SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
-		Calendar cal = Calendar.getInstance();
-		String today = null;
-		today = formatter.format(cal.getTime());
-		Timestamp ts = Timestamp.valueOf(today);
-		System.out.println( " Timestamp : " + ts);
-		
-		Review review2= new Review("123123", "siba", "넘넘 좋아요!", 3.5, ts);
-		return rs.addReview(review2) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+	@PostMapping("/review")
+	public ResponseEntity<Boolean> registerReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
+		Date currentTime = new Date();
+		Review r = new Review(toilet_id, user_id, review, score, currentTime);
+		return rs.addReview(r) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
 	}
 	
-	@RequestMapping("/select/{toilet_id}")
-	public ResponseEntity<List<Review>> getReivewbyToilet(@PathVariable String toilet_id) {
-		List<Review> list= rs.selectReviewListByToilet(toilet_id);
-		if(list.size()==0) {
-			return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
+	@PutMapping("/review")
+	public ResponseEntity<Boolean> deleteReview(@RequestParam String user_id, @RequestParam String toilet_id){
+		HashMap<String, String> map= new HashMap<>();
+		map.put("user_id", user_id);
+		map.put("toilet_id", toilet_id);
+		return rs.deleteReview(map) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
 	}
 	
-	@RequestMapping("/select/{user_id}")
-	public ResponseEntity<List<Review>> getReivewbyUser(@PathVariable String user_id) {
-		List<Review> list= rs.selectReviewListByUser(user_id);
-		if(list.size()==0) {
-			return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
+	@DeleteMapping("/review")
+	public ResponseEntity<Boolean> updateReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
+		Date currentTime = new Date();
+		Review r = new Review(toilet_id, user_id, review, score, currentTime);
+		return rs.updateReview(r) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+	}
+	
+	@RequestMapping(value="/review", method=RequestMethod.GET)
+	public ResponseEntity<List<Review>> getReivewbyToilet(@RequestParam Map<String, String> params) {
+		System.out.println(params.toString());
+		List<Review> list=null;
+		if(params.keySet().contains("toilet_id")) {
+			list= rs.selectReviewListByToilet(params.get("toilet_id"));
+			if(list.size()==0) return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
 		}
-		return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
+		else if(params.keySet().contains("user_id")) {
+			list= rs.selectReviewListByToilet(params.get("user_id"));
+			if(list.size()==0) return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
+		}
+		return null;
 	}
 }

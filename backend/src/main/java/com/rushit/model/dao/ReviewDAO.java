@@ -1,5 +1,6 @@
 package com.rushit.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.rushit.model.vo.Fav;
@@ -15,8 +16,8 @@ public interface ReviewDAO {
 	
 	Review selectReview(Fav love);
 
-	void deleteAnswerList(int number);
-
-	void deleteAnswer(int number);
+	boolean updateReview(Review reivew);
+	
+	boolean deleteReview(HashMap<String, String> map);
 
 }

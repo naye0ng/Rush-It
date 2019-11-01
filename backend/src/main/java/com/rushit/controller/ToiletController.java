@@ -2,6 +2,7 @@ package com.rushit.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,6 @@ import com.rushit.model.vo.Review;
 import com.rushit.model.vo.Toilet;
 
 @RestController
-@RequestMapping("/toilet")
 public class ToiletController {
 	private ToiletService ts;
 	private ReviewService rs;
@@ -48,21 +48,51 @@ public class ToiletController {
 		this.fs = fs;
 	}
 
-	@GetMapping("/")
-	public ResponseEntity<HashMap<String, Object>> findToilet(@RequestParam Double user_x, @RequestParam Double user_y, @RequestParam Double sw_x, @RequestParam Double nw_x, @RequestParam Double nw_y, @RequestBody String keyword) {
-			
+	@GetMapping("/toilet")
+	public ResponseEntity<HashMap<String, Object>> findToilets(@RequestParam Double user_x, @RequestParam Double user_y, @RequestParam Double sw_x, @RequestParam Double sw_y,
+			@RequestParam Double ne_x, @RequestParam Double ne_y, @RequestParam String keyword) {
 		
-		HashMap<String, Object> ret= new HashMap<String,Object>();
-		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
+		//input을 hash로 변환해서 넣어준다.
+		HashMap<String, Object> input= new HashMap<>();
+		input.put("sw_x", sw_x);
+		input.put("ne_x", ne_x);
+		input.put("sw_y", sw_y);
+		input.put("ne_y", ne_y);
+		input.put("keyword", keyword);
+		List<Toilet> list=ts.selectToiletList(input);
+		//return 해주기 위한 hash
+		HashMap<String, Object> hash= new HashMap<>();
+		//toilet들의 정보를 담는 list
+		ArrayList<HashMap<String, String>> value= new ArrayList<>();
+		for(int i=0; i<list.size(); i++) {
+			//toilet 하나의 정보에 대한 hashmap
+			HashMap<String, String> ret= new HashMap<>();
+			Toilet t=list.get(i);
+			ret.put("id", t.getId());
+			ret.put("name", t.getName());
+			ret.put("type", t.getType()+"");
+			ret.put("address", t.getAddress());
+			ret.put("location", "x:"+t.getLocation_x()+" y:"+t.getLocation_y());
+			if(t.isHandicapped())ret.put("handicapped", "1");
+			else ret.put("handicapped", "0");
+			if(t.isDiaper())ret.put("diaper", "1");
+			else ret.put("diaper", "0");
+			if(t.isBell())ret.put("bell", "1");
+			else ret.put("bell", "0");
+			value.add(ret);
+		}
+		hash.put("toiletList", value);
+		hash.put("code", 200);
+		return new ResponseEntity<HashMap<String, Object>>(hash, HttpStatus.OK);
 	}
 	
-	@GetMapping("/{toilet_id}")
-	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
-		System.out.println(toilet_id+" "+user_id);
+	@GetMapping("toilet/{toilet_id}")
+	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @RequestParam String user) {
+		System.out.println(toilet_id+" "+user);
 		//map 형태로 loveService의 인자값에 넘겨준다.
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("toilet_id", toilet_id);
-		map.put("user_id", user_id);
+		map.put("user_id", user);
 		//해당 유저가 좋아요 했는지 여부
 		int userLove=0;
 		//review를  먼저 갔다와서 평가 했는지 안했는지 여부를 먼저 확인한다.
@@ -92,14 +122,11 @@ public class ToiletController {
 		ret.put("reviewList", reviewList);
 		ret.put("reviewTotal", reviewTotal);
 		ret.put("userLove", userLove);
-<<<<<<< HEAD
 		ret.put("telephone", t.getTelephone());
 		ret.put("handicapped", t.isHandicapped());
 		ret.put("state", t.getState());
 		ret.put("time", t.getTime());
-=======
-		
->>>>>>> f9dd8084c65a75e80b3056956b5d407d6311a6ab
+		ret.put("code", "200");
 		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
 	}
 	

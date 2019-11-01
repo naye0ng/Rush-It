@@ -1,5 +1,8 @@
 package com.rushit.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import com.rushit.model.vo.Toilet;
 
 public interface ToiletService {
@@ -9,5 +12,7 @@ public interface ToiletService {
 	boolean addToilet(Toilet toilet);
 
 	boolean deleteToilet(String id);
+	
+	List<Toilet> selectToiletList(HashMap<String, Object> map);
 
 }

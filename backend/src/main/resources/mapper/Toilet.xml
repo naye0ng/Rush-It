@@ -14,14 +14,16 @@
 		where id=#{toilet_id}
 	</select>
 	<delete id="deleteToilet" parameterType="String">
-		delete from toilet where id like "%{id}%"
+		delete from toilet where id CONCAT('%',#{id},'%')
 	</delete>
+	
 	<select id="selectToiletKeyword" parameterType="Map" resultMap="ToiletResultMap">
 		SELECT *
 		FROM toilet
-		WHERE location_x>=#{sw_x} and location_x<=#{ne_x} and location_y>=#{ne_y} and location_y<=#{sw.y}
-	
+		WHERE location_x>=#{sw_x} and #{ne_x}>=location_x and location_y>=#{ne_y} and #{sw_y}>=location_y
+		AND name like CONCAT('%',#{keyword},'%')	
 	</select>
+	
 	<resultMap type="Toilet" id="ToiletResultMap">
 		<id column="id" property="id"/>
 		<result column="name" property="name"/>
@@ -33,7 +35,7 @@
 		<result column="telephone" property="telephone"/>
 		<result column="time" property="time"/>
 		<result column="handicapped" property="handicapped"/>
-		<result column="diper" property="diper"/>
+		<result column="diaper" property="diaper"/>
 		<result column="bell" property="bell"/>
 	</resultMap>
 </mapper>

@@ -1,5 +1,8 @@
 package com.rushit.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +43,11 @@ public class ToiletServiceImpl implements ToiletService {
 	public boolean deleteToilet(String id) {
 		toiletDao.deleteToilet(id);
 		return true;
+	}
+
+	@Override
+	public List<Toilet> selectToiletList(HashMap<String, Object> map) {
+		return toiletDao.selectToiletList(map);
 	}
 	
 }

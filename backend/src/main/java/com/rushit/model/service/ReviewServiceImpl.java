@@ -1,5 +1,6 @@
 package com.rushit.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,31 +24,10 @@ public class ReviewServiceImpl implements ReviewService {
 	public Review selectReview(Fav love) {
 		return reviewDao.selectReview(love);
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.team3.model.service.ReviewService#addReview(com.team3.model.vo.Review)
-	 */
+
 	@Override
 	public boolean addReview(Review review) {
 		reviewDao.insertReview(review);
-		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.team3.model.service.ReviewService#deleteReview(int)
-	 */
-	@Override
-	public boolean deleteReview(int number) {
-		reviewDao.deleteAnswer(number);
-		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.team3.model.service.ReviewService#deleteReviewList(int)
-	 */
-	@Override
-	public boolean deleteReviewList(int number) {
-		reviewDao.deleteAnswerList(number);
 		return true;
 	}
 
@@ -60,6 +40,16 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Review> selectReviewListByUser(String user_id) {
 		return reviewDao.selectReviewListbyUser(user_id);
 	}
+
+	@Override
+	public boolean updateReview(Review review) {
+		return reviewDao.updateReview(review);
+	}
+	@Override
+	public boolean deleteReview(HashMap<String, String> map) {
+		return reviewDao.deleteReview(map);
+	}
+
 
 		
 }

@@ -1,5 +1,6 @@
 package com.rushit.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.rushit.model.vo.Fav;
@@ -15,8 +16,8 @@ public interface ReviewService {
 	
 	boolean addReview(Review review);
 
-	boolean deleteReview(int number);
-
-	boolean deleteReviewList(int number);
+	boolean deleteReview(HashMap<String, String> map);
+	
+	boolean updateReview(Review review);
 
 }
