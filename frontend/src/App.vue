@@ -2,8 +2,9 @@
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <router-view/>
-    
-    <Authentication v-if="isActive"/>
+    <transition name="slide-up-and-down">
+      <Authentication v-show="isActive"/>
+    </transition>
     <Navigation />
   </div>
 </template>
@@ -36,10 +37,13 @@ export default {
   color: #2c3e50!important;
 }
 /* 1초 동안 위로 올라오는 애니메이션 */
-.show-up{
-  animation: show-up 1s;
+.slide-up-and-down-enter-active{
+  animation: slide-move 1s;
 }
-@keyframes show-up{
+.slide-up-and-down-leave-active{
+  animation: slide-move 1s reverse;
+}
+@keyframes slide-move{
   0%{
     opacity: 0;
     transform: translateY(100%);
