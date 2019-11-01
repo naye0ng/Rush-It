@@ -59,20 +59,33 @@ export default {
           this.$store.commit("setAuthentication", { isActive: false });
         }
       }else if(target === 2){
-        if(target === this.currentMenu){
+        if (this.isLogin) {
+          this.$router.push({ name: "MyPage" });
+        }else if(target === this.currentMenu){
           if(this.isActive){
             this.$store.commit("setAuthentication", { isActive: false });
           }else{
             this.$store.commit("setAuthentication", { isActive: true });
           }
+        }else{
+          this.$store.commit("setAuthentication", { isActive: true });
         }
-        else{
-          if (this.isLogin) {
-            //this.$router.push({ name: "HomePage" });
-          }else{
-            this.$store.commit("setAuthentication", { isActive: true });
-          }
-        }
+        
+
+        // if(target === this.currentMenu){
+        //   if(this.isActive){
+        //     this.$store.commit("setAuthentication", { isActive: false });
+        //   }else{
+        //     this.$store.commit("setAuthentication", { isActive: true });
+        //   }
+        // }
+        // else{
+        //   if (this.isLogin) {
+        //     this.$router.push({ name: "MyPage" });
+        //   }else{
+        //     this.$store.commit("setAuthentication", { isActive: true });
+        //   }
+        // }
       }else if(target === 3){
         if(target === this.currentMenu){
           if(this.isActive){
@@ -90,38 +103,6 @@ export default {
         }
       }
       this.$store.commit("setCurrentPage", target);
-
-
-
-
-      // if (target != this.currentMenu) {
-      //   this.$store.commit("setCurrentPage", target);
-
-      //   if (target == 0) {
-      //     // home 화면으로 변경
-      //     this.$router.push({ name: "HomePage" });
-      //     if(this.isActive){
-      //       this.$store.commit("setAuthentication", { isActive: false });
-      //     }
-      //   } else if (target == 1) {
-      //     // 검색 화면으로 변경
-      //     this.$router.push({ name: "MapPage" });
-      //     if(this.isActive){
-      //       this.$store.commit("setAuthentication", { isActive: false });
-      //     }
-      //   } else {
-      //     if (this.isLogin) {
-      //       if (payload == 2) {
-      //         // 마이페이지로 이동
-      //       } else {
-      //         // 랭킹페이지러로 이동
-      //       }
-      //     } else {
-      //       //로그인창 활성화
-      //       this.$store.commit("setAuthentication", { isActive: true });
-      //     }
-      //   }
-      // }
     }
   },
   computed: {

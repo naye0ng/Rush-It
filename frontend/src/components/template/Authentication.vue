@@ -7,34 +7,45 @@
 		    <div class="login-form">
                 <div class="sign-in-htm">
                     <div class="group">
-                        <input id="user" type="text" class="input text" placeholder="아이디를 입력하세요.">
+                        <input id="user" type="text" class="input text" placeholder="아이디를 입력하세요." v-model="signIn_id">
                     </div>
                     <div class="group">
-                        <input id="pass" type="password" class="input text" data-type="password" placeholder="비밀벝호를 입력하세요.">
+                        <input id="pass" type="password" class="input text" data-type="password" placeholder="비밀벝호를 입력하세요." v-model="signIn_pw">
                     </div>
                     <div class="group">
-                        <input id="check" type="checkbox" class="check" checked>
+                        <input id="check" type="checkbox" class="check" v-model="signIn_auto">
                         <label for="check"><span class="icon"></span> Keep me Signed in</label>
                     </div>
                     <div class="group">
-                        <input type="submit" class="button radius" value="Sign In">
+                        <input type="submit" class="button radius" value="Sign In" 
+                            @click="asyncSignIn({
+                                signIn_id:signIn_id,
+                                signIn_pw:signIn_pw,
+                                signIn_auto:signIn_auto,
+                            })">
                     </div>
                 </div>
                 <div class="sign-up-htm">
                     <div class="group">
-                        <input id="user" type="text" class="input text" placeholder="아이디를 입력하세요.">
+                        <input id="user" type="text" class="input text" placeholder="아이디를 입력하세요." v-model="signUp_id">
                     </div>
                     <div class="group">
-                        <input id="user" type="text" class="input text" placeholder="닉네임을 입력하세요.">
+                        <input id="user" type="text" class="input text" placeholder="닉네임을 입력하세요." v-model="signUp_nick">
                     </div>
                     <div class="group">
-                        <input id="pass" type="password" class="input text" data-type="password" placeholder="비밀번호를 입력하세요.">
+                        <input id="pass" type="password" class="input text" data-type="password" placeholder="비밀번호를 입력하세요." v-model="signUp_pw">
                     </div>
                     <div class="group">
-                        <input id="pass" type="password" class="input text" data-type="password" placeholder="비밀번호 확인">
+                        <input id="pass" type="password" class="input text" data-type="password" placeholder="비밀번호 확인" v-model="signUp_pw2">
                     </div>
                     <div class="group">
-                        <input type="submit" class="button radius" value="Sign Up">
+                        <input type="submit" class="button radius" value="Sign Up" 
+                        @click="asyncSignUp({
+                            signUp_id:signUp_id,
+                            signUp_nick:signUp_nick,
+                            signUp_pw:signUp_pw,
+                            signUp_pw2:signUp_pw2,
+                            })">
                     </div>
                 </div>
 			</div>
@@ -45,11 +56,26 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+
 export default {
   data() {
     return {
+        signIn_id: "",
+        signIn_pw: "",
+        signIn_auto: true,
+        signUp_id: "",
+        signUp_nick: "",
+        signUp_pw: "",
+        signUp_pw2: "",
     }
-  }
+  },
+  methods: {
+    ...mapActions([
+      'asyncSignIn',
+      'asyncSignUp',
+    ])
+  },
 };
 </script>
 <style>
@@ -188,13 +214,17 @@ export default {
 	right:0;
   transform:scale(0) rotate(0);
 }
-.login-form .group .check:checked + label{
+.login-form .group .check + label{
   font-size: 0.7rem;
   font-weight: 500;
   color: #7a808c;
 }
+.login-form .group .check + label .icon{
+  border:1px solid #7a808c;  
+}
 .login-form .group .check:checked + label .icon{
   background:#214079;
+  border:none;
 }
 .login-form .group .check:checked + label .icon:before{
 	transform:scale(1) rotate(45deg);
