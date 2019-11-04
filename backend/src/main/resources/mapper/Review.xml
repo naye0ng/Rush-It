@@ -13,12 +13,14 @@
 		SELECT id, toilet_id, user_id, review, rating, timestamp
 		FROM review
 		WHERE toilet_id= #{toilet_id}
+		ORDER BY timestamp ASC;
 	</select>
 	
 	<select id="selectReviewByUser" resultMap="ReviewResultMap" parameterType="String">
 		SELECT id, toilet_id, user_id, review, rating, timestamp
 		FROM review
 		WHERE user_id= #{user_id}
+		ORDER BY timestamp ASC;
 	</select>
 	
 	<update id="updateReview" parameterType="review">

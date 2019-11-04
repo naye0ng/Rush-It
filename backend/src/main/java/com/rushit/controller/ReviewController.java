@@ -45,21 +45,33 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/review")
-	public ResponseEntity<Boolean> registerReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
+	public HashMap<String, String> registerReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
 		Date currentTime = new Date();
+		HashMap<String, String> hash= new HashMap<>();
 		Review r = new Review(toilet_id, user_id, review, score, currentTime);
-		return rs.addReview(r) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
-	}
-	
-	@PutMapping("/review")
-	public ResponseEntity<Boolean> deleteReview(@RequestParam String user_id, @RequestParam String toilet_id){
-		HashMap<String, String> map= new HashMap<>();
-		map.put("user_id", user_id);
-		map.put("toilet_id", toilet_id);
-		return rs.deleteReview(map) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+		if(rs.addReview(r)) {
+			hash.put("code", "200");
+		}
+		else {
+			hash.put("code", "300");
+		}
+		return hash;
 	}
 	
 	@DeleteMapping("/review")
+	public HashMap<String, String> deleteReview(@RequestParam String user_id, @RequestParam String toilet_id){
+		HashMap<String, String> map= new HashMap<>();
+		map.put("user_id", user_id);
+		map.put("toilet_id", toilet_id);
+		HashMap<String, String> ret= new HashMap<>();
+		if(rs.deleteReview(map)) {
+			ret.put("code", "200");
+		}
+		else ret.put("code", "301");
+		return ret;
+	}
+	
+	@PutMapping("/review")
 	public ResponseEntity<Boolean> updateReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
 		Date currentTime = new Date();
 		Review r = new Review(toilet_id, user_id, review, score, currentTime);

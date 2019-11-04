@@ -3,6 +3,8 @@ package com.rushit.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,16 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rushit.model.service.FavService;
 import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.ToiletService;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
 import com.rushit.model.vo.Toilet;
+
 
 @RestController
 public class ToiletController {
@@ -48,18 +52,47 @@ public class ToiletController {
 		this.fs = fs;
 	}
 
-	@GetMapping("/toilet")
-	public ResponseEntity<HashMap<String, Object>> findToilets(@RequestParam Double user_x, @RequestParam Double user_y, @RequestParam Double sw_x, @RequestParam Double sw_y,
-			@RequestParam Double ne_x, @RequestParam Double ne_y, @RequestParam String keyword) {
+
+	
+	@GetMapping("/toilet/")
+	public ResponseEntity<HashMap<String, Object>> findToilets(@RequestBody String json) throws Exception{
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> map= new HashMap<String, Object>();
+		map = mapper.readValue(json, new TypeReference<Map<String, Object>>(){});
+		Set<String> set= map.keySet();
 		
+		Map<String, Object> user = (Map<String, Object>) map.get("user");
+		Double user_x=(Double) user.get("x");
+		Double user_y=(Double) user.get("y");
+
+		Map<String, Object> maps = (Map<String, Object>) map.get("map");
+		System.out.println(maps.get("southWest"));
+		System.out.println(maps.get("northEast"));
+		Map<String, Object> southWest = (Map<String, Object>) maps.get("southWest");
+		Map<String, Object> northEast = (Map<String, Object>) maps.get("northEast");
+		Double sw_x= (Double) southWest.get("x");
+		System.out.println(sw_x);
+		Double sw_y= (Double) southWest.get("y");
+		System.out.println(sw_y);
+		Double ne_x=(Double) northEast.get("x");
+		System.out.println(ne_x);
+		Double ne_y=(Double) northEast.get("y");
+		System.out.println(ne_y);
+		
+		String keyword = (String) map.get("keyword");
+		System.out.println(keyword);
+		
+
+	
 		//input을 hash로 변환해서 넣어준다.
-		HashMap<String, Object> input= new HashMap<>();
+		HashMap<String, Object> input = new HashMap<>();
 		input.put("sw_x", sw_x);
-		input.put("ne_x", ne_x);
 		input.put("sw_y", sw_y);
+		input.put("ne_x", ne_x);
 		input.put("ne_y", ne_y);
 		input.put("keyword", keyword);
 		List<Toilet> list=ts.selectToiletList(input);
+		System.out.println(list.toString());
 		//return 해주기 위한 hash
 		HashMap<String, Object> hash= new HashMap<>();
 		//toilet들의 정보를 담는 list
@@ -87,12 +120,11 @@ public class ToiletController {
 	}
 	
 	@GetMapping("toilet/{toilet_id}")
-	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @RequestParam String user) {
-		System.out.println(toilet_id+" "+user);
+	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
 		//map 형태로 loveService의 인자값에 넘겨준다.
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("toilet_id", toilet_id);
-		map.put("user_id", user);
+		map.put("user_id", user_id);
 		//해당 유저가 좋아요 했는지 여부
 		int userLove=0;
 		//review를  먼저 갔다와서 평가 했는지 안했는지 여부를 먼저 확인한다.
@@ -129,7 +161,6 @@ public class ToiletController {
 		ret.put("code", "200");
 		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
 	}
-	
-	
 		
 }
+
