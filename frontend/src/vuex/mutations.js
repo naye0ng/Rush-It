@@ -54,37 +54,6 @@ export default {
         }
     },
     setMap(state, payload) {
-      // 맵 생성
-
-      // payload = document.getElementById('map');
-      var mapOption = {
-        center : new kakao.maps.LatLng(state.map.user_loc.x, state.map.user_loc.y),
-        level : 3
-      };
-
-      state.map.draw_map = new kakao.maps.Map(payload, mapOption);
-
-      // 지도가 움직일 때 Event Listener 달기
-      kakao.maps.event.addListener(state.map.draw_map, 'center_changed', function() {
-        // 지도의 중심좌표를 얻어옵니다 
-        var latlng = state.map.draw_map.getCenter(); 
-
-        // 영역 정보
-        var bounds = state.map.draw_map.getBounds();
-
-        // 남서쪽 정보
-        var sw = bounds.getSouthWest();
-        
-        // 북동쪽 정보
-        var ne = bounds.getNorthEast();
-        
-        // x : latlng.getLat()
-        // y : latlng.getLng()
-    
-        console.log(latlng + bounds)
-
-        // api 요청 보낸 후, list 받아오기
-    });
-
+      state.map.draw_map = payload;
     }
 }
