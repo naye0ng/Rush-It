@@ -8,12 +8,34 @@
 		insert into toilet(id, name, location_x, location_y, state, address, type, telephone, time, handicapped, diaper, bell)
 		values(#{id}, #{name}, #{location_x}, #{location_y}, #{state}, #{address}, #{type}, #{telephone}, #{time}, #{handicapped}, #{diaper}, #{bell})
 	</insert>
-	<select id="selectToilet" parameterType="String">
-		select id, name, location_x, location_y, state, address, type, telephone, time, handicapeed, diaper, bell
+	<select id="selectToilet" parameterType="String" resultType="Toilet">
+		select id, name, location_x, location_y, state, address, type, telephone, time, handicapped, diaper, bell
 		from toilet
-		where id like "%{id}%"
+		where id=#{toilet_id}
 	</select>
 	<delete id="deleteToilet" parameterType="String">
-		delete from toilet where id like "%{id}%"
+		delete from toilet where id CONCAT('%',#{id},'%')
 	</delete>
+	
+	<select id="selectToiletKeyword" parameterType="Map" resultMap="ToiletResultMap">
+		SELECT *
+		FROM toilet
+		WHERE location_x>=#{sw_x} and #{ne_x}>=location_x and location_y>=#{sw_y} and #{ne_y}>=location_y
+		AND name like CONCAT('%',#{keyword},'%')	
+	</select>
+	
+	<resultMap type="Toilet" id="ToiletResultMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="location_x" property="location_x"/>
+		<result column="location_y" property="location_y"/>
+		<result column="state" property="state"/>
+		<result column="address" property="address"/>
+		<result column="type" property="type"/>
+		<result column="telephone" property="telephone"/>
+		<result column="time" property="time"/>
+		<result column="handicapped" property="handicapped"/>
+		<result column="diaper" property="diaper"/>
+		<result column="bell" property="bell"/>
+	</resultMap>
 </mapper>

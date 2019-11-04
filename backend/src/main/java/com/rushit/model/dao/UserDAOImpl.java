@@ -1,5 +1,8 @@
 package com.rushit.model.dao;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +19,31 @@ public class UserDAOImpl implements UserDAO {
 		this.session = session;
 	}
 	
+
+	@Override
+	public HashMap<String, String> loginUser(User loginUserInfo) {
+		User user = session.selectOne("user.loginUser", loginUserInfo);
+		HashMap<String, String> Container = new HashMap<>();
+		if(user == null) {
+			Container.put("code", "400");
+		} else {
+			Container.put("code", "200");
+			Container.put("id", user.getId());
+			Container.put("nick", user.getNick());
+		}
+		return Container;
+	}
+
+	@Override
+	public List<User> findAllUsers() {
+		return session.selectList("user.findAllUsers");
+	}	
+
+	@Override
+	public User findUserById(String id) {
+		return session.selectOne("user.findUser", id);
+	}
+
 	@Override
 	public Boolean insertUser(User user) {
 		if(session.insert("user.insertUser", user) == 1) {
@@ -25,18 +53,11 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User loginUser(User loginUserInfo) {
-		return session.selectOne("user.loginUser", loginUserInfo);
-	}
-
-	@Override
-	public User findUser(String id) {
-		return session.selectOne("user.findUser", id);
-	}
-
-	@Override
-	public void updateUser(User modifyUserInfo) {
-		session.update("user.updateUser", modifyUserInfo);
+	public Boolean updateUser(User modifyUserInfo) {
+		if(session.update("user.updateUser", modifyUserInfo) == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -45,5 +66,6 @@ public class UserDAOImpl implements UserDAO {
 			return true;
 		}
 		return false;
-	}	
+	}
+
 }

@@ -11,6 +11,7 @@
     <groupId>com.nano</groupId>
     <artifactId>rushit</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>rushit</name>
     <description>Rushit project for Spring Boot</description>
     <properties>

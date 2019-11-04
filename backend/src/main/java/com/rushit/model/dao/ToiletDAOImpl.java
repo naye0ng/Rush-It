@@ -1,5 +1,8 @@
 package com.rushit.model.dao;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,6 +41,11 @@ public class ToiletDAOImpl implements ToiletDAO {
 	@Override
 	public Toilet selectToilet(String id) {
 		return session.selectOne("toilet.selectToilet", id);
+	}
+
+	@Override
+	public List<Toilet> selectToiletList(HashMap<String, Object> map) {
+		return session.selectList("toilet.selectToiletKeyword", map);
 	}
 	
 }
