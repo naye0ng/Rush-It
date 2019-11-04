@@ -54,7 +54,7 @@ public class ToiletController {
 
 
 	
-	@GetMapping("/toilet/")
+	@GetMapping("/toilet")
 	public ResponseEntity<HashMap<String, Object>> findToilets(@RequestBody String json) throws Exception{
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map= new HashMap<String, Object>();
