@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.User;
 
-@CrossOrigin(origins= {"*"})
+@CrossOrigin(origins= {"*"}, allowedHeaders= {"*"})
 @RestController
 public class UserController {
 	private UserService userService;
