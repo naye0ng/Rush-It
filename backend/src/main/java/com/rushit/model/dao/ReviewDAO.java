@@ -8,7 +8,7 @@ import com.rushit.model.vo.Review;
 
 public interface ReviewDAO {
 
-	void insertReview(Review review);
+	boolean insertReview(Review review);
 
 	List<Review> selectReviewListbyUser(String user_id);
 	

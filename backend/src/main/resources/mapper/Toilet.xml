@@ -20,7 +20,7 @@
 	<select id="selectToiletKeyword" parameterType="Map" resultMap="ToiletResultMap">
 		SELECT *
 		FROM toilet
-		WHERE location_x>=#{sw_x} and #{ne_x}>=location_x and location_y>=#{ne_y} and #{sw_y}>=location_y
+		WHERE location_x>=#{sw_x} and #{ne_x}>=location_x and location_y>=#{sw_y} and #{ne_y}>=location_y
 		AND name like CONCAT('%',#{keyword},'%')	
 	</select>
 	

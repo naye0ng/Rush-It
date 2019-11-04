@@ -1,9 +1,13 @@
 package com.rushit.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Toilet {
 	String id;
 	String name;
+	@JsonProperty
 	String location_x;
+	@JsonProperty
 	String location_y;
 	String state;
 	String address;

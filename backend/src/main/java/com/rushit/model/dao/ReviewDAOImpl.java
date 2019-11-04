@@ -23,8 +23,11 @@ public class ReviewDAOImpl implements ReviewDAO {
 	 * @see com.team3.model.dao.ReviewDao#insertReview(com.team3.model.vo.Review)
 	 */
 	@Override
-	public void insertReview(Review review) {
-		session.insert("review.insertReview",review);
+	public boolean insertReview(Review review) {
+		if(session.insert("review.insertReview",review)!=1) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
