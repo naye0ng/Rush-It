@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +38,11 @@ public class ReviewController {
 	@Autowired
 	public void setRs(ReviewService rs) {
 		this.rs = rs;
+	}
+	
+	@PostMapping("/test")
+	public void test(@RequestParam String query) throws IOException {
+		System.out.println(query);
 	}
 	
 	@GetMapping("/test")

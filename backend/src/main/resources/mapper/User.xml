@@ -8,6 +8,7 @@
 		<result column="id" property="id" />
 		<result column="nick" property="nick"/>
 		<result column="gender" property="gender"/>
+		<result column="point" property="point"/>
 	</resultMap>
 
 	<select id="findAllUsers" resultMap="UserResultMap">
@@ -30,8 +31,8 @@
 	
 	<insert id="insertUser" parameterType="User">
 		INSERT
-		INTO	user(id, pw, nick, gender)
-		VALUES(#{id}, #{pw}, #{nick}, #{gender})
+		INTO	user(id, pw, nick, gender, point)
+		VALUES(#{id}, #{pw}, #{nick}, #{gender}, 0)
 	</insert>
 	
 	<update id="updateUser" parameterType="User">
