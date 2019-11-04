@@ -30,25 +30,40 @@ public class FavController {
 	@PostMapping("/fav")
 	public HashMap<String, String> registerFav(@RequestParam String toilet_id, @RequestParam String user_id, @RequestParam int state){
 		HashMap<String, String> Container = new HashMap<>();
-		boolean favorite;
-		if(state == 1) favorite = true;
-		else favorite = false;
-		Fav addFav = new Fav(toilet_id, user_id, favorite);
 		
-		if(favService.addFav(addFav)) {
-			Container.put("code", "200");
-		} else {
-			Container.put("code", "Fail");
+		Boolean favorite;
+		if(state == 1) favorite = true;
+		else if(state == -1) favorite = false;
+		else favorite = null;
+		
+		HashMap<String, String> checkFav = new HashMap<>();
+		checkFav.put("toilet_id", toilet_id);
+		checkFav.put("user_id", user_id);
+		Fav recInfo = favService.selectFav(checkFav);
+		
+		Fav favInfo = new Fav(toilet_id, user_id, favorite);		
+
+		if(recInfo == null) { // add
+			if(favService.addFav(favInfo)) Container.put("code", "200");
+			else Container.put("code", "Fail");
 		}
-		return Container;
+		else if(recInfo.isFav() == favorite) { // delete
+			if(favService.removeFav(favInfo)) Container.put("code", "200");
+			else Container.put("code", "Fail");
+		}
+		else if(recInfo.isFav() != favorite) { // update
+			if(favService.modifyFav(favInfo)) Container.put("code", "200");
+			else Container.put("code", "Fail");
+		}
+		return Container;			
 	}
 	
 	@DeleteMapping("/fav")
-	public HashMap<String, String> deleteLove(@RequestParam String toilet_id, @RequestParam String user_id) {
+	public HashMap<String, String> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
 		HashMap<String, String> Container = new HashMap<>();
-		Fav deleteFav = new Fav(toilet_id, user_id, true);
+		Fav favInfo = new Fav(toilet_id, user_id, true);
 		
-		if(favService.removeFav(deleteFav)) {
+		if(favService.removeFav(favInfo)) {
 			Container.put("code", "200");
 		} else {
 			Container.put("code", "Fail");

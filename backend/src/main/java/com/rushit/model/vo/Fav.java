@@ -9,7 +9,7 @@ public class Fav {
 	public Fav() {
 		
 	};
-	public Fav(String toilet_id, String user_id, boolean fav) {
+	public Fav(String toilet_id, String user_id, Boolean fav) {
 		super();
 		setToilet_id(toilet_id);
 		setUser_id(user_id);
@@ -31,7 +31,7 @@ public class Fav {
 	public void setFav(Boolean favor) {
 		this.fav = favor;
 	}
-	public boolean isFav() {
+	public Boolean isFav() {
 		return fav;
 	}
 	
