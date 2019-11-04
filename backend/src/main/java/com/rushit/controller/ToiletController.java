@@ -25,7 +25,6 @@ import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
 import com.rushit.model.vo.Toilet;
 
-@CrossOrigin(origins= {"*"})
 @RestController
 public class ToiletController {
 	private ToiletService ts;
