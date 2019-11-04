@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,7 @@ import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
 import com.rushit.model.vo.Toilet;
 
-
+@CrossOrigin(origins= {"*"})
 @RestController
 public class ToiletController {
 	private ToiletService ts;
