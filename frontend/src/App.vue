@@ -40,6 +40,14 @@ export default {
   text-align: center;
   color: #2c3e50!important;
 }
+.container,
+.row,
+.col, .col-2, .col-3, .col-4, .col-6, .col5,
+p {
+  margin: 0;
+  padding: 0;
+}
+
 /* 1초 동안 위로 올라오는 애니메이션 */
 .slide-up-and-down-enter-active{
   animation: slide-move 1s;
