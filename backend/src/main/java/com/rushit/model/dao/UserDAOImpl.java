@@ -1,5 +1,6 @@
 package com.rushit.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,8 +21,17 @@ public class UserDAOImpl implements UserDAO {
 	
 
 	@Override
-	public User loginUser(User loginUserInfo) {
-		return session.selectOne("user.loginUser", loginUserInfo);
+	public HashMap<String, String> loginUser(User loginUserInfo) {
+		User user = session.selectOne("user.loginUser", loginUserInfo);
+		HashMap<String, String> Container = new HashMap<>();
+		if(user == null) {
+			Container.put("code", "400");
+		} else {
+			Container.put("code", "200");
+			Container.put("id", user.getId());
+			Container.put("nick", user.getNick());
+		}
+		return Container;
 	}
 
 	@Override

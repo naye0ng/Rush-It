@@ -8,7 +8,7 @@ public interface UserService {
 	
 	
 	Boolean addUser(User user);					// 회원가입
-	User loginUser(User user);					// 로그인
+	HashMap<String, String> loginUser(User user);					// 로그인
 	User findUser(String id);					// 유저 정보 찾기
 	Boolean updateUser(User user);					// 닉네임 변경
 	Boolean deleteUser(User user);				// 유저 삭제

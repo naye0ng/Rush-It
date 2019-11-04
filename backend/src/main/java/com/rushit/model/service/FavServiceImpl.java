@@ -1,7 +1,6 @@
 package com.rushit.model.service;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,15 +21,19 @@ public class FavServiceImpl implements FavService {
 	}
 	
 	@Override
-	public boolean addFav(Fav newFavToilet) {
-		favDao.insertFav(newFavToilet);
-		return true;
+	public Boolean addFav(Fav newFavToilet) {
+		if(favDao.insertFav(newFavToilet)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public boolean removeFav(Fav delFavToilet) {
-		favDao.deleteFav(delFavToilet);
-		return true;
+	public Boolean removeFav(Fav delFavToilet) {
+		if(favDao.deleteFav(delFavToilet)) {
+			return true;
+		}
+		return false;
 	}
 
 
@@ -45,7 +48,7 @@ public class FavServiceImpl implements FavService {
 	}
 
 	@Override
-	public boolean selectIsFav(HashMap<String, String> map) {
+	public Boolean selectIsFav(HashMap<String, String> map) {
 		return favDao.selectIsFav(map);
 	}
 
@@ -53,6 +56,4 @@ public class FavServiceImpl implements FavService {
 	public Fav selectFav(HashMap<String, String> map) {
 		return favDao.selectFav(map);
 	}
-
-
 }

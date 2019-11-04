@@ -18,7 +18,7 @@
 	<select id="loginUser" parameterType="User" resultMap="UserResultMap">
 		SELECT	id, nick
 		FROM	user
-		WHERE	id like #{id} AND pw like #{pw}
+		WHERE	id = #{id} AND pw = #{pw}
 	</select>
 
 

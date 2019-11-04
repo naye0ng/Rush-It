@@ -4,7 +4,7 @@ public class Fav {
 
 	private String toilet_id;
 	private String user_id;
-	private boolean fav;
+	private Boolean fav;
 	
 	public Fav() {
 		
@@ -28,7 +28,7 @@ public class Fav {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-	public void setFav(boolean favor) {
+	public void setFav(Boolean favor) {
 		this.fav = favor;
 	}
 	public boolean isFav() {
