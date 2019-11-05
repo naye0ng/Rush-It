@@ -59,7 +59,16 @@ public class ReviewDAOImpl implements ReviewDAO {
 			return false;
 		}
 		return true;
-		
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> selectTopTen(){
+		return session.selectList("review.selectTopTen");
+	}
+	
+	@Override
+	public HashMap<String, Object> selectRank(String id){
+		return session.selectOne("review.selectReviewRank", id);
 	}
 }
 

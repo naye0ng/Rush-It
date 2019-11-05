@@ -1,5 +1,6 @@
 package com.rushit.controller;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -55,7 +56,7 @@ public class ToiletController {
 
 
 	
-	@GetMapping("/toilet/")
+	@PostMapping("/toilet")
 	public ResponseEntity<HashMap<String, Object>> findToilets(@RequestBody String json) throws Exception{
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map= new HashMap<String, Object>();
@@ -106,7 +107,8 @@ public class ToiletController {
 			ret.put("name", t.getName());
 			ret.put("type", t.getType()+"");
 			ret.put("address", t.getAddress());
-			ret.put("location", "x:"+t.getLocation_x()+" y:"+t.getLocation_y());
+			ret.put("location_x", t.getLocation_x());
+			ret.put("location_y", t.getLocation_y());
 			if(t.isHandicapped())ret.put("handicapped", "1");
 			else ret.put("handicapped", "0");
 			if(t.isDiaper())ret.put("diaper", "1");
@@ -120,8 +122,46 @@ public class ToiletController {
 		return new ResponseEntity<HashMap<String, Object>>(hash, HttpStatus.OK);
 	}
 	
-	@GetMapping("toilet/{toilet_id}")
-	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @RequestParam String user_id) {
+	
+	@GetMapping("/toilet/{toilet_id}")
+	public HashMap<String, Object> toiletDetail(@PathVariable String toilet_id){
+		HashMap<String, Object> ret= new HashMap<>();
+		List<Review> reviewList=(ArrayList<Review>)rs.selectReviewListByToilet(toilet_id);
+		double reviewTotal=0;
+		for(int i=0; i<reviewList.size(); i++) {
+			reviewTotal+=reviewList.get(i).getRating();
+		}
+		reviewTotal/=reviewList.size();
+		reviewTotal=Math.round((reviewTotal*10))/10.0;
+		
+		Toilet t=ts.selectToilet(toilet_id);
+		int likeCount=fs.toiletFavCnt(toilet_id);
+		int dislikeCount=fs.toiletNotFavCnt(toilet_id);
+		ret.put("id", t.getId());
+		ret.put("like", likeCount+"");
+		ret.put("dislike", dislikeCount+"");
+		ret.put("score", reviewTotal+"");
+		ret.put("telephone", t.getTelephone());
+		ret.put("time", t.getTime());
+		ret.put("state", t.getState());
+		ret.put("code", "200");
+		System.out.println(reviewList.toString());
+		ArrayList<HashMap<String, String>> input= new ArrayList<>();
+		HashMap<String, String> h;
+		for(int i=0; i<reviewList.size(); i++) {
+			h= new HashMap<>();
+			h.put("score", reviewList.get(i).getRating()+"");
+			h.put("review", reviewList.get(i).getRating()+"");
+			input.add(h);
+		}
+		ret.put("reviews", input);
+		return ret;
+	}
+	
+	
+	
+	@GetMapping("toilet/{toilet_id}/{user_id}")
+	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @PathVariable String user_id) {
 		//map 형태로 loveService의 인자값에 넘겨준다.
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("toilet_id", toilet_id);
