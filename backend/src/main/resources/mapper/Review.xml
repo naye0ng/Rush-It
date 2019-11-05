@@ -9,20 +9,32 @@
 		values(#{id},#{toilet_id},#{user_id},#{review},#{rating},#{timestamp})
 	</insert>
 	
-	<select id="selectReviewByToilet" parameterType="String" >
+	<select id="selectReviewByToilet" resultMap="ReviewResultMap" parameterType="String" >
 		SELECT id, toilet_id, user_id, review, rating, timestamp
 		FROM review
-		WHERE toilet_id LIKE "#{toilet_id}"
+		WHERE toilet_id= #{toilet_id}
+		ORDER BY timestamp ASC;
 	</select>
 	
 	<select id="selectReviewByUser" resultMap="ReviewResultMap" parameterType="String">
 		SELECT id, toilet_id, user_id, review, rating, timestamp
 		FROM review
-		WHERE user_id LIKE "#{user_id}"
+		WHERE user_id= #{user_id}
+		ORDER BY timestamp ASC;
 	</select>
 	
-	<delete id="deleteReview" parameterType="int">
-		delete from review where id={id}
+
+	<update id="updateReview" parameterType="review">
+		UPDATE review
+		SET review = #{review}
+			rating = #{rating}
+			timestamp = #{timestamp}
+		WHERE user_id=#{user_id} AND toilet_id=#{toilet_id}
+	</update>
+	
+	<delete id="deleteReview" parameterType="map">
+		DELETE FROM REVIEW 
+		WHERE toilet_id=#{toilet_id} AND user_id=#{user_id}
 	</delete>
 	
 	<resultMap type="Review" id="ReviewResultMap">
@@ -33,5 +45,42 @@
 		<result column="rating" property="rating"/>
 		<result column="timestamp" property="timestamp"/>
 	</resultMap>
+	
+	<resultMap id="reviewRanking" type="hashmap">
+		<id column="user_id" property="user_id"/>
+		<result column="ranking" property="ranking"/>
+		<result column="reviewCount" property="reviewCount"/>
+	</resultMap>
+	
+	<select id="selectTopTen" resultMap="reviewRanking">
+		select user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount, a.nick
+		from( 
+		SELECT r.user_id, count(r.user_id) as reviewCount, u.nick
+		from review r
+		join user u
+		on r.user_id=u.id
+		group by user_id
+		order by count(user_id) desc
+		)as a, (select @count:=0) as b
+	</select>
+	
+	<select id="selectReviewRank" parameterType="String" resultType="hashmap">
+		select c.user_id, c.ranking, c.reviewCount, c.nick
+		from(
+				select a.user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount, a.nick
+				from( 
+				SELECT r.user_id, count(r.user_id) as reviewCount, u.nick
+				from review r 
+				join user u
+				on r.user_id=u.id
+				group by user_id
+				order by count(user_id) desc
+				limit 10
+				)as a, (select @count:=0) as b
+		)as c
+		where user_id=#{user_id}
+	</select>	
+	
+
 	
 </mapper>
