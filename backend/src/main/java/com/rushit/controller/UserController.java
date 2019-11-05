@@ -53,7 +53,10 @@ public class UserController {
 				Container.put("id", newUserInfo.getId());
 				Container.put("nick", newUserInfo.getNick());
 				Container.put("code", "200");
+				Container.put("message", "Register user success");
 			}
+		} else {
+			Container.put("message", "Duplicate user id");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
@@ -107,9 +110,11 @@ public class UserController {
 			Container.put("code", "200");
 			Container.put("id", id);
 			Container.put("nick", nick);
+			Container.put("message", "Update user nickname success");
 		}	
 		else {
 			Container.put("code", "301");
+			Container.put("message", "User doesn't Exist");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
@@ -122,8 +127,10 @@ public class UserController {
 		deleteUserInfo.setPw(pw);
 		if(userService.deleteUser(deleteUserInfo)) {
 			Container.put("code", "200");
+			Container.put("message", "Delete user success");
 		} else {
 			Container.put("code", "301");
+			Container.put("message", "User doesn't Exist");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
