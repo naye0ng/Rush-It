@@ -12,11 +12,11 @@
       </b-row>
       <b-row class="boder-top-bottom" align-v="center"> 
         <b-col class="toilet-score">
-          <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=1 }"/>
-          <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=2 }"/>
-          <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=3 }"/>
-          <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=4 }"/>
-          <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score==5 }"/>
+          <font-awesome-icon icon="star" v-bind:class="{ active: toilet_detail.score>=1 }"/>
+          <font-awesome-icon icon="star" v-bind:class="{ active: toilet_detail.score>=2 }"/>
+          <font-awesome-icon icon="star" v-bind:class="{ active: toilet_detail.score>=3 }"/>
+          <font-awesome-icon icon="star" v-bind:class="{ active: toilet_detail.score>=4 }"/>
+          <font-awesome-icon icon="star" v-bind:class="{ active: toilet_detail.score==5 }"/>
           <span class="task-txt">( {{toilet_detail.score}}점 )</span>
           </b-col>
         <b-col cols="2" class="text-right default-btn">
@@ -55,12 +55,12 @@
           <b-col>
             <b-row class="review-time">{{ review.time }}</b-row>
             <b-row class="review-score toilet-score">
-                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=1 }"/>
-                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=2 }"/>
-                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=3 }"/>
-                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=4 }"/>
-                <font-awesome-icon icon="star" v-bind:class="{ active: review.score==5 }"/>
-                <span class="score-txt"> {{review.score}}점 </span>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=1 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=2 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=3 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=4 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.rating==5 }"/>
+                <span class="score-txt"> {{review.rating}}점 </span>
               
               </b-row>
             <b-row class="review-txt">{{ review.review }}</b-row>
@@ -74,6 +74,7 @@
 <script>
 import qs from 'qs';
 import axios from 'axios'
+import { mapState } from "vuex";
 
 export default {
   name: 'Detail',
@@ -88,6 +89,10 @@ export default {
       isLike:1,
     }
   },
+  ...mapState({
+    userNickName: state => state.authentication.userNickName,
+    userID: state => state.authentication.userID
+  }),
   methods: {
     getMoreInfomation(){
       // 화장실 상세정보 조회
@@ -107,6 +112,14 @@ export default {
       }).catch(error=>{
           console.log(error)
       })
+      // 로그인된 유저와 화장실 관계
+      axios.get(url+"/toilet/"+this.toilet.id,{params:{user_id:this.userID}})
+      .then(response => {
+        // 이거 수정 필요
+        // console.log(response.data)
+      }).catch(error=>{
+          console.log(error)
+      })
     }
   },
   mounted(){
@@ -121,7 +134,7 @@ export default {
   bottom: 2rem;
   left: 0;
   width: 100%;
-  min-height: 60vh;
+  min-height: 65vh;
   max-height:100vh;
   border-radius: 30px 30px 0 0;
   -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1)!important;
