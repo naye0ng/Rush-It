@@ -5,17 +5,18 @@ const url = "http://localhost:8080"
 export default {
     asyncSignIn({ commit }, payload) {
         if (payload.id && payload.pw) {
-            const data = {
-                pw : 'test'
-            };
-            const options = {
-            method: 'POST',
-            data: qs.stringify(data),
-            url: 'http://localhost:8080/user/test'
-            };
-            axios.post('http://127.0.0.1:8080/user/test', {
-                'pw': 'test',
-              }).then(response => {
+            // const data = {
+            //     query : 'test'
+            // };
+            // const options = {
+            // method: 'POST',
+            // data: qs.stringify(data),
+            // url: 'http://localhost:8080/user/test'
+            // };
+
+
+            axios.post('http://localhost:8080/user/test/', {'pw': "test"})
+            .then(response => {
                 console.log("dsfgb",response.data)
             }).catch(error=>{
                 // console.log("dsfghj")
