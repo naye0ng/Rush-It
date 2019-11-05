@@ -1,7 +1,7 @@
 <template>
   <div id = "map-page">
-    <Search></Search>
-    <Filters style="padding-top:10px"></Filters>
+    <Search style="padding-top:3vh"></Search>
+    <!-- <Filters style="padding-top:10px"></Filters> -->
     <Map style="margin-top:5%;"></Map>
     <List></List>
   </div>

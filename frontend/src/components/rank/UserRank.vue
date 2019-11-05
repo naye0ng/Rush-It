@@ -26,7 +26,7 @@
     </b-row>
     <!-- 나머지 -->
     <b-container class="rank-table">
-      <b-row align-v="center" v-for="(user, index) in user_rank" v-if="index>=3">
+      <b-row align-v="center" v-for="(user, index) in user_rank" v-if="index>=3" :key="index">
         <b-col align-self="center" cols="2" class="no">{{ index+1 }}위</b-col>
         <b-col align-self="center" cols="2">
           <div class="user-img">
