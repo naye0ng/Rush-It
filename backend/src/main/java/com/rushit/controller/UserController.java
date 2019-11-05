@@ -6,15 +6,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.User;
 
-
-@RequestMapping
 @RestController
 public class UserController {
 	private UserService userService;
@@ -25,13 +21,19 @@ public class UserController {
 	}
 	
 	@PostMapping("/user")
-	public void RegisterUser(@RequestBody String id, @RequestBody String nick, @RequestBody String pw, @RequestBody String gender) {
-		User newUserInfo = new User(id, nick, pw, gender);	
+	public void RegisterUser(@RequestBody User newUserInfo) {		
+		System.out.println(newUserInfo);
+		System.out.println();
 		if(userService.addUser(newUserInfo)) {
 			System.out.println("Add Newbie Success");
+			AutoLogin(newUserInfo);
 		} else {
 			System.out.println("Fail to Add Newbie");
 		}
+	}
+	
+	public User AutoLogin(User UserInfo) {
+		return userService.loginUser(UserInfo);
 	}
 
 	@PostMapping("/user/{id}")
@@ -51,8 +53,10 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/user/{id}")
-	public void DeleteUser(@RequestParam String id, @RequestBody String pw) {
+	public void DeleteUser(@PathVariable String id, @RequestBody String pw) {
 		User deleteUserInfo = new User();
+		System.out.println(id);
+		System.out.println(pw);
 		deleteUserInfo.setId(id);
 		deleteUserInfo.setPw(pw);
 		if(userService.deleteUser(deleteUserInfo)) {
