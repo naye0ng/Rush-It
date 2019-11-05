@@ -45,19 +45,10 @@ export default {
                 'keyword' : state.map.search
             };
 
-            // axios.get(url + "/toilet/", {
-            //     body : params,  
-            //     headers : { 'Content-Type' : 'application/'}
-            // }).then(response => {
-            //     console.log(response)
-            //     commit('setMapPlaceList', response);
-            // })
-            // x : latlng.getLat()
-            // y : latlng.getLng()
-
-            // console.log(latlng + bounds)
-
-            // api 요청 보낸 후, list 받아오기
+            axios.post(url + "/toilet/", params)
+            .then(response => {
+                commit('setMapPlaceList', response.data.toiletList);
+            })
         });
 
     }
