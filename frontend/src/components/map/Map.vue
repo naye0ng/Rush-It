@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div id="map" style="width:100%;height:350px;" @mouseenter="here()"></div>
-    <!-- <Detail :placeDetail="placeDetail"></Detail> -->
+    <div id="map" style="width:100%;height:40vh;"></div>
   </div>
 </template>
 
@@ -15,9 +14,6 @@ export default {
   components:{
     Detail
   },
-  props:{
-    searchPlace: {type: String},
-  },
   data: function () {
     return {
       placelist : [],
@@ -26,8 +22,7 @@ export default {
   },
   computed : {
     ...mapGetters({
-      map : 'draw_map',
-      placelist : 'get_place_list'
+      map : 'draw_map'
     })
   },
   mounted: function () {

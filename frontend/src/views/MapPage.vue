@@ -2,8 +2,8 @@
   <div id = "map-page">
     <Search></Search>
     <Filters style="padding-top:10px"></Filters>
-    <Map :searchPlace="searchPlace" style="margin-top:5%;"></Map>
-    <Detail></Detail>
+    <Map style="margin-top:5%;"></Map>
+    <List></List>
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import Map from '@/components/map/Map'
 import Search from '@/components/map/Search'
 import Filters from '@/components/map/Filters'
-import Detail from '@/components/map/Detail'
+import List from '@/components/map/List'
 import store from 'vuex'
 
 export default {
@@ -20,7 +20,7 @@ export default {
     Map,
     Search,
     Filters,
-    Detail
+    List
   },
   data(){
     return {
