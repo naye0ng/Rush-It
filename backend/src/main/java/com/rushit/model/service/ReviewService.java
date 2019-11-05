@@ -20,4 +20,8 @@ public interface ReviewService {
 	
 	boolean updateReview(Review review);
 
+	HashMap<String, Object> selectRank(String id);
+
+	List<HashMap<String, Object>> selectTopTen();
+
 }

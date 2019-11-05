@@ -20,4 +20,8 @@ public interface ReviewDAO {
 	
 	boolean deleteReview(HashMap<String, String> map);
 
+	HashMap<String, Object> selectRank(String id);
+
+	List<HashMap<String, Object>> selectTopTen();
+
 }

@@ -50,6 +50,15 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.deleteReview(map);
 	}
 
+	@Override
+	public List<HashMap<String, Object>> selectTopTen(){
+		return reviewDao.selectTopTen();
+	}
+	
+	@Override
+	public HashMap<String, Object> selectRank(String id){
+		return reviewDao.selectRank(id);
+	}
 
 		
 }

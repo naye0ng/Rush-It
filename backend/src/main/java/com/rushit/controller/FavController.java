@@ -27,7 +27,7 @@ public class FavController {
 		this.favService = favService;
 	}
 	
-	@PostMapping("/fav")
+	@PostMapping("/fav")		//post
 	public HashMap<String, String> registerFav(@RequestParam String toilet_id, @RequestParam String user_id, @RequestParam int state){
 		HashMap<String, String> Container = new HashMap<>();
 		
@@ -58,6 +58,7 @@ public class FavController {
 		return Container;			
 	}
 	
+
 	@DeleteMapping("/fav")
 	public HashMap<String, String> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
 		HashMap<String, String> Container = new HashMap<>();

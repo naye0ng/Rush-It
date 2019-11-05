@@ -2,6 +2,7 @@ package com.rushit.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.User;
 
@@ -22,12 +24,18 @@ import com.rushit.model.vo.User;
 @RestController
 public class UserController {
 	private UserService userService;
+	private ReviewService rs;
 	
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
 	
+	@Autowired
+	public void setRs(ReviewService rs) {
+		this.rs = rs;
+	}
+
 	@GetMapping("/usertest")
 	public void test(HttpServletResponse response) throws IOException {
 		response.getWriter().print("hello");
@@ -46,6 +54,14 @@ public class UserController {
 			}
 		}
 		return Container;
+	}
+	
+	@GetMapping("/rank/user")
+	public HashMap<String, String> RankUser(@RequestParam String user_id){
+		HashMap<String, Object> ret = new HashMap<>();
+		List<HashMap<String, Object>> list=rs.selectTopTen();
+		HashMap<String, Object> userRank=rs.selectRank(user_id);
+		return null;
 	}
 
 	@PostMapping("/user/{id}")
