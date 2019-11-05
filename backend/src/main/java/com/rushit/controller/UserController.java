@@ -57,11 +57,18 @@ public class UserController {
 	}
 	
 	@GetMapping("/rank/user")
-	public HashMap<String, String> RankUser(@RequestParam String user_id){
+	public HashMap<String, Object> RankUser(@RequestParam String user_id){
 		HashMap<String, Object> ret = new HashMap<>();
-		List<HashMap<String, Object>> list=rs.selectTopTen();
 		HashMap<String, Object> userRank=rs.selectRank(user_id);
-		return null;
+		userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
+		List<HashMap<String, Object>> list=rs.selectTopTen();
+		for(int i=0; i<list.size(); i++) {
+			HashMap<String, Object> hash= list.get(i);
+			hash.put("ranking", Math.round((Double) hash.get("ranking")));
+		}
+		ret.put("rank", list);
+		ret.put("myrank", userRank);
+		return ret;
 	}
 
 	@PostMapping("/user/{id}")
