@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.rushit.model.service.ReviewService;
+import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
 
 @CrossOrigin(origins= {"*"})
@@ -34,15 +37,22 @@ import com.rushit.model.vo.Review;
 public class ReviewController {
 
 	private ReviewService rs;
+	private UserService us;
 
 	@Autowired
 	public void setRs(ReviewService rs) {
 		this.rs = rs;
 	}
 	
+	@Autowired
+	public void setUs(UserService us) {
+		this.us = us;
+	}
+
 	@PostMapping("/test")
-	public void test(@RequestParam String query) throws IOException {
-		System.out.println(query);
+	public HashMap<String, String> test(@RequestParam String query) throws IOException {
+		HashMap<String, String> hash= us.checkUser("honey");
+		return hash;
 	}
 	
 	@GetMapping("/test")
@@ -78,25 +88,36 @@ public class ReviewController {
 	}
 	
 	@PutMapping("/review")
-	public ResponseEntity<Boolean> updateReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
+	public HashMap<String, String> updateReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
 		Date currentTime = new Date();
+		HashMap<String, String> ret= new HashMap<>();
 		Review r = new Review(toilet_id, user_id, review, score, currentTime);
-		return rs.updateReview(r) ? new ResponseEntity<Boolean>(true, HttpStatus.OK) : new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+		if(rs.updateReview(r))ret.put("code", "200");
+		else ret.put("code", "301");
+		return ret;
 	}
 	
 	@RequestMapping(value="/review", method=RequestMethod.GET)
-	public ResponseEntity<List<Review>> getReivewbyToilet(@RequestParam Map<String, String> params) {
-		System.out.println(params.toString());
+	public HashMap<String, Object> getReivewbyToilet(@RequestParam HashMap<String, String> params) {
+		HashMap<String, Object> ret= new HashMap<>();
 		List<Review> list=null;
 		if(params.keySet().contains("toilet_id")) {
 			list= rs.selectReviewListByToilet(params.get("toilet_id"));
-			if(list.size()==0) return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
-			return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
+			if(list.size()==0) ret.put("code", "301");
+			else {
+				ret.put("reviews", list);
+				ret.put("code", "200");
+			}
+			return ret;
 		}
 		else if(params.keySet().contains("user_id")) {
-			list= rs.selectReviewListByToilet(params.get("user_id"));
-			if(list.size()==0) return new ResponseEntity<List<Review>>(HttpStatus.NO_CONTENT);
-			return new ResponseEntity<List<Review>>(list, HttpStatus.OK); 
+			list= rs.selectReviewListByUser(params.get("user_id"));
+			if(list.size()==0) ret.put("code", "301");
+			else {
+				ret.put("reviews", list);
+				ret.put("code", "200");
+			}
+			return ret;
 		}
 		return null;
 	}

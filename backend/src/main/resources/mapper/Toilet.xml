@@ -13,6 +13,7 @@
 		from toilet
 		where id=#{toilet_id}
 	</select>
+	
 	<delete id="deleteToilet" parameterType="String">
 		delete from toilet where id CONCAT('%',#{id},'%')
 	</delete>
