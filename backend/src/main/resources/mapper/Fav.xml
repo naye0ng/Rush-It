@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fav">
+	<select id="selectFav" parameterType="map" resultType="Fav">
+		SELECT	fav
+		FROM	fav
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id}
+	</select>
+	
+	<select id="selectIsFav" parameterType="map" resultType="boolean">
+		SELECT	fav
+		FROM	fav
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id}
+	</select>
+	
+	<update id="updateFav" parameterType="Fav">
+		UPDATE	fav f
+		SET		f.fav = #{fav}
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id} 
+	</update>
+		
+	<select id="amountOfFav" parameterType="String" resultType="int">
+		SELECT	COUNT(*)
+		FROM	fav
+		WHERE	toilet_id = #{toilet_id} AND fav = true
+	</select>
+	
+	<select id="amountOfNotFav" parameterType="String" resultType="int">
+		SELECT	COUNT(*)
+		FROM	fav
+		WHERE	toilet_id = #{toilet_id} AND fav = false
+	</select>
+	
+	<resultMap type="Fav" id="FavResultMap">
+		<result column="toilet_id" property="toilet_id" />
+		<result column="user_id" property="user_id" />
+		<result column="fav" property="fav"/>
+	</resultMap>
+	
+	<insert id="insertFav" parameterType="Fav">
+		INSERT
+		INTO	fav(toilet_id, user_id, fav)
+		VALUES(#{toilet_id}, #{user_id}, #{fav})
+	</insert>
+	
+	<delete id="deleteFav" parameterType="Fav">
+		DELETE
+		FROM	fav
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id}
+	</delete>
+</mapper>
