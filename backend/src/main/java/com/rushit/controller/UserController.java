@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,7 @@ import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.User;
 
-@CrossOrigin(origins= {"*","http://localhost:8080", "http://0.0.0.0:8080"}, allowedHeaders= {"*"})
+@CrossOrigin(origins= {"*"})
 @RestController
 public class UserController {
 	private UserService userService;
@@ -42,7 +44,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/user")
-	public HashMap<String, String> RegisterUser(@RequestParam String id, @RequestParam String pw, @RequestParam String nick, @RequestParam String gender){		
+	public ResponseEntity<HashMap<String, String>> RegisterUser(@RequestParam String id, @RequestParam String pw, @RequestParam String nick, @RequestParam String gender){		
 		HashMap<String, String> Container = new HashMap<>();
 		User newUserInfo = new User(id, nick, pw, gender);
 		Container = userService.checkUser(newUserInfo.getId());
@@ -53,11 +55,11 @@ public class UserController {
 				Container.put("code", "200");
 			}
 		}
-		return Container;
+		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
 	
 	@GetMapping("/rank/user")
-	public HashMap<String, Object> RankUser(@RequestParam String user_id){
+	public ResponseEntity<HashMap<String, Object>> RankUser(@RequestParam String user_id){
 		HashMap<String, Object> ret = new HashMap<>();
 		HashMap<String, Object> userRank=rs.selectRank(user_id);
 		userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
@@ -68,22 +70,22 @@ public class UserController {
 		}
 		ret.put("rank", list);
 		ret.put("myrank", userRank);
-		return ret;
+		return new ResponseEntity<HashMap<String, Object>>(ret, HttpStatus.OK);
 	}
 
 	@PostMapping("/user/{id}")
-	public HashMap<String, String> LoginUser(@PathVariable String id, @RequestParam String pw) {
+	public ResponseEntity<HashMap<String, String>> LoginUser(@PathVariable String id, @RequestParam String pw) {
 		HashMap<String, String> Container = new HashMap<>();
 		User loginUserInfo = new User();
 		loginUserInfo.setId(id);
 		loginUserInfo.setPw(pw);
 		
 		Container = userService.loginUser(loginUserInfo);
-		return Container;
+		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
 	
 	@PutMapping("/user/{id}")
-	public HashMap<String, String> ModifyUser(@PathVariable String id, @RequestParam String nick) {
+	public ResponseEntity<HashMap<String, String>> ModifyUser(@PathVariable String id, @RequestParam String nick) {
 		HashMap<String, String> Container = new HashMap<>();
 		User modifyUserInfo = new User();
 		modifyUserInfo.setId(id);
@@ -96,11 +98,11 @@ public class UserController {
 		else {
 			Container.put("code", "301");
 		}
-		return Container;
+		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/user/{id}")
-	public HashMap<String, String> DeleteUser(@PathVariable String id, @RequestParam String pw) {
+	public ResponseEntity<HashMap<String, String>> DeleteUser(@PathVariable String id, @RequestParam String pw) {
 		HashMap<String, String> Container = new HashMap<>();
 		User deleteUserInfo = new User();
 		deleteUserInfo.setId(id);
@@ -110,6 +112,6 @@ public class UserController {
 		} else {
 			Container.put("code", "301");
 		}
-		return Container;
+		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
 }
