@@ -11,7 +11,7 @@
 
 | Method | URL      | Params                                                       | Role                                   |
 | :----: | -------- | ------------------------------------------------------------ | -------------------------------------- |
-|  GET   | /toilet/ | user : {x, y}<br />map: { <br />    southWest : {x, y},<br />    northEast : {x,y}<br />} <br/>keyword : 키워드(예. 강남구) | map범위 내에 있는 전체 화장실 목록조회 |
+|  POST  | /toilet/ | user : {x, y}<br />map: { <br />    southWest : {x, y},<br />    northEast : {x,y}<br />} <br/>keyword : 키워드(예. 강남구) | map범위 내에 있는 전체 화장실 목록조회 |
 
 ```json
 // Params
