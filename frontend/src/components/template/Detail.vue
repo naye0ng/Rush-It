@@ -12,22 +12,22 @@
       </b-row>
     </b-container>
     <b-container class="toilet-info">  
-      <b-row class="boder-bottom"> 
+      <b-row class="boder-bottom" align-v="center"> 
         <b-col class="toilet-score">
           <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=1 }"/>
           <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=2 }"/>
           <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=3 }"/>
           <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=4 }"/>
           <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score==5 }"/>
-          <span class="task-txt">( {{toilet.score}}점 )</span>
+          <span class="task-txt">( {{toilet_detail.score}}점 )</span>
           </b-col>
         <b-col cols="2" class="text-right default-btn">
           <font-awesome-icon icon="thumbs-up"/>
-          {{ like }}
+          {{ toilet_detail.like }}
         </b-col>
         <b-col cols="2" class="text-right default-btn">
           <font-awesome-icon icon="thumbs-down"/>
-          {{ dislike }}
+          {{ toilet_detail.dislike }}
         </b-col>
       </b-row>
       <b-row>
@@ -36,11 +36,11 @@
       </b-row>
       <b-row>
         <b-col class="into-title" cols="3">개방시간</b-col>
-        <b-col>{{ time }}</b-col>
+        <b-col>{{ toilet_detail.time }}</b-col>
       </b-row>
       <b-row>
         <b-col class="into-title" cols="3">전화번호</b-col>
-        <b-col>{{ telephone }}</b-col>
+        <b-col>{{ toilet_detail.telephone }}</b-col>
       </b-row>
     </b-container>
   </div>
@@ -54,12 +54,30 @@ export default {
   },
   data(){
     return {
-      time:'오전 12시부터 24시',
-      telephone: '010-123-1234',
-      dislike: 2,
-      like:10,
-      //여긴 다른 API임
-      userStatus:1,
+      // 여기도 전부 API 콜임
+      toilet_detail:{
+        time:'오전 12시부터 24시',
+        telephone: '010-123-1234',
+        dislike: 2,
+        like:10,
+        score: 5,
+      },
+      //여긴 유저가 좋아요를 했는가?
+      isLike:1,
+      // 리뷰
+      reviews:[
+        {
+          score : 4,
+          review : "나름 사용하기 좋네요ㅎㅎ",
+          time : "2019-08-11"
+        }, 
+          {
+          score : 3.5,
+          review : "나름 사용하기 좋네요 하핫!",
+          time : "2019-08-22"
+        }, 
+      ]
+
     }
   }
 }
@@ -78,7 +96,7 @@ export default {
   padding: 1.5rem 1rem;
   margin: 0;
   text-align: left;
-  background: rgb(233,236,241);
+  background: #ffffff;
 }
 .toilet-title{
   margin: 1rem 0 1.5rem;
@@ -91,30 +109,17 @@ export default {
 .toilet-title .title-desc{
   margin-top: 5px;
   font-size: 0.9rem;
-  color:rgb(44, 62, 80, 0.8);
+  color:#888;
 }
 .title-desc .service{
   height:20px;
-  font-size: 1rem;
-  color: #2c3e50;
+  font-size: 0.85rem;
+  color:#888;
 }
 .title-desc .notService{
   position:relative;
   color:rgb(44, 62, 80, 0.2);
 }
-/* .title-desc .notService::after{
-  content: "";
-  position: absolute;
-  width:20px;
-  top: 0;
-  bottom: 0;
-  left: 0.7rem;
-  background-image: url("../../assets/notService.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-} */
-
 #detail-card .toilet-info{
   padding: 0.5rem;
   background: #ffffff;
@@ -131,19 +136,23 @@ export default {
 #detail-card .toilet-info .into-txt{
   overflow: hidden;
 }
-.row.boder-bottom{
+#detail-card .toilet-info .row.boder-bottom{
   border-bottom: 1px solid #ddd;
-  margin-bottom: 0.5rem;
+  border-top: 1px solid #ddd;
+  padding: 5px 0.3rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.7rem;
+
 }
-.row.boder-bottom .col{
-  margin-bottom: 0.3rem;
+#detail-card .toilet-info .row.boder-bottom .col{
+  margin: 0.3rem 0;
 }
 .default-btn{
   font-weight: 600;
   color: #888;
 }
 .toilet-score {
-  font-size: 10px;
+  font-size: 0.65rem;
   display: block;
   color: #888;
 }

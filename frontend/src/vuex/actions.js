@@ -3,74 +3,88 @@ import axios from 'axios'
         const url = "http://13.125.1.123:8080"
         export default {
             asyncSignIn({ commit }, payload) {
+                var data = JSON.stringify({
+                    "user": {
+                      "x": 37.50055141806106,
+                      "y": 127.03794184626457
+                    },
+                    "map": {
+                      "southWest": {
+                        "x": 37.49739917613735,
+                        "y": 127.03372215500326
+                      },
+                      "northEast": {
+                        "x": 37.503703507363795,
+                        "y": 127.04216189229597
+                      }
+                    },
+                    "keyword": ""
+                  });
+                  
                
-                axios.post(url + '/test/', {
-                    'query': payload.pw,
-                }, {headers: {'Content-Type': 'multipart/form-data'}}).then(function (response) {
+                axios.get(url + '/toilet/', {data:data}, {headers: {'Content-Type': 'multipart/form-data'}}).then(function (response) {
                         console.log(response);
                     }).catch(function (error) {
                         console.log("d")
                     })
-                // let config ={
-                //     'Content-Type': 'multipart/form-data',
-                //     'Access-Control-Allow-Origin': '*',
-                //     "Access-Control-Allow-Methods" :"GET,PUT,POST,DELETE",
-                //     "Access-Control-Allow-Credentials": true,
-                //     "Access-Control-Allow-Headers":"Origin, X-Requested-With, Content-Type, Accept",
-
-                // };
-                // let data = { pw: "test" };
-
-                // axios({
-                //     method: "post",
-                //     url: "http://13.125.1.123:8080/user/test/",
-                //     data: data,
-                //     headers: config
-                // }).then(function (response) {
-                //     console.log(response);
-                // }).catch(function (error) {
-                //     console.log("d")
-                //     if (error.response) {
-                    
-                //         console.log(1,error.response.data);
-                //         console.log(2,error.response.status);
-                //         console.log(3,error.response.headers);
-                //     } else if (error.request) {
-                //         console.log(4,error.request);
-                //         console.log(5,error)
-                //     } else {
-                //         console.log('Error', error.message);
+                // axios. axios({
+                //     method: "get",
+                //     url: "http://13.125.1.123:8080/toilet/",
+                //     params: {
+                //     username: this.state.username,
+                //     password: this.state.password
                 //     }
-                //     console.log(error.config);
-                // });
-        // console.log(payload)
-        // axios.post(url + '/user/' + payload.id + '/', {
-        //     'pw': payload.pw,
-        // }, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //         'crossdomain': true,
-        //     }
-        // })
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log("dfghgfdcx")
-        //         console.log(error);
-        //     });
+                //     }).then(res => console.log(res.data));
+                // axios.get(url + '/toilet/', {
+                //     body:{
+                //     user : {
+                //         x : 37.50055141806106,
+                //         y : 127.03794184626457
+                //     },
+                //     map : {
+                //         southWest : {
+                //             x : 37.49739917613735,
+                //             y : 127.03372215500326
+                //         },
+                //         northEast : {
+                //             x : 37.503703507363795,
+                //             y : 127.04216189229597
+                //         }
+                //     },
+                //     keyword : ""
+                // }}, {headers: {'Content-Type': 'multipart/form-data'}}).then(function (response) {
+                //         console.log(response);
+                //     }).catch(function (error) {
+                //         console.log(error)
+                //     })
+                
+                //   var xhr = new XMLHttpRequest();
+                //   xhr.withCredentials = true;
+                  
+                //   xhr.addEventListener("readystatechange", function () {
+                //     if (this.readyState === 4) {
+                //       console.log("sadfghvjbk",this);
+                //     }
+                //   });
+                  
+                //   xhr.open("GET", "http://13.125.1.123:8080/toilet/");
+                //   xhr.setRequestHeader("Content-Type", "application/json");
+                //   xhr.setRequestHeader("Access-Control-Allow-Origin", "* ");
+                //   xhr.setRequestHeader("Access-Control-Allow-Credentials",true);
+                //   xhr.setRequestHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+                //   xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        // axios.post(url+'/user/'+payload.id, data, {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     }
-        // }).then(function (response) {
-        //     console.log(response);
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
-        //로그인처리할 것
+                //   xhr.setRequestHeader("Accept", "*/*");
+                //   xhr.setRequestHeader("Cache-Control", "no-cache");
+                //   xhr.setRequestHeader("Host", "http://13.125.1.123:8080");
+                //   xhr.setRequestHeader("Accept-Encoding", "gzip, deflate");
+                //   xhr.setRequestHeader("Content-Length", "349");
+                //   xhr.setRequestHeader("Connection", "keep-alive");
+                //   xhr.setRequestHeader("cache-control", "no-cache");
+                //   xhr.withCredentials = true;
+                //   xhr.send(data);
+
+        // 자동로그인 처리      
         return false
         // if (payload.signIn_id && payload.signIn_pw){
         //     console.log("비어있지 않다")
