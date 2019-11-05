@@ -50,7 +50,9 @@ public class ReviewController {
 	}
 
 	@PostMapping("/test")
-	public HashMap<String, String> test(@RequestParam String query) throws IOException {
+	public HashMap<String, String> test(@RequestBody String query) throws IOException {
+		System.out.println(query);
+
 		HashMap<String, String> hash= us.checkUser("honey");
 		return hash;
 	}

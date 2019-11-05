@@ -1,6 +1,6 @@
 import qs from 'qs';
 import axios from 'axios'
-                
+              
 const url = "http://localhost:8080"
 export default {
     asyncSignIn({ commit }, payload) {
@@ -102,21 +102,38 @@ export default {
                 'keyword' : state.map.search
             };
 
-            // axios.get(url + "/toilet/", {
-            //     body : params,  
-            //     headers : { 'Content-Type' : 'application/'}
-            // }).then(response => {
-            //     console.log(response)
-            //     commit('setMapPlaceList', response);
-            // })
-            // x : latlng.getLat()
-            // y : latlng.getLng()
-
-            // console.log(latlng + bounds)
-
-            // api 요청 보낸 후, list 받아오기
+            axios.post(url + "/toilet/", params)
+            .then(response => {
+                commit('setMapPlaceList', response.data.toiletList);
+            })
         });
 
+    },
+    asyncSearchMap({commit, state}, payload) {
+        commit('setMapSearch', payload)
+
+        // 지도의 중심좌표를 얻어옵니다 
+        var latlng = state.map.draw_map.getCenter();
+        // 영역 정보
+        var bounds = state.map.draw_map.getBounds();
+        // 남서쪽 정보
+        var sw = bounds.getSouthWest();
+        // 북동쪽 정보
+        var ne = bounds.getNorthEast();
+
+        var params = {
+            'user' : { 'x' : latlng.getLat(), 'y' : latlng.getLng() },
+            'map' : {
+                'southWest' : { 'x' : sw.getLat(), 'y' : sw.getLng() },
+                'northEast' : { 'x' : ne.getLat(), 'y' : ne.getLng() }
+            },
+            'keyword' : state.map.search
+        };
+
+        axios.post(url + "/toilet/", params)
+        .then(response => {
+            commit('setMapPlaceList', response.data.toiletList);
+        })
     }
 }
 

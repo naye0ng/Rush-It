@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.UserService;
@@ -53,53 +54,41 @@ public class UserController {
 				Container.put("id", newUserInfo.getId());
 				Container.put("nick", newUserInfo.getNick());
 				Container.put("code", "200");
-				Container.put("message", "Register user success");
 			}
-		} else {
-			Container.put("message", "Duplicate user id");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/rank/user")
-	public HashMap<String, Object> RankUser(@RequestParam String user_id){
+	public ResponseEntity<HashMap<String, Object>> RankUser(@RequestParam String user_id){
 		HashMap<String, Object> ret = new HashMap<>();
 		HashMap<String, Object> userRank=rs.selectRank(user_id);
+		userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
 		List<HashMap<String, Object>> list=rs.selectTopTen();
 		System.out.println(list.toString());
+		System.out.println(userRank.toString());
 		for(int i=0; i<list.size(); i++) {
 			HashMap<String, Object> hash= list.get(i);
 			hash.put("ranking", Math.round((Double) hash.get("ranking")));
 		}
-		if(list.size()==0) {
-			ret.put("rank", "리뷰가 없습니다.");
-		}
-		else {
-			ret.put("rank",list);
-		}
-		if(userRank==null) {
-			ret.put("myrank", "꼴등");
-		}
-		else {
-			userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
-			ret.put("myrank", userRank);
-		}
-		ret.put("code", 200);
-		
-		return ret;
+		ret.put("rank", list);
+		ret.put("myrank", userRank);
+		return new ResponseEntity<HashMap<String, Object>>(ret, HttpStatus.OK);
 	}
 
 	@PostMapping("/user/{id}")
-	public ResponseEntity<HashMap<String, String>> LoginUser(@PathVariable String id, @RequestParam String pw) {
-		HashMap<String, String> Container = new HashMap<>();
+	public ResponseEntity<HashMap<String, String>> LoginUser(@PathVariable String id, @RequestBody HashMap<String, String> body) {
+
+	    System.out.println("Controller " + id + " " + body.get("pw"));
+	    HashMap<String, String> Container = new HashMap<>();
 		User loginUserInfo = new User();
 		loginUserInfo.setId(id);
 		loginUserInfo.setPw(pw);
-		
+
 		Container = userService.loginUser(loginUserInfo);
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/user/{id}")
 	public ResponseEntity<HashMap<String, String>> ModifyUser(@PathVariable String id, @RequestParam String nick) {
 		HashMap<String, String> Container = new HashMap<>();
@@ -110,15 +99,13 @@ public class UserController {
 			Container.put("code", "200");
 			Container.put("id", id);
 			Container.put("nick", nick);
-			Container.put("message", "Update user nickname success");
-		}	
+		}
 		else {
 			Container.put("code", "301");
-			Container.put("message", "User doesn't Exist");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/user/{id}")
 	public ResponseEntity<HashMap<String, String>> DeleteUser(@PathVariable String id, @RequestParam String pw) {
 		HashMap<String, String> Container = new HashMap<>();
@@ -127,10 +114,8 @@ public class UserController {
 		deleteUserInfo.setPw(pw);
 		if(userService.deleteUser(deleteUserInfo)) {
 			Container.put("code", "200");
-			Container.put("message", "Delete user success");
 		} else {
 			Container.put("code", "301");
-			Container.put("message", "User doesn't Exist");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}

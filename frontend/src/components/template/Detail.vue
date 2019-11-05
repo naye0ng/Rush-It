@@ -46,7 +46,7 @@
       </b-container>
       <b-container class="toilet-review"> 
         <b-row class="review-cnt" >총 {{reviews.length}}개의 리뷰가 있어요.</b-row>
-        <b-row class="review-sec" v-for="(review, index) in reviews" > 
+        <b-row class="review-sec" v-for="(review, index) in reviews" :key="index"> 
           <b-col cols="2">
             <div class="user-img">
               <img src="../../assets/user.png">
