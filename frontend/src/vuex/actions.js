@@ -5,43 +5,31 @@ const url = "http://localhost:8080"
 export default {
     asyncSignIn({ commit }, payload) {
         if (payload.id && payload.pw) {
-            console.log("응")
-            // axios.post(url + "/test/",{query:'test'}).then(response => {
-            //     console.log("dsfgb",response.data)
-            // }).catch(error=>{
-            //     console.log("dsfghj")
-            //     console.log(error)
-            // })
-            // const data = {
-            //     'user' : { 'x' : 37.50055141806106, 'y' : 127.03794184626457 },
-            //     'map' : {
-            //         'southWest' : { 'x' : 37.49739917613735, 'y' : 127.03372215500326 },
-            //         'northEast' : { 'x' : 37.503703507363795, 'y' : 127.04216189229597 }
-            //     },
-            //     'keyword' : ""
-            // };
-            // const options = {
-            // method: 'POST',
-            // data: qs.stringify(data),
-            // url: 'http://localhost:8080/toilet/'
-            // };
-            // axios(options);
             const data = {
-                'pw' : 'test'
+                pw : 'test'
             };
             const options = {
             method: 'POST',
             data: qs.stringify(data),
-            url: 'http://localhost:8080/user/test/'
+            url: 'http://localhost:8080/user/test'
             };
-            axios(options).then(response => {
-                console.log('sdsddssdfv')
+            axios.post('http://127.0.0.1:8080/user/test', {
+                'pw': 'test',
+              }).then(response => {
                 console.log("dsfgb",response.data)
-                // commit('setMapPlaceList', response);
             }).catch(error=>{
-                console.log("dsfghj")
+                // console.log("dsfghj")
                 console.log(error)
             })
+
+            // axios.post('http://localhost:8080/user/test',{data}).then(response => {
+            //     console.log('sdsddssdfv')
+            //     console.log("dsfgb",response.data)
+            //     // commit('setMapPlaceList', response);
+            // }).catch(error=>{
+            //     console.log("dsfghj")
+            //     console.log(error)
+            // })
             
             // axios.post(url + "/toilet/", params).then(response => {
             //     console.log('sdsddssdfv')
