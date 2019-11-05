@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = "http://13.125.1.123:8080"
+const url = "http://localhost:8080"
 export default {
     asyncSignIn({ commit }, payload) {
         if (payload.signIn_id && payload.signIn_pw) {

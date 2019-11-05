@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="map" style="width:100%;height:350px;" @mouseenter="here()"></div>
-    <Detail :placeDetail="placeDetail"></Detail>
+    <!-- <Detail :placeDetail="placeDetail"></Detail> -->
   </div>
 </template>
 
