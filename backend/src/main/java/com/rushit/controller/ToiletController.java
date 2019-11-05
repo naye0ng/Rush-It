@@ -177,35 +177,13 @@ public class ToiletController {
 		//해당 유저가 좋아요 했는지 여부
 		int userLove=0;
 		//review를  먼저 갔다와서 평가 했는지 안했는지 여부를 먼저 확인한다.
+		
 		if(fs.selectFav(map)==null) userLove=0; 
 		else if(fs.selectIsFav(map))userLove=1;
 		else if(!fs.selectIsFav(map))userLove=-1;
 		//전체 좋아요 갯수
-		int likeCount=fs.toiletFavCnt(toilet_id);
-		//전체 싫어요 갯수
-		int dislikeCount=fs.toiletNotFavCnt(toilet_id);
-		//리뷰 리스트
-		ArrayList<Review> reviewList= (ArrayList<Review>) rs.selectReviewListByToilet(toilet_id);
-		double reviewTotal=0;
-		for(int i=0; i<reviewList.size(); i++) {
-			reviewTotal+=reviewList.get(i).getRating();
-		}
-		reviewTotal/=reviewList.size();
-		reviewTotal=Math.round((reviewTotal*10))/10.0;
-		//telephone, handicapped, state, time을 toilet_id로 조회
-		Toilet t=ts.selectToilet(toilet_id);
 		
-		//hashmap을 사용하여 key,value로 값으로 front에 전달한다.
-		ret.put("toilet_id", toilet_id);
-		ret.put("likeCount", likeCount);
-		ret.put("dislikeCount", dislikeCount);
-		ret.put("reviewList", reviewList);
-		ret.put("reviewTotal", reviewTotal);
 		ret.put("userLove", userLove);
-		ret.put("telephone", t.getTelephone());
-		ret.put("handicapped", t.isHandicapped());
-		ret.put("state", t.getState());
-		ret.put("time", t.getTime());
 		ret.put("code", "200");
 		return ret;
 	}
