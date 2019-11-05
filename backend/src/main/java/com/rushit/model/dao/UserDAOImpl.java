@@ -25,10 +25,10 @@ public class UserDAOImpl implements UserDAO {
 		User user = session.selectOne("user.loginUser", loginUserInfo);
 		System.out.println("DAO " + user.getId() + " " + user.getNick());
 		HashMap<String, String> Container = new HashMap<>();
-
-			Container.put("code", "200");
-			Container.put("id", user.getId());
-			Container.put("nick", user.getNick());
+		Container.put("code", "200");
+		Container.put("id", user.getId());
+		Container.put("nick", user.getNick());
+		
 		return Container;
 	}
 
