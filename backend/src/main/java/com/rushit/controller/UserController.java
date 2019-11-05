@@ -3,6 +3,7 @@ package com.rushit.controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,7 +46,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/user")
-	public ResponseEntity<HashMap<String, String>> RegisterUser(@RequestParam String id, @RequestParam String pw, @RequestParam String nick, @RequestParam String gender){		
+	public ResponseEntity<HashMap<String, String>> RegisterUser(String id, String pw, String nick, String gender){		
 		HashMap<String, String> Container = new HashMap<>();
 		User newUserInfo = new User(id, nick, pw, gender);
 		Container = userService.checkUser(newUserInfo.getId());
@@ -90,7 +92,7 @@ public class UserController {
 	}
 
 	@PostMapping("/user/{id}")
-	public ResponseEntity<HashMap<String, String>> LoginUser(@PathVariable String id, @RequestParam String pw) {
+	public ResponseEntity<HashMap<String, String>> LoginUser(@PathVariable String id, String pw) {
 		HashMap<String, String> Container = new HashMap<>();
 		User loginUserInfo = new User();
 		loginUserInfo.setId(id);
@@ -120,7 +122,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/user/{id}")
-	public ResponseEntity<HashMap<String, String>> DeleteUser(@PathVariable String id, @RequestParam String pw) {
+	public ResponseEntity<HashMap<String, String>> DeleteUser(@PathVariable String id, String pw) {
 		HashMap<String, String> Container = new HashMap<>();
 		User deleteUserInfo = new User();
 		deleteUserInfo.setId(id);
