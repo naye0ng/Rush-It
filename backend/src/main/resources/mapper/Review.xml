@@ -23,15 +23,7 @@
 		ORDER BY timestamp ASC;
 	</select>
 	
-	<resultMap type="" id="">
-		<id column="id" property="id"/>
-		<result column="toilet_id" property="toilet_id"/>
-		<result column="user_id" property="user_id"/>
-		<result column="review" property="review"/>
-		<result column="rating" property="rating"/>
-		<result column="timestamp" property="timestamp"/>
-	</resultMap>
-	
+
 	<update id="updateReview" parameterType="review">
 		UPDATE review
 		SET review = #{review}
@@ -54,8 +46,24 @@
 		<result column="timestamp" property="timestamp"/>
 	</resultMap>
 	
-	<select id="SelectReviewRank" parameterType="String">
-		select user_id, @count := @count+1 as ranking, a.reviewCount
+	<resultMap id="reviewRanking" type="hashmap">
+		<id column="user_id" property="user_id"/>
+		<result column="ranking" property="ranking"/>
+		<result column="reviewCount" property="reviewCount"/>
+	</resultMap>
+	
+	<select id="selectTopTen" resultMap="reviewRanking">
+		select user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount
+		from( 
+		SELECT toilet_id, user_id, count(user_id) as reviewCount
+		from review
+		group by user_id
+		order by count(user_id) desc
+		)as a, (select @count:=0) as b
+	</select>
+	
+	<select id="selectReviewRank" parameterType="String" resultType="hashmap">
+		select user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount
 		from( 
 		SELECT toilet_id, user_id, count(user_id) as reviewCount
 		from review
