@@ -2,6 +2,7 @@ package com.rushit.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.User;
 
@@ -22,12 +24,18 @@ import com.rushit.model.vo.User;
 @RestController
 public class UserController {
 	private UserService userService;
+	private ReviewService rs;
 	
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
 	
+	@Autowired
+	public void setRs(ReviewService rs) {
+		this.rs = rs;
+	}
+
 	@GetMapping("/usertest")
 	public void test(HttpServletResponse response) throws IOException {
 		response.getWriter().print("hello");
@@ -46,6 +54,21 @@ public class UserController {
 			}
 		}
 		return Container;
+	}
+	
+	@GetMapping("/rank/user")
+	public HashMap<String, Object> RankUser(@RequestParam String user_id){
+		HashMap<String, Object> ret = new HashMap<>();
+		HashMap<String, Object> userRank=rs.selectRank(user_id);
+		userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
+		List<HashMap<String, Object>> list=rs.selectTopTen();
+		for(int i=0; i<list.size(); i++) {
+			HashMap<String, Object> hash= list.get(i);
+			hash.put("ranking", Math.round((Double) hash.get("ranking")));
+		}
+		ret.put("rank", list);
+		ret.put("myrank", userRank);
+		return ret;
 	}
 
 	@PostMapping("/user/{id}")
