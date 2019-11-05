@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="map" style="width:100%;height:350px;" @mouseenter="here()"></div>
-    <Detail :placeDetail="placeDetail"></Detail>
+    <!-- <Detail :placeDetail="placeDetail"></Detail> -->
   </div>
 </template>
 
@@ -26,14 +26,15 @@ export default {
   },
   computed : {
     ...mapGetters({
-      map : 'draw_map'
+      map : 'draw_map',
+      placelist : 'get_place_list'
     })
   },
   mounted: function () {
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
     
     // 사용자의 위치를 기반으로 map을 그린다.
-    this.$store.commit('setMap', mapContainer);
+    this.$store.dispatch('asyncMakeMap', mapContainer);
   },
   watch:{
     

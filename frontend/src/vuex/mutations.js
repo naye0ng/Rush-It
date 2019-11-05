@@ -9,8 +9,6 @@ function setUserMarker(state) {
     image : state.map.user_marker_image
   });
 
-  console.log(state.map.user_marker_image)
-  console.log(state.map.user_marker_image instanceof kakao.maps.MarkerImage)
   state.map.user_marker.setMap(state.map.draw_map);
 };
 
@@ -30,10 +28,7 @@ export default {
     },
     setMapPoint(state,payload) {
         var moveLatLon = new kakao.maps.LatLng(state.map.user_loc.x, state.map.user_loc.y);
-        console.log("현재위치 : ", state.map.user_loc)
-
         // setUserMarker(state);
-
         state.map.draw_map.panTo(moveLatLon); 
     },
     setUserPoint(state, payload) {
@@ -55,37 +50,9 @@ export default {
         }
     },
     setMap(state, payload) {
-      // 맵 생성
-
-      // payload = document.getElementById('map');
-      var mapOption = {
-        center : new kakao.maps.LatLng(state.map.user_loc.x, state.map.user_loc.y),
-        level : 3
-      };
-
-      state.map.draw_map = new kakao.maps.Map(payload, mapOption);
-
-      // 지도가 움직일 때 Event Listener 달기
-      kakao.maps.event.addListener(state.map.draw_map, 'center_changed', function() {
-        // 지도의 중심좌표를 얻어옵니다 
-        var latlng = state.map.draw_map.getCenter(); 
-
-        // 영역 정보
-        var bounds = state.map.draw_map.getBounds();
-
-        // 남서쪽 정보
-        var sw = bounds.getSouthWest();
-        
-        // 북동쪽 정보
-        var ne = bounds.getNorthEast();
-        
-        // x : latlng.getLat()
-        // y : latlng.getLng()
-    
-        console.log(latlng + bounds)
-
-        // api 요청 보낸 후, list 받아오기
-    });
-
+      state.map.draw_map = payload;
+    },
+    setMapPlaceList(state, payload) {
+      state.map.place_list = payload;
     }
 }
