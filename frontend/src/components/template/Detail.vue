@@ -6,9 +6,9 @@
         <b-col v-if="toilet.type == 2">카페</b-col>
         <b-col v-else-if="toilet.type == 3">패스트푸드</b-col>
         <b-col v-else>공공화장실</b-col>
-        <b-col cols="1" class="service text-center" v-bind:class="{notService: !toilet.handicapped}"><font-awesome-icon icon="wheelchair"/></b-col>
-        <b-col cols="1" class="service text-center" v-bind:class="{notService: !toilet.bell}"><font-awesome-icon icon="bell"/></b-col>
-        <b-col cols="1" class="service text-center" v-bind:class="{notService: !toilet.diaper}"><font-awesome-icon icon="baby"/></b-col>
+        <b-col cols="1" class="service text-center" v-bind:class="{notService: toilet.handicapped == 0}"><font-awesome-icon icon="wheelchair"/></b-col>
+        <b-col cols="1" class="service text-center" v-bind:class="{notService: toilet.bell == 0}"><font-awesome-icon icon="bell"/></b-col>
+        <b-col cols="1" class="service text-center" v-bind:class="{notService: toilet.diaper == 0}"><font-awesome-icon icon="baby"/></b-col>
       </b-row>
       <b-row class="boder-top-bottom" align-v="center"> 
         <b-col class="toilet-score">
@@ -46,7 +46,7 @@
       </b-container>
       <b-container class="toilet-review"> 
         <b-row class="review-cnt" >총 {{reviews.length}}개의 리뷰가 있어요.</b-row>
-        <b-row class="review-sec" v-for="(review, index) in reviews" > 
+        <b-row class="review-sec" v-for="(review, index) in reviews" :key="index"> 
           <b-col cols="2">
             <div class="user-img">
               <img src="../../assets/user.png">

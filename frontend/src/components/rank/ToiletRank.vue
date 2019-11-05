@@ -7,6 +7,7 @@
       v-if="toilet_rank"
       v-for="(toilet, index) in toilet_rank"
       @click="showDetail(index)"
+      :key="index"
     >
       <b-col>{{index + 1}}위</b-col>
       <b-col cols="6">{{toilet.name}}</b-col>
