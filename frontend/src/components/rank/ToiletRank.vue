@@ -49,7 +49,7 @@ export default {
       const url = "http://localhost:8080"
       axios.get(url+"/rank/toilet")
       .then(response => {
-          this.toilet_rank = response.data
+          this.toilet_rank = response.data ||[]
       }).catch(error=>{
           console.log(error)
       })
