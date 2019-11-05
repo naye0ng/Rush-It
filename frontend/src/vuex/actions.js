@@ -1,10 +1,78 @@
+import qs from 'qs';
 import axios from 'axios'
-
+                
 const url = "http://localhost:8080"
 export default {
     asyncSignIn({ commit }, payload) {
-        if (payload.signIn_id && payload.signIn_pw) {
-            console.log("비어있지 않다")
+        if (payload.id && payload.pw) {
+            console.log("응")
+            // axios.post(url + "/test/",{query:'test'}).then(response => {
+            //     console.log("dsfgb",response.data)
+            // }).catch(error=>{
+            //     console.log("dsfghj")
+            //     console.log(error)
+            // })
+            // const data = {
+            //     'user' : { 'x' : 37.50055141806106, 'y' : 127.03794184626457 },
+            //     'map' : {
+            //         'southWest' : { 'x' : 37.49739917613735, 'y' : 127.03372215500326 },
+            //         'northEast' : { 'x' : 37.503703507363795, 'y' : 127.04216189229597 }
+            //     },
+            //     'keyword' : ""
+            // };
+            // const options = {
+            // method: 'POST',
+            // data: qs.stringify(data),
+            // url: 'http://localhost:8080/toilet/'
+            // };
+            // axios(options);
+            const data = {
+                'pw' : 'test'
+            };
+            const options = {
+            method: 'POST',
+            data: qs.stringify(data),
+            url: 'http://localhost:8080/user/test/'
+            };
+            axios(options).then(response => {
+                console.log('sdsddssdfv')
+                console.log("dsfgb",response.data)
+                // commit('setMapPlaceList', response);
+            }).catch(error=>{
+                console.log("dsfghj")
+                console.log(error)
+            })
+            
+            // axios.post(url + "/toilet/", params).then(response => {
+            //     console.log('sdsddssdfv')
+            //     console.log("dsfgb",response.data)
+            //     // commit('setMapPlaceList', response);
+            // }).catch(error=>{
+            //     console.log("dsfghj")
+            //     console.log(error)
+            // })
+            // axios.post(url + '/user/test/', {pw:'test'}).then(function (response) {
+            //     console.log(response);
+            // }).catch(function (error) {
+            //     console.log("d")
+            // })
+        // axios. axios({
+        //     method: "get",
+        //  {headers: {'Content-Type': 'multipart/form-data'}}
+        //     url: "http://13.125.1.123:8080/toilet/",
+        //     params: {
+        //     username: this.state.username,
+        //     password: this.state.password
+        //     }
+        //     }).then(res => console.log(res.data));
+
+            // 자동로그인 처리      
+            return false
+            // if (payload.signIn_id && payload.signIn_pw){
+            //     console.log("비어있지 않다")
+            //     // auto login이 true이면 로컬 스토리지에 저장하자
+
+            // }
             // auto login이 true이면 로컬 스토리지에 저장하자
 
         }
@@ -53,3 +121,7 @@ export default {
 
     }
 }
+
+
+
+

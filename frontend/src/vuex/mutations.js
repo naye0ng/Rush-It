@@ -32,6 +32,7 @@ export default {
         state.currentPage = payload
     },
     setAuthentication(state, payload){
+        console.log(payload)
         for(var key in payload){
             state.authentication[key] = payload[key]
         }

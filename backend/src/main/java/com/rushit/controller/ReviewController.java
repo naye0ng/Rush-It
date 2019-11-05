@@ -29,6 +29,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.rushit.model.service.ReviewService;
+import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
 
 @CrossOrigin(origins= {"*"})
@@ -36,15 +37,22 @@ import com.rushit.model.vo.Review;
 public class ReviewController {
 
 	private ReviewService rs;
+	private UserService us;
 
 	@Autowired
 	public void setRs(ReviewService rs) {
 		this.rs = rs;
 	}
 	
+	@Autowired
+	public void setUs(UserService us) {
+		this.us = us;
+	}
+
 	@PostMapping("/test")
-	public void test(@RequestParam String query) throws IOException {
-		System.out.println(query);
+	public HashMap<String, String> test(@RequestParam String query) throws IOException {
+		HashMap<String, String> hash= us.checkUser("honey");
+		return hash;
 	}
 	
 	@GetMapping("/test")

@@ -53,24 +53,29 @@
 	</resultMap>
 	
 	<select id="selectTopTen" resultMap="reviewRanking">
-		select user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount
+		select user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount, a.nick
 		from( 
-		SELECT toilet_id, user_id, count(user_id) as reviewCount
-		from review
+		SELECT r.user_id, count(r.user_id) as reviewCount, u.nick
+		from review r
+		join user u
+		on r.user_id=u.id
 		group by user_id
 		order by count(user_id) desc
 		)as a, (select @count:=0) as b
 	</select>
 	
 	<select id="selectReviewRank" parameterType="String" resultType="hashmap">
-		select user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount
+		select a.user_id, @count := @count+1 as ranking, a.reviewCount as reviewCount, a.nick
 		from( 
-		SELECT toilet_id, user_id, count(user_id) as reviewCount
-		from review
+		SELECT r.user_id, count(r.user_id) as reviewCount, u.nick
+		from review r 
+		join user u
+		on r.user_id=u.id
 		group by user_id
 		order by count(user_id) desc
+		limit 10
 		)as a, (select @count:=0) as b
-		where user_id=#{user_id}	
+		where a.user_id=#{user_id}
 	</select>	
 	
 

@@ -8,6 +8,7 @@
 		<typeAlias type="com.rushit.model.vo.Review" alias="Review"/>
 		<typeAlias type="com.rushit.model.vo.Toilet" alias="Toilet"/>
 		<typeAlias type="com.rushit.model.vo.User" alias="User"/>
+		<typeAlias type="com.rushit.model.vo.tRank" alias="tRank"/>
 	</typeAliases>
 	
 	<mappers>
@@ -15,5 +16,6 @@
 		<mapper resource="mapper/Review.xml"/>
 		<mapper resource="mapper/Toilet.xml"/>
 		<mapper resource="mapper/User.xml"/>
+		<mapper resource="mapper/Rank.xml"/>
 	</mappers>
 </configuration>

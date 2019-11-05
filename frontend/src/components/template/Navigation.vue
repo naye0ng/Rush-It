@@ -70,7 +70,19 @@ export default {
         }else{
           this.$store.commit("setAuthentication", { isActive: true });
         }
-        
+      }else if(target === 3){
+        if (this.isLogin) {
+          this.$router.push({ name: "HomePage" });
+        }else if(target === this.currentMenu){
+          if(this.isActive){
+            this.$store.commit("setAuthentication", { isActive: false });
+          }else{
+            this.$store.commit("setAuthentication", { isActive: true });
+          }
+        }else{
+          this.$store.commit("setAuthentication", { isActive: true });
+        }
+
 
         // if(target === this.currentMenu){
         //   if(this.isActive){
@@ -81,26 +93,11 @@ export default {
         // }
         // else{
         //   if (this.isLogin) {
-        //     this.$router.push({ name: "MyPage" });
+        //     //this.$router.push({ name: "HomePage" });
         //   }else{
         //     this.$store.commit("setAuthentication", { isActive: true });
         //   }
         // }
-      }else if(target === 3){
-        if(target === this.currentMenu){
-          if(this.isActive){
-            this.$store.commit("setAuthentication", { isActive: false });
-          }else{
-            this.$store.commit("setAuthentication", { isActive: true });
-          }
-        }
-        else{
-          if (this.isLogin) {
-            //this.$router.push({ name: "HomePage" });
-          }else{
-            this.$store.commit("setAuthentication", { isActive: true });
-          }
-        }
       }
       this.$store.commit("setCurrentPage", target);
     }

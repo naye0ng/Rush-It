@@ -23,7 +23,7 @@ const state = {
     isActive : false,
     isLogin : false,
     // 자동로그인의 경우 로컬스토리지 체크
-    userID : '',
+    userID : 'test',
     userNickName : '',
   },
   map : { // map
