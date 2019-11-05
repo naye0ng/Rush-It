@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+
+	<resultMap type="User" id="UserResultMap">
+		<result column="id" property="id" />
+		<result column="nick" property="nick"/>
+		<result column="gender" property="gender"/>
+		<result column="point" property="point"/>
+	</resultMap>
+
+	<select id="findAllUsers" resultMap="UserResultMap">
+		SELECT	id, nick
+		FROM	user
+	</select>
+
+	<select id="loginUser" parameterType="User" resultMap="UserResultMap">
+		SELECT	id, nick
+		FROM	user
+		WHERE	id = #{id} AND pw = #{pw}
+	</select>
+
+
+	<select id="findUser" parameterType="String" resultMap="UserResultMap">
+		SELECT	id, nick
+		FROM	user
+		WHERE	id like #{id}
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		INSERT
+		INTO	user(id, pw, nick, gender, point)
+		VALUES(#{id}, #{pw}, #{nick}, #{gender}, 0)
+	</insert>
+	
+	<update id="updateUser" parameterType="User">
+		UPDATE	user
+		SET		nick = #{nick}
+		WHERE	id = #{id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="User">
+		DELETE
+		FROM	user
+		WHERE	id = #{id} AND pw = #{pw} 
+	</delete>
+	
+</mapper>

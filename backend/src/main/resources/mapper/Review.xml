@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="review">
+	<insert id="insertReview" parameterType="review">
+		insert into review(id, toilet_id, user_id, review, rating, timestamp)
+		values(#{id},#{toilet_id},#{user_id},#{review},#{rating},#{timestamp})
+	</insert>
+	
+	<select id="selectReviewByToilet" resultMap="ReviewResultMap" parameterType="String" >
+		SELECT id, toilet_id, user_id, review, rating, timestamp
+		FROM review
+		WHERE toilet_id= #{toilet_id}
+		ORDER BY timestamp ASC;
+	</select>
+	
+	<select id="selectReviewByUser" resultMap="ReviewResultMap" parameterType="String">
+		SELECT id, toilet_id, user_id, review, rating, timestamp
+		FROM review
+		WHERE user_id= #{user_id}
+		ORDER BY timestamp ASC;
+	</select>
+	
+	<update id="updateReview" parameterType="review">
+		UPDATE review
+		SET review = #{review}
+			rating = #{rating}
+			timestamp = #{timestamp}
+		WHERE user_id=#{user_id} AND toilet_id=#{toilet_id}
+	</update>
+	
+	<delete id="deleteReview" parameterType="map">
+		DELETE FROM REVIEW 
+		WHERE toilet_id=#{toilet_id} AND user_id=#{user_id}
+	</delete>
+	
+	<resultMap type="Review" id="ReviewResultMap">
+		<id column="id" property="id"/>
+		<result column="toilet_id" property="toilet_id"/>
+		<result column="user_id" property="user_id"/>
+		<result column="review" property="review"/>
+		<result column="rating" property="rating"/>
+		<result column="timestamp" property="timestamp"/>
+	</resultMap>
+	
+</mapper>
