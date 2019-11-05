@@ -1,7 +1,10 @@
 package com.rushit.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +20,7 @@ import com.rushit.model.service.ReviewService;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.User;
 
-@CrossOrigin
+@CrossOrigin(origins= {"*","http://localhost:8080", "http://0.0.0.0:8080"}, allowedHeaders= {"*"})
 @RestController
 public class UserController {
 	private UserService userService;
@@ -33,6 +36,11 @@ public class UserController {
 		this.rs = rs;
 	}
 
+	@GetMapping("/usertest")
+	public void test(HttpServletResponse response) throws IOException {
+		response.getWriter().print("hello");
+	}
+	
 	@PostMapping("/user")
 	public HashMap<String, String> RegisterUser(@RequestParam String id, @RequestParam String pw, @RequestParam String nick, @RequestParam String gender){		
 		HashMap<String, String> Container = new HashMap<>();

@@ -21,16 +21,24 @@ public class FavServiceImpl implements FavService {
 	}
 	
 	@Override
-	public Boolean addFav(Fav newFavToilet) {
-		if(favDao.insertFav(newFavToilet)) {
+	public Boolean addFav(Fav favInfo) {
+		if(favDao.insertFav(favInfo)) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public Boolean removeFav(Fav delFavToilet) {
-		if(favDao.deleteFav(delFavToilet)) {
+	public Boolean modifyFav(Fav favInfo) {
+		if(favDao.updateFav(favInfo)) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public Boolean removeFav(Fav favInfo) {
+		if(favDao.deleteFav(favInfo)) {
 			return true;
 		}
 		return false;
@@ -48,12 +56,12 @@ public class FavServiceImpl implements FavService {
 	}
 
 	@Override
-	public Boolean selectIsFav(HashMap<String, String> map) {
-		return favDao.selectIsFav(map);
+	public Boolean selectIsFav(HashMap<String, String> favInfoMap) {
+		return favDao.selectIsFav(favInfoMap);
 	}
 
 	@Override
-	public Fav selectFav(HashMap<String, String> map) {
-		return favDao.selectFav(map);
+	public Fav selectFav(HashMap<String, String> favInfoMap) {
+		return favDao.selectFav(favInfoMap);
 	}
 }

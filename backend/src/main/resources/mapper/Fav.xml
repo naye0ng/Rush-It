@@ -4,27 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fav">
 	<select id="selectFav" parameterType="map" resultType="Fav">
-		SELECT	*
+		SELECT	fav
 		FROM	fav
-		WHERE	toilet_id=#{toilet_id} AND user_id=#{user_id}
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id}
 	</select>
 	
 	<select id="selectIsFav" parameterType="map" resultType="boolean">
-		SELECT	 fav
-		FROM	 fav
-		WHERE	 toilet_id=#{toilet_id} AND user_id=#{user_id}
+		SELECT	fav
+		FROM	fav
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id}
 	</select>
 	
+	<update id="updateFav" parameterType="Fav">
+		UPDATE	fav f
+		SET		f.fav = #{fav}
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id} 
+	</update>
+		
 	<select id="amountOfFav" parameterType="String" resultType="int">
 		SELECT	COUNT(*)
 		FROM	fav
-		WHERE	toilet_id=#{toilet_id} AND fav = true
+		WHERE	toilet_id = #{toilet_id} AND fav = true
 	</select>
 	
 	<select id="amountOfNotFav" parameterType="String" resultType="int">
 		SELECT	COUNT(*)
 		FROM	fav
-		WHERE	toilet_id=#{toilet_id} AND fav = false
+		WHERE	toilet_id = #{toilet_id} AND fav = false
 	</select>
 	
 	<resultMap type="Fav" id="FavResultMap">
@@ -42,6 +48,6 @@
 	<delete id="deleteFav" parameterType="Fav">
 		DELETE
 		FROM	fav
-		WHERE	toilet_id=#{toilet_id} AND user_id={user_id}
+		WHERE	toilet_id = #{toilet_id} AND user_id = #{user_id}
 	</delete>
 </mapper>
