@@ -5,5 +5,5 @@ data_path = "./data.xls"
 db_host = 'localhost'
 db_port = 3306
 db_user = 'root'
-db_password = '1q2w3e4r!'
+db_password = 'Ssafy1210!'
 db_database = 'rushit'
