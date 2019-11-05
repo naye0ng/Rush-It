@@ -7,5 +7,8 @@ export default {
     },
     draw_marker(state) {
 
+    },
+    get_place_list(state) {
+        return state.map.place_list;
     }
 }

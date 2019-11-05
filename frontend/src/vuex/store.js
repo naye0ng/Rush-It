@@ -12,8 +12,6 @@ function make_user_marker_image() {
   var imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
   
   var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
-  console.log("들어왔따")
-  console.log(markerImage)
 
   return markerImage;
 }

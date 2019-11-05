@@ -9,8 +9,6 @@ function setUserMarker(state) {
     image : state.map.user_marker_image
   });
 
-  console.log(state.map.user_marker_image)
-  console.log(state.map.user_marker_image instanceof kakao.maps.MarkerImage)
   state.map.user_marker.setMap(state.map.draw_map);
 };
 
@@ -29,10 +27,7 @@ export default {
     },
     setMapPoint(state,payload) {
         var moveLatLon = new kakao.maps.LatLng(state.map.user_loc.x, state.map.user_loc.y);
-        console.log("현재위치 : ", state.map.user_loc)
-
         // setUserMarker(state);
-
         state.map.draw_map.panTo(moveLatLon); 
     },
     setUserPoint(state, payload) {
@@ -55,5 +50,8 @@ export default {
     },
     setMap(state, payload) {
       state.map.draw_map = payload;
+    },
+    setMapPlaceList(state, payload) {
+      state.map.place_list = payload;
     }
 }
