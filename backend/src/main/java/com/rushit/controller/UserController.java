@@ -53,26 +53,40 @@ public class UserController {
 				Container.put("id", newUserInfo.getId());
 				Container.put("nick", newUserInfo.getNick());
 				Container.put("code", "200");
+				Container.put("message", "Register user success");
 			}
+		} else {
+			Container.put("message", "Duplicate user id");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
 	
 	@GetMapping("/rank/user")
-	public ResponseEntity<HashMap<String, Object>> RankUser(@RequestParam String user_id){
+	public HashMap<String, Object> RankUser(@RequestParam String user_id){
 		HashMap<String, Object> ret = new HashMap<>();
 		HashMap<String, Object> userRank=rs.selectRank(user_id);
-		userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
 		List<HashMap<String, Object>> list=rs.selectTopTen();
 		System.out.println(list.toString());
-		System.out.println(userRank.toString());
 		for(int i=0; i<list.size(); i++) {
 			HashMap<String, Object> hash= list.get(i);
 			hash.put("ranking", Math.round((Double) hash.get("ranking")));
 		}
-		ret.put("rank", list);
-		ret.put("myrank", userRank);
-		return new ResponseEntity<HashMap<String, Object>>(ret, HttpStatus.OK);
+		if(list.size()==0) {
+			ret.put("rank", "리뷰가 없습니다.");
+		}
+		else {
+			ret.put("rank",list);
+		}
+		if(userRank==null) {
+			ret.put("myrank", "꼴등");
+		}
+		else {
+			userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
+			ret.put("myrank", userRank);
+		}
+		ret.put("code", 200);
+		
+		return ret;
 	}
 
 	@PostMapping("/user/{id}")
@@ -96,9 +110,11 @@ public class UserController {
 			Container.put("code", "200");
 			Container.put("id", id);
 			Container.put("nick", nick);
+			Container.put("message", "Update user nickname success");
 		}	
 		else {
 			Container.put("code", "301");
+			Container.put("message", "User doesn't Exist");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
@@ -111,8 +127,10 @@ public class UserController {
 		deleteUserInfo.setPw(pw);
 		if(userService.deleteUser(deleteUserInfo)) {
 			Container.put("code", "200");
+			Container.put("message", "Delete user success");
 		} else {
 			Container.put("code", "301");
+			Container.put("message", "User doesn't Exist");
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
