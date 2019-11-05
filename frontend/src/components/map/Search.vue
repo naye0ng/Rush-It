@@ -5,12 +5,12 @@
         <b-form-input v-model="search" placeholder="Search by name..."></b-form-input>
         <b-input-group-append>
           <!-- search 를 store state 에 저장. -->
-          <div @click="asyncSearchMap(search)" style="margin: auto 0.6rem;">
-            <img src="../../assets/user.png" height="35px" />
+          <div @click="asyncSearchMap(search)" class="map-search-icon">
+            <font-awesome-icon icon="search-location"/>
           </div>
           <!-- map 을 현재 위치로 이동 -->
-           <div @click="setMapPoint()" style="margin: auto 0.6rem;">
-            <img src="../../assets/user.png" height="35px" />
+           <div @click="setMapPoint()" class="map-search-icon">
+            <font-awesome-icon icon="map-marker-alt"/>
           </div>
         </b-input-group-append>
       </b-input-group>
@@ -43,5 +43,10 @@ export default {
 <style>
 #map-search-form {
   margin: 0px auto;
+}
+
+.map-search-icon {
+  margin: auto 0.1rem auto 0.8rem; 
+  font-size:1.5rem
 }
 </style>
