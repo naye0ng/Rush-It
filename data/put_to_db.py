@@ -5,7 +5,7 @@ import config
 data_path = config.data_path 
 
 # MySQL Connection 연결
-conn = pymysql.connect(host=config.db_host, port=config.db_host, user=config.db_user, password=config.db_password,
+conn = pymysql.connect(host=config.db_host, port=config.db_port, user=config.db_user, password=config.db_password,
                        db=config.db_database, charset='utf8')
  
 curs = conn.cursor()
