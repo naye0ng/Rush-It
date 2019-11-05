@@ -62,6 +62,8 @@ public class UserController {
 		HashMap<String, Object> userRank=rs.selectRank(user_id);
 		userRank.put("ranking", Math.round((Double) userRank.get("ranking")));
 		List<HashMap<String, Object>> list=rs.selectTopTen();
+		System.out.println(list.toString());
+		System.out.println(userRank.toString());
 		for(int i=0; i<list.size(); i++) {
 			HashMap<String, Object> hash= list.get(i);
 			hash.put("ranking", Math.round((Double) hash.get("ranking")));
