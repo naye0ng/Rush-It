@@ -126,6 +126,10 @@ public class ToiletController {
 	@GetMapping("/toilet/{toilet_id}")
 	public HashMap<String, Object> toiletDetail(@PathVariable String toilet_id){
 		HashMap<String, Object> ret= new HashMap<>();
+		if(ts.selectToilet(toilet_id)==null) {
+			ret.put("code", "301");
+			return ret;
+		}
 		List<Review> reviewList=(ArrayList<Review>)rs.selectReviewListByToilet(toilet_id);
 		double reviewTotal=0;
 		for(int i=0; i<reviewList.size(); i++) {
@@ -145,7 +149,6 @@ public class ToiletController {
 		ret.put("time", t.getTime());
 		ret.put("state", t.getState());
 		ret.put("code", "200");
-		System.out.println(reviewList.toString());
 		ArrayList<HashMap<String, String>> input= new ArrayList<>();
 		HashMap<String, String> h;
 		for(int i=0; i<reviewList.size(); i++) {
@@ -161,8 +164,13 @@ public class ToiletController {
 	
 	
 	@GetMapping("toilet/{toilet_id}/{user_id}")
-	public ResponseEntity<HashMap<String, Object>> toiletDetail(@PathVariable String toilet_id, @PathVariable String user_id) {
+	public HashMap<String, Object> toiletDetail(@PathVariable String toilet_id, @PathVariable String user_id) {
+		HashMap<String, Object> ret= new HashMap<String,Object>();
 		//map 형태로 loveService의 인자값에 넘겨준다.
+		if(ts.selectToilet(toilet_id)==null || us.checkUser(user_id)==null) {
+			ret.put("code", "301");
+			return ret;
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("toilet_id", toilet_id);
 		map.put("user_id", user_id);
@@ -188,7 +196,6 @@ public class ToiletController {
 		Toilet t=ts.selectToilet(toilet_id);
 		
 		//hashmap을 사용하여 key,value로 값으로 front에 전달한다.
-		HashMap<String, Object> ret= new HashMap<String,Object>();
 		ret.put("toilet_id", toilet_id);
 		ret.put("likeCount", likeCount);
 		ret.put("dislikeCount", dislikeCount);
@@ -200,7 +207,7 @@ public class ToiletController {
 		ret.put("state", t.getState());
 		ret.put("time", t.getTime());
 		ret.put("code", "200");
-		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
+		return ret;
 	}
 		
 }
