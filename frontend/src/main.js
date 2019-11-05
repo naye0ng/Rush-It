@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.use(BootstrapVue)
 Vue.use(VueHammer)
 VueHammer.config.swipe = {
-  threshold: 100
+  threshold: 0
 };
 
 library.add(faSearch, faHome, faTrophy, faChild, faPoo, faCog, faStar, faBell, faWheelchair, faBaby, faThumbsDown, faThumbsUp, faMapMarkerAlt, faSearchLocation )

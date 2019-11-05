@@ -31,6 +31,7 @@ export default {
     setCurrentPage(state, payload){
         state.currentPage = payload
     },
+    // 로그인한 사용자 저장
     setAuthentication(state, payload){
         for(var key in payload){
             state.authentication[key] = payload[key]

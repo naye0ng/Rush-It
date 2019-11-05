@@ -1,5 +1,5 @@
 <template>
-  <div id="detail-card">
+  <div id="detail-card" >
     <b-container class="toilet-title">  
       <b-row class="title-txt">{{toilet.name}}</b-row>
       <b-row class="title-desc" align-v="center">
@@ -83,6 +83,7 @@ export default {
   },
   data(){
     return {
+      msg: 'Welcome to Your Vue.js App',
       toilet_detail:{},
       reviews:[],
       // 이건 로그인 처리 이후에 사용자가 존재할 떄 가능
@@ -112,14 +113,19 @@ export default {
       }).catch(error=>{
           console.log(error)
       })
-      // 로그인된 유저와 화장실 관계
-      axios.get(url+"/toilet/"+this.toilet.id,{params:{user_id:this.userID}})
-      .then(response => {
-        // 이거 수정 필요
-        // console.log(response.data)
-      }).catch(error=>{
-          console.log(error)
-      })
+      // 로그인된 유저가 존재한다면?
+      //restgu01_0003
+     
+      // if(userID){
+      //   axios.get(url+"/toilet/"+this.toilet.id,{params:{user_id:this.userID}})
+      //   .then(response => {
+      //     // 이거 수정 필요
+      //     console.log('sdfg')
+      //     console.log(response.data)
+      //   }).catch(error=>{
+      //       console.log(error)
+      //   })
+      // }
     }
   },
   mounted(){
@@ -137,8 +143,8 @@ export default {
   min-height: 65vh;
   max-height:100vh;
   border-radius: 30px 30px 0 0;
-  -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1)!important;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1)!important;
+  -webkit-box-shadow: 0 12px 15px 5px rgba(0, 0, 0, 0.1)!important;
+  box-shadow: 0 12px 15px 5px rgba(0, 0, 0, 0.1)!important;
   padding: 1.5rem 1rem;
   margin: 0;
   text-align: left;
@@ -247,10 +253,26 @@ export default {
   font-size: 0.7rem;
   color: #2c3e50;
 }
-
 #scroll-sec{
   height: 40vh;
   overflow: scroll;
   padding-bottom: 3rem;
+}
+
+#detail-card.top{
+  top:100px;
+  animation: slide-up 1s;
+}
+#detail-card.top #scroll-sec{
+  height: 80vh;
+}
+
+@keyframes slide-up{
+  0%{
+    transform: translateY(10%);
+  }
+  100%{
+    transform: translateY(0%)
+  }
 }
 </style>

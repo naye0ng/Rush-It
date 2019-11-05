@@ -2,9 +2,9 @@
   <b-row id="AuthenticationForm">
     <div class="login-wrap">
       <div class="login-html">
-        <input id="tab-1" type="radio" name="tab" class="sign-in" checked />
+        <input id="tab-1" type="radio" name="tab" class="sign-in" v-bind:class="{checked:picked==1}" @click="changePick(1)"/>
         <label for="tab-1" class="tab">Sign In</label>
-        <input id="tab-2" type="radio" name="tab" class="sign-up" />
+        <input id="tab-2" type="radio" name="tab" class="sign-up" v-bind:class="{checked:picked==2}" @click="changePick(2)" />
         <label for="tab-2" class="tab">Sign Up</label>
         <div class="login-form">
           <div class="sign-in-htm">
@@ -100,6 +100,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
+      picked: 1,
       signIn_id: "",
       signIn_pw: "",
       signIn_auto: true,
@@ -110,10 +111,18 @@ export default {
       signUp_gender: "F",
       signUp_pw: "",
       signUp_pw2: "",
-      signUp_msg: ""
+      signUp_msg: "",
     };
   },
+  computed: {
+    ...mapState({
+      currentMenu: state => state.currentPage,
+    })
+  },
   methods: {
+    changePick(pick){
+      this.picked = pick
+    },
     ...mapActions(["asyncSignIn", "asyncSignUp"]),
     signIn: function() {
       if (this.signIn_id && this.signIn_pw) {
@@ -123,30 +132,34 @@ export default {
           'auto':this.signIn_auto,
         }).then((isSuccess) => {
           if(isSuccess){
-            this.$router.push({ name: "MyPage" });
+            this.$router.push({ name: this.currentMenu });
           }else{
             this.signIn_msg = "회원정보와 일치하지 않습니다.";
           }
         })
-        
-        
+
       } else {
         this.signIn_msg = "아이디와 비밀번호를 입력하세요!";
       }
     },
-    signUp() {
-      if (
-        this.signUp_id &&
-        this.signUp_nick &&
-        this.signUp_pw &&
-        this.signUp_pw2
-      ) {
+    signUp: function() {
+      if (this.signUp_id &&this.signUp_nick &&this.signUp_pw &&this.signUp_pw2) {
         if (this.signUp_pw == this.signUp_pw2) {
           this.asyncSignUp({
-            'id':signUp_id,
-            'nick':signUp_nick,
-            'pw':signUp_pw,
-            'gender':signUp_gender,
+            'id':this.signUp_id,
+            'nick':this.signUp_nick,
+            'pw':this.signUp_pw,
+            'gender':this.signUp_gender,
+          }).then((isSuccess) => {
+            if(isSuccess){
+              // 회원가입 완료, 로그인 시키기
+              this.signIn_msg = "회원가입이 완료되었습니다. 로그인해주세요.";
+              this.signIn_id = this.signUp_id
+              this.signIn_pw = this.signUp_pw
+              this.changePick(1)
+            }else{
+              this.signUp_msg = "이미 존재하는 계정입니다.";
+            }
           })
         } else {
           this.signUp_msg = "비밀번호가 일치하지 않습니다.";
@@ -214,8 +227,8 @@ export default {
   display: inline-block;
   border-bottom: 2px solid transparent;
 }
-.login-html .sign-in:checked + .tab,
-.login-html .sign-up:checked + .tab {
+.login-html .sign-in.checked + .tab,
+.login-html .sign-up.checked + .tab {
   border-color: #214079;
 }
 .login-form {
@@ -319,7 +332,7 @@ export default {
   transform: scale(1) rotate(-45deg);
 }
 .login-html
-  .sign-in:checked
+  .sign-in.checked
   + .tab
   + .sign-up
   + .tab
@@ -327,7 +340,7 @@ export default {
   .sign-in-htm {
   transform: rotate(0);
 }
-.login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
+.login-html .sign-up.checked + .tab + .login-form .sign-up-htm {
   transform: rotate(0);
 }
 .form-err {
