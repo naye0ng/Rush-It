@@ -10,9 +10,7 @@
         <b-col cols="1" class="service text-center" v-bind:class="{notService: !toilet.bell}"><font-awesome-icon icon="bell"/></b-col>
         <b-col cols="1" class="service text-center" v-bind:class="{notService: !toilet.diaper}"><font-awesome-icon icon="baby"/></b-col>
       </b-row>
-    </b-container>
-    <b-container class="toilet-info">  
-      <b-row class="boder-bottom" align-v="center"> 
+      <b-row class="boder-top-bottom" align-v="center"> 
         <b-col class="toilet-score">
           <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=1 }"/>
           <font-awesome-icon icon="star" v-bind:class="{ active: toilet.score>=2 }"/>
@@ -30,23 +28,53 @@
           {{ toilet_detail.dislike }}
         </b-col>
       </b-row>
-      <b-row>
-        <b-col class="into-title" cols="3">주소</b-col>
-        <b-col class="into-txt">{{ toilet.address }}</b-col>
-      </b-row>
-      <b-row>
-        <b-col class="into-title" cols="3">개방시간</b-col>
-        <b-col>{{ toilet_detail.time }}</b-col>
-      </b-row>
-      <b-row>
-        <b-col class="into-title" cols="3">전화번호</b-col>
-        <b-col>{{ toilet_detail.telephone }}</b-col>
-      </b-row>
     </b-container>
+    <div id="scroll-sec">
+      <b-container class="toilet-info">  
+        <b-row>
+          <b-col class="into-title" cols="3">주소</b-col>
+          <b-col class="into-txt">{{ toilet.address }}</b-col>
+        </b-row>
+        <b-row>
+          <b-col class="into-title" cols="3">개방시간</b-col>
+          <b-col>{{ toilet_detail.time }}</b-col>
+        </b-row>
+        <b-row>
+          <b-col class="into-title" cols="3">전화번호</b-col>
+          <b-col>{{ toilet_detail.telephone }}</b-col>
+        </b-row>
+      </b-container>
+      <b-container class="toilet-review"> 
+        <b-row class="review-cnt" >총 {{reviews.length}}개의 리뷰가 있어요.</b-row>
+        <b-row class="review-sec" v-for="(review, index) in reviews" > 
+          <b-col cols="2">
+            <div class="user-img">
+              <img src="../../assets/user.png">
+            </div>
+          </b-col>        
+          <b-col>
+            <b-row class="review-time">{{ review.time }}</b-row>
+            <b-row class="review-score toilet-score">
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=1 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=2 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=3 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.score>=4 }"/>
+                <font-awesome-icon icon="star" v-bind:class="{ active: review.score==5 }"/>
+                <span class="score-txt"> {{review.score}}점 </span>
+              
+              </b-row>
+            <b-row class="review-txt">{{ review.review }}</b-row>
+            </b-col>
+        </b-row>
+      </b-container>
+    </div>
   </div>
 </template>
 
 <script>
+import qs from 'qs';
+import axios from 'axios'
+
 export default {
   name: 'Detail',
   props:{
@@ -54,31 +82,35 @@ export default {
   },
   data(){
     return {
-      // 여기도 전부 API 콜임
-      toilet_detail:{
-        time:'오전 12시부터 24시',
-        telephone: '010-123-1234',
-        dislike: 2,
-        like:10,
-        score: 5,
-      },
-      //여긴 유저가 좋아요를 했는가?
+      toilet_detail:{},
+      reviews:[],
+      // 이건 로그인 처리 이후에 사용자가 존재할 떄 가능
       isLike:1,
-      // 리뷰
-      reviews:[
-        {
-          score : 4,
-          review : "나름 사용하기 좋네요ㅎㅎ",
-          time : "2019-08-11"
-        }, 
-          {
-          score : 3.5,
-          review : "나름 사용하기 좋네요 하핫!",
-          time : "2019-08-22"
-        }, 
-      ]
-
     }
+  },
+  methods: {
+    getMoreInfomation(){
+      // 화장실 상세정보 조회
+      const url = "http://localhost:8080"
+      axios.get(url+"/toilet/"+this.toilet.id)
+      .then(response => {
+          this.toilet_detail = response.data
+      }).catch(error=>{
+          console.log(error)
+      })
+      // 화장실 리뷰 조회
+      axios.get(url+"/review",{params:{toilet_id:this.toilet.id}})
+      .then(response => {
+        if(response.data.code == 200){
+          this.reviews = response.data.reviews
+        }
+      }).catch(error=>{
+          console.log(error)
+      })
+    }
+  },
+  mounted(){
+    this.getMoreInfomation()
   }
 }
 </script>
@@ -89,17 +121,18 @@ export default {
   bottom: 2rem;
   left: 0;
   width: 100%;
-  min-height: 65%;
+  min-height: 60vh;
+  max-height:100vh;
   border-radius: 30px 30px 0 0;
-  -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1)!important;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1)!important;
   padding: 1.5rem 1rem;
   margin: 0;
   text-align: left;
   background: #ffffff;
 }
 .toilet-title{
-  margin: 1rem 0 1.5rem;
+  margin-top: 1rem;
   padding: 0 10px;
   font-weight:600;
 }
@@ -120,31 +153,15 @@ export default {
   position:relative;
   color:rgb(44, 62, 80, 0.2);
 }
-#detail-card .toilet-info{
-  padding: 0.5rem;
-  background: #ffffff;
-  border-radius: 5px;
-  font-size: 0.8rem;
-}
-#detail-card .toilet-info .row{
-  padding: 5px 0;
-}
-#detail-card .toilet-info .into-title{
-  padding:0;
-  text-align: left;
-}
-#detail-card .toilet-info .into-txt{
-  overflow: hidden;
-}
-#detail-card .toilet-info .row.boder-bottom{
+
+#detail-card .toilet-title .row.boder-top-bottom{
   border-bottom: 1px solid #ddd;
   border-top: 1px solid #ddd;
-  padding: 5px 0.3rem;
-  margin-bottom: 0.7rem;
+  margin-top: 1.5rem;
   font-size: 0.7rem;
-
+  padding: 5px 0.5rem
 }
-#detail-card .toilet-info .row.boder-bottom .col{
+#detail-card .toilet-title .row.boder-top-bottom .col{
   margin: 0.3rem 0;
 }
 .default-btn{
@@ -160,8 +177,67 @@ export default {
   color: #fcb500;
 }
 .toilet-score .task-txt {
-  font-size: 0.75rem;
   font-weight: 600;
   color: #888;
+}
+
+/* 여기서부터 상세정보 */
+#detail-card .toilet-info{
+  padding: 1.2rem 0.5rem 0;
+  background: #ffffff;
+  font-size: 0.8rem;
+}
+#detail-card .toilet-review{
+  padding: 0 0.5rem;
+  background: #ffffff;
+  font-size: 0.8rem;
+}
+#detail-card .toilet-info .row{
+  padding: 5px 0.5rem;
+}
+#detail-card .toilet-info .into-title{
+  padding:0;
+  text-align: left;
+}
+#detail-card .toilet-info .into-txt{
+  overflow: hidden;
+}
+
+/* 여기부턴 리뷰 */
+.toilet-review .row.review-cnt{
+  border-top: 1px solid #ddd;
+  padding: 15px 0.5rem 0;
+  margin: 30px 0 15px;
+  font-size: 0.8rem;
+}
+.toilet-review .row.review-sec{
+  padding: 15px 0.5rem;
+  font-size: 0.8rem;
+}
+.toilet-review .user-img{
+  width: 35px;
+  height: 35px; 
+  background : rgb(33, 64, 121, 0.1);
+  border-radius: 50%;
+}
+.toilet-review img{
+  width:100%;
+  padding: 15%;
+}
+.review-score{
+  margin-bottom: 8px;
+}
+.review-score.toilet-score{
+  font-size: 0.6rem;
+}
+.review-score .score-txt{
+  font-size: 0.7rem;
+  color: #2c3e50;
+}
+
+#scroll-sec{
+  height: 40vh;
+  overflow: scroll;
+  padding-bottom: 3rem;
 }
 </style>

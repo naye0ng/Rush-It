@@ -7,21 +7,21 @@
           <img src="../../assets/user.png">
         </div>
         <p>{{ user_rank[1].nick }}</p>
-        <p>{{ user_rank[1].review_cnt }}P</p>
+        <p>{{ user_rank[1].reviewCount }}P</p>
       </b-col>
       <b-col cols="5">
         <div class="user-img">
           <img src="../../assets/user.png">
         </div>
         <p>{{ user_rank[0].nick }}</p>
-        <p>{{ user_rank[0].review_cnt }}P</p>
+        <p>{{ user_rank[0].reviewCount}}P</p>
       </b-col>
       <b-col align-self="center">
         <div class="user-img">
           <img src="../../assets/user.png">
         </div>
         <p>{{ user_rank[2].nick }}</p>
-        <p>{{ user_rank[2].review_cnt }}P</p>
+        <p>{{ user_rank[2].reviewCount }}P</p>
       </b-col>
     </b-row>
     <!-- 나머지 -->
@@ -34,7 +34,7 @@
         </div>
         </b-col>
         <b-col>{{ user.nick }}</b-col>
-        <b-col cols="2">{{ user.review_cnt }}P</b-col>
+        <b-col cols="2">{{ user.reviewCount }}P</b-col>
       </b-row>
     </b-container>
 
@@ -42,43 +42,37 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapState } from "vuex";
 export default {
   name: "ToiletRank",
   data() {
     return {
-      user_rank: [
-        {
-          nick: "이구역의응아",
-          review_cnt: 30,
-        },
-        {
-          nick: "역삼역똥쟁이",
-          review_cnt: 21,
-        },
-        {
-          nick: "최고의화장실",
-          review_cnt: 21,
-        },
-        {
-          nick: "요정님",
-          review_cnt: 21,
-        },
-        {
-          nick: "고앵이가 최구얌",
-          review_cnt: 30,
-        },
-        {
-          nick: "멍멍이",
-          review_cnt: 21,
-        },
-      ]
+      user_rank: [],
+      my_rank:{}
     };
   },
   computed: {
     ...mapState({
-      userNickName: state => state.authentication.userNickName
+      userNickName: state => state.authentication.userNickName,
+      userID: state => state.authentication.userID
     })
+  },
+  methods:{
+    getUserRank(){
+      const url = "http://localhost:8080"
+
+      axios.get(url+"/rank/user",{params:{user_id:this.userID}})
+      .then(response => {
+        this.user_rank = response.data.rank
+        this.my_rank = response.data.myrank
+      }).catch(error=>{
+          console.log(error)
+      })
+    }
+  },
+  mounted(){
+    this.getUserRank()
   }
 };
 </script>
