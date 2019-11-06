@@ -24,13 +24,10 @@ public class UserDAOImpl implements UserDAO {
 	public HashMap<String, String> loginUser(User loginUserInfo) {
 		User user = session.selectOne("user.loginUser", loginUserInfo);
 		HashMap<String, String> Container = new HashMap<>();
-		if(user == null) {
-			Container.put("code", "400");
-		} else {
-			Container.put("code", "200");
-			Container.put("id", user.getId());
-			Container.put("nick", user.getNick());
-		}
+		Container.put("code", "200");
+		Container.put("id", user.getId());
+		Container.put("nick", user.getNick());
+		
 		return Container;
 	}
 
