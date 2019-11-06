@@ -58,6 +58,7 @@ public class ToiletController {
 	
 	@PostMapping("/toilet")
 	public ResponseEntity<HashMap<String, Object>> findToilets(@RequestBody String json) throws Exception{
+		System.out.println(json);
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map= new HashMap<String, Object>();
 		map = mapper.readValue(json, new TypeReference<Map<String, Object>>(){});
@@ -119,6 +120,8 @@ public class ToiletController {
 		}
 		hash.put("toiletList", value);
 		hash.put("code", 200);
+
+		System.out.println("ㅓㅓㅓㅓ"+hash.toString());
 		return new ResponseEntity<HashMap<String, Object>>(hash, HttpStatus.OK);
 	}
 	

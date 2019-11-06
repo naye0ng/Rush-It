@@ -17,9 +17,6 @@ export default {
     }
   },
   methods :{
-    onSwipeLeft() {
-      console.log("스어ㅣ이[프!!")
-    }
   }
 }
 </script>

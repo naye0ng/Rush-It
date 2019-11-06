@@ -20,11 +20,11 @@
           <span class="task-txt">( {{toilet_detail.score}}점 )</span>
           </b-col>
         <b-col cols="2" class="text-right default-btn">
-          <font-awesome-icon icon="thumbs-up"/>
+          <font-awesome-icon icon="thumbs-up" v-bind:class="{active_like: isLike == 1}" @click="like(1)"/>
           {{ toilet_detail.like }}
         </b-col>
         <b-col cols="2" class="text-right default-btn">
-          <font-awesome-icon icon="thumbs-down"/>
+          <font-awesome-icon icon="thumbs-down" v-bind:class="{active_dislike: isLike == -1}" @click="like(-1)"/>
           {{ toilet_detail.dislike }}
         </b-col>
       </b-row>
@@ -87,13 +87,15 @@ export default {
       toilet_detail:{},
       reviews:[],
       // 이건 로그인 처리 이후에 사용자가 존재할 떄 가능
-      isLike:1,
+      isLike:0,
     }
   },
-  ...mapState({
-    userNickName: state => state.authentication.userNickName,
-    userID: state => state.authentication.userID
-  }),
+  computed: {
+    ...mapState({
+      userNickName: state => state.authentication.userNickName,
+      userID: state => state.authentication.userID
+    })
+  },
   methods: {
     getMoreInfomation(){
       // 화장실 상세정보 조회
@@ -114,18 +116,50 @@ export default {
           console.log(error)
       })
       // 로그인된 유저가 존재한다면?
-      //restgu01_0003
-     
-      // if(userID){
-      //   axios.get(url+"/toilet/"+this.toilet.id,{params:{user_id:this.userID}})
-      //   .then(response => {
-      //     // 이거 수정 필요
-      //     console.log('sdfg')
-      //     console.log(response.data)
-      //   }).catch(error=>{
-      //       console.log(error)
-      //   })
-      // }
+      if(this.userID){
+        axios.get(url+"/toilet/"+this.toilet.id+'/'+this.userID)
+        .then(response => {
+          // 이거 수정 필요
+          this.isLike = response.data.userLove
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+    },
+    like(state){
+      // 같은 요청이 다시 들어오는건 취소
+      if(this.isLike == state){
+        let data = {
+          'user_id' : this.userID,
+          'toilet_id' : this.toilet.id,
+        };
+        let options = {
+            method: 'DELETE',
+            data: qs.stringify(data),
+            url: url+'/like/'+payload.id 
+        };
+        axios(options).then(response => {
+          this.isLike = 0
+        }).catch(error=>{
+            console.log(error)
+        })
+      }else{
+        let data = {
+          'user_id' : this.userID,
+          'toilet_id' : this.toilet.id,
+          'state': state
+        };
+        let options = {
+            method: 'POST',
+            data: qs.stringify(data),
+            url: url+'/like/'+payload.id 
+        };
+        axios(options).then(response => {
+          this.isLike = state
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
     }
   },
   mounted(){
@@ -140,7 +174,7 @@ export default {
   bottom: 2rem;
   left: 0;
   width: 100%;
-  min-height: 65vh;
+  min-height: 50vh;
   max-height:100vh;
   border-radius: 30px 30px 0 0;
   -webkit-box-shadow: 0 12px 15px 5px rgba(0, 0, 0, 0.1)!important;
@@ -198,6 +232,16 @@ export default {
 .toilet-score .task-txt {
   font-weight: 600;
   color: #888;
+}
+
+
+/* 좋아요, 싫어요 */
+.active_like{
+  color: blue;
+}
+
+.active_dislike{
+  color: blueviolet;
 }
 
 /* 여기서부터 상세정보 */

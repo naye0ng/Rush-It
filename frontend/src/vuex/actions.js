@@ -77,6 +77,7 @@ export default {
 
             axios.post(url + "/toilet/", params)
             .then(response => {
+                console.log(response.data)
                 commit('setMapPlaceList', response.data.toiletList);
             })
         });
