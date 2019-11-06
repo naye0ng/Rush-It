@@ -1,7 +1,14 @@
 <template>
   <div id="detail-card">
     <b-container class="toilet-title">  
-      <b-row class="title-txt">{{toilet.name}}</b-row>
+      <b-row class="title-txt">
+        <b-col>{{toilet.name}}</b-col>
+        <b-col class="text-right" >
+          <span @click="goDirection()">
+            <font-awesome-icon icon="directions"/>
+          </span>
+        </b-col>
+      </b-row>
       <b-row class="title-desc" align-v="center">
         <b-col v-if="toilet.type == 2">카페</b-col>
         <b-col v-else-if="toilet.type == 3">패스트푸드</b-col>
@@ -120,6 +127,10 @@ export default {
       }).catch(error=>{
           console.log(error)
       })
+    },
+    goDirection() {
+      var url = "https://map.kakao.com/link/to/" + this.toilet.name + "," + this.toilet.location_x + "," + this.toilet.location_y;
+      window.open(url)
     }
   },
   mounted(){

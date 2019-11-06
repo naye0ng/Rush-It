@@ -10,7 +10,11 @@
         </b-row>
       </b-container>
       <transition name="slide-up-and-down">
-        <Detail v-if="showPopup" v-bind:toilet="toilet" />
+        <Detail 
+          v-if="showPopup" 
+          v-bind:toilet="toilet"
+          v-bind:class="{top:swipe==1}"
+          v-hammer:swipe.vertical="swipeEvent" />
       </transition>
   </div>
 </template>
@@ -33,14 +37,24 @@ export default {
   data() {
     return {
       showPopup: false,
-      toilet : { "address": "", "handicapped": "", "name": "", "location_x": "", "location_y": "", "id": "", "diaper": "0", "type": "0", "bell": "0" }
+      toilet : { "address": "", "handicapped": "", "name": "", "location_x": "", "location_y": "", "id": "", "diaper": "0", "type": "0", "bell": "0" },
+      swipe: 0
     };
   },
   methods : {
     showDetail(toilet){
       this.showPopup = true;
       this.toilet = toilet;
-    }
+    },
+   swipeEvent(e){
+     console.log(e.type)
+     if(e.type == 'swipeup'){
+       this.swipe = 1
+     }else{
+       this.swipe = 0
+       this.showPopup = false
+     }
+   }
   }
 
 };
