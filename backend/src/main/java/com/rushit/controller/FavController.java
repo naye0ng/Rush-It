@@ -45,15 +45,15 @@ public class FavController {
 
 		if(recInfo == null) { // add
 			favService.addFav(favInfo);
-			Container.put("message", "Add Favorite Toilet Success");
+			Container.put("message", "Add Fav Success");
 		}
 		else if(recInfo.isFav() == favorite) { // delete
 			favService.removeFav(favInfo);
-			Container.put("message", "Delete Favorite Toilet Success");
+			Container.put("message", "Delete Fav Success");
 		}
 		else if(recInfo.isFav() != favorite) { // update
 			favService.modifyFav(favInfo);
-			Container.put("message", "Update Favorite Toilet Success");
+			Container.put("message", "Update Fav Success");
 		}
 		Container.put("code", "200");
 		return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.OK);			
@@ -67,10 +67,10 @@ public class FavController {
 		
 		if(favService.removeFav(favInfo)) {
 			Container.put("code", "200");
-			Container.put("message", "Success");
+			Container.put("message", "Delete Fav Success");
 		} else {
 			Container.put("code", "301");
-			Container.put("message", "Data doesn't exist in the DB");
+			Container.put("message", "Data doesn't exist");
 		}
 		return Container;
 	}
