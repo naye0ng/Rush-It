@@ -18,7 +18,7 @@
         <p class="review-cnt">{{toilet.reviews}}</p>
       </b-col>
       <transition name="slide-up-and-down">
-        <Detail v-show="showPopup" v-bind:toilet="toilet_rank[detailId]" />
+        <Detail v-show="showPopup && index == detailId" v-bind:class="{top:swipe==1}" v-bind:toilet="toilet_rank[detailId]" v-hammer:swipe.vertical="swipeEvent"/>
       </transition>
     </b-row>
   </div>
@@ -38,6 +38,7 @@ export default {
       toilet_rank: [],
       showPopup: false,
       detailId: 0,
+      swipe: 0,
     };
   },
   methods:{
@@ -54,6 +55,15 @@ export default {
       }).catch(error=>{
           console.log(error)
       })
+    },
+    swipeEvent(e){
+      console.log(e.type)
+      if(e.type == 'swipeup'){
+        this.swipe = 1
+      }else{
+        this.swipe = 0
+        this.showPopup = false
+      }
     }
   },
   computed: {

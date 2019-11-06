@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
     <router-view/>
     <transition name="slide-up-and-down">
       <Authentication v-show="isActive"/>

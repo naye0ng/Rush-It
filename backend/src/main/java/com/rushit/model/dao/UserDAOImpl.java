@@ -23,6 +23,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public HashMap<String, String> loginUser(User loginUserInfo) {
 		User user = session.selectOne("user.loginUser", loginUserInfo);
+		System.out.println("DAO " + user.getId() + " " + user.getNick());
 		HashMap<String, String> Container = new HashMap<>();
 		Container.put("code", "200");
 		Container.put("id", user.getId());

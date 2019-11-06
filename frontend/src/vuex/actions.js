@@ -4,86 +4,48 @@ import axios from 'axios'
 const url = "http://localhost:8080"
 export default {
     asyncSignIn({ commit }, payload) {
-        if (payload.id && payload.pw) {
-            console.log("응")
-            // axios.post(url + "/test/",{query:'test'}).then(response => {
-            //     console.log("dsfgb",response.data)
-            // }).catch(error=>{
-            //     console.log("dsfghj")
-            //     console.log(error)
-            // })
-            // const data = {
-            //     'user' : { 'x' : 37.50055141806106, 'y' : 127.03794184626457 },
-            //     'map' : {
-            //         'southWest' : { 'x' : 37.49739917613735, 'y' : 127.03372215500326 },
-            //         'northEast' : { 'x' : 37.503703507363795, 'y' : 127.04216189229597 }
-            //     },
-            //     'keyword' : ""
-            // };
-            // const options = {
-            // method: 'POST',
-            // data: qs.stringify(data),
-            // url: 'http://localhost:8080/toilet/'
-            // };
-            // axios(options);
-            const data = {
-                'pw' : 'test'
-            };
-            const options = {
+        let data = {
+            'pw' : payload.pw
+        };
+        let options = {
             method: 'POST',
             data: qs.stringify(data),
-            url: 'http://localhost:8080/user/test/'
-            };
-            axios(options).then(response => {
-                console.log('sdsddssdfv')
-                console.log("dsfgb",response.data)
-                // commit('setMapPlaceList', response);
-            }).catch(error=>{
-                console.log("dsfghj")
-                console.log(error)
-            })
-            
-            // axios.post(url + "/toilet/", params).then(response => {
-            //     console.log('sdsddssdfv')
-            //     console.log("dsfgb",response.data)
-            //     // commit('setMapPlaceList', response);
-            // }).catch(error=>{
-            //     console.log("dsfghj")
-            //     console.log(error)
-            // })
-            // axios.post(url + '/user/test/', {pw:'test'}).then(function (response) {
-            //     console.log(response);
-            // }).catch(function (error) {
-            //     console.log("d")
-            // })
-        // axios. axios({
-        //     method: "get",
-        //  {headers: {'Content-Type': 'multipart/form-data'}}
-        //     url: "http://13.125.1.123:8080/toilet/",
-        //     params: {
-        //     username: this.state.username,
-        //     password: this.state.password
-        //     }
-        //     }).then(res => console.log(res.data));
-
-            // 자동로그인 처리      
+            url: url+'/user/'+payload.id 
+        };
+        return axios(options).then(response => {
+            if(response.data.code == 200){
+                // TODO : 자동로그인 처리 
+                // auto login이 true이면 로컬 스토리지에 저장하자
+                
+                commit('setAuthentication',{
+                    isActive : false,
+                    isLogin : true,
+                    userID : response.data.id,
+                    userNickName : response.data.nick,
+                  })
+                console.log(response.data)
+                return true
+            }
             return false
-            // if (payload.signIn_id && payload.signIn_pw){
-            //     console.log("비어있지 않다")
-            //     // auto login이 true이면 로컬 스토리지에 저장하자
-
-            // }
-            // auto login이 true이면 로컬 스토리지에 저장하자
-
-        }
+        }).catch(error=>{
+            return false
+        })
     },
     asyncSignUp({ commit }, payload) {
-        if (payload.signUp_id && payload.signUp_nick && payload.signUp_pw && payload.signUp_pw2) {
-            if (payload.signUp_pw == payload.signUp_pw2) {
-                console.log("비말번호가 같다")
-
+        let options = {
+            method: 'POST',
+            data: qs.stringify(payload),
+            url: url+'/user'
+        };
+        return axios(options).then(response => {
+            if(response.data.code == 200){
+                console.log("회원가입 완료")
+                return true
             }
-        }
+            return false
+        }).catch(error=>{
+            return false
+        })
     },
     asyncMakeMap({ commit, getters, state }, payload) {
         var mapOption = {
@@ -115,6 +77,7 @@ export default {
 
             axios.post(url + "/toilet/", params)
             .then(response => {
+                console.log(response.data)
                 commit('setMapPlaceList', response.data.toiletList);
             })
         });

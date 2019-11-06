@@ -4,3 +4,5 @@ data/.DS_Store
 .DS_Store
 
 backend/src/main/resources/application.properties
+mybatis/
+application.properties

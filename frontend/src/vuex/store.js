@@ -18,12 +18,11 @@ function make_marker_image(src) {
 
 
 const state = {
-  currentPage : 0,
+  currentPage : "HomePage",
   authentication : {
     isActive : false,
     isLogin : false,
-    // 자동로그인의 경우 로컬스토리지 체크
-    userID : 'test',
+    userID : '',
     userNickName : '',
   },
   map : { // map

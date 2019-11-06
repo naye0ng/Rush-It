@@ -1,9 +1,9 @@
 <template>
-  <div id="detail-card">
+  <div id="detail-card" >
     <b-container class="toilet-title">  
       <b-row class="title-txt">
         <b-col>{{toilet.name}}</b-col>
-        <b-col class="text-right" >
+        <b-col class="text-right " >
           <span @click="goDirection()">
             <font-awesome-icon icon="directions"/>
           </span>
@@ -27,11 +27,11 @@
           <span class="task-txt">( {{toilet_detail.score}}점 )</span>
           </b-col>
         <b-col cols="2" class="text-right default-btn">
-          <font-awesome-icon icon="thumbs-up"/>
+          <font-awesome-icon icon="thumbs-up" v-bind:class="{active_like: isLike == 1}" @click="like(1)"/>
           {{ toilet_detail.like }}
         </b-col>
         <b-col cols="2" class="text-right default-btn">
-          <font-awesome-icon icon="thumbs-down"/>
+          <font-awesome-icon icon="thumbs-down" v-bind:class="{active_dislike: isLike == -1}" @click="like(-1)"/>
           {{ toilet_detail.dislike }}
         </b-col>
       </b-row>
@@ -67,8 +67,7 @@
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=3 }"/>
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=4 }"/>
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating==5 }"/>
-                <span class="score-txt"> {{review.rating}}점 </span>
-              
+                <span class="score-txt"> {{review.rating}}점 </span>           
               </b-row>
             <b-row class="review-txt">{{ review.review }}</b-row>
             </b-col>
@@ -90,16 +89,19 @@ export default {
   },
   data(){
     return {
+      msg: 'Welcome to Your Vue.js App',
       toilet_detail:{},
       reviews:[],
       // 이건 로그인 처리 이후에 사용자가 존재할 떄 가능
-      isLike:1,
+      isLike:0,
     }
   },
-  ...mapState({
-    userNickName: state => state.authentication.userNickName,
-    userID: state => state.authentication.userID
-  }),
+  computed: {
+    ...mapState({
+      userNickName: state => state.authentication.userNickName,
+      userID: state => state.authentication.userID
+    })
+  },
   methods: {
     getMoreInfomation(){
       // 화장실 상세정보 조회
@@ -119,14 +121,78 @@ export default {
       }).catch(error=>{
           console.log(error)
       })
-      // 로그인된 유저와 화장실 관계
-      axios.get(url+"/toilet/"+this.toilet.id,{params:{user_id:this.userID}})
+      // 로그인된 유저가 존재한다면?
+      if(this.userID){
+        axios.get(url+"/toilet/"+this.toilet.id+'/'+this.userID)
+        .then(response => {
+          // 이거 수정 필요
+          this.isLike = response.data.userLove
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+    },
+    setStatus(){
+      const url = "http://localhost:8080"
+      axios.get(url+"/toilet/"+this.toilet.id)
       .then(response => {
-        // 이거 수정 필요
-        // console.log(response.data)
+          this.toilet_detail = response.data
       }).catch(error=>{
           console.log(error)
       })
+      // 로그인된 유저가 존재한다면?
+      if(this.userID){
+        axios.get(url+"/toilet/"+this.toilet.id+'/'+this.userID)
+        .then(response => {
+          // 이거 수정 필요
+          this.isLike = response.data.userLove
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+    },
+    like(state){
+      const url = "http://localhost:8080"
+      // console.log(this.isLike,state)
+      // 같은 요청이 다시 들어오는건 취소
+
+      console.log(this.toilet_detail)
+      if(this.isLike == state){
+        let data = {
+          'user_id' : this.userID,
+          'toilet_id' : this.toilet.id,
+        };
+        let options = {
+            method: 'DELETE',
+            data: qs.stringify(data),
+            url: url+'/like'
+        };
+        axios(options).then(response => {
+          this.setStatus()
+          this.isLike = 0
+          console.log(response.data)
+        }).catch(error=>{
+            console.log(error)
+        })
+      }else{
+        let data = {
+          'user_id' : this.userID,
+          'toilet_id' : this.toilet.id,
+          'state': state
+        };
+        let options = {
+            method: 'POST',
+            data: qs.stringify(data),
+            url: url+'/like'
+        };
+        axios(options).then(response => {
+          this.setStatus()
+          this.isLike = state
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+
     },
     goDirection() {
       var url = "https://map.kakao.com/link/to/" + this.toilet.name + "," + this.toilet.location_x + "," + this.toilet.location_y;
@@ -135,6 +201,9 @@ export default {
   },
   mounted(){
     this.getMoreInfomation()
+  },
+  updated(){
+    this.setStatus()
   }
 }
 </script>
@@ -145,11 +214,11 @@ export default {
   bottom: 2rem;
   left: 0;
   width: 100%;
-  min-height: 65vh;
+  min-height: 50vh;
   max-height:100vh;
   border-radius: 30px 30px 0 0;
-  -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1)!important;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1)!important;
+  -webkit-box-shadow: 0 12px 15px 5px rgba(0, 0, 0, 0.1)!important;
+  box-shadow: 0 12px 15px 5px rgba(0, 0, 0, 0.1)!important;
   padding: 1.5rem 1rem;
   margin: 0;
   text-align: left;
@@ -205,6 +274,16 @@ export default {
   color: #888;
 }
 
+
+/* 좋아요, 싫어요 */
+.active_like{
+  color: blue;
+}
+
+.active_dislike{
+  color: blueviolet;
+}
+
 /* 여기서부터 상세정보 */
 #detail-card .toilet-info{
   padding: 1.2rem 0.5rem 0;
@@ -258,10 +337,26 @@ export default {
   font-size: 0.7rem;
   color: #2c3e50;
 }
-
 #scroll-sec{
   height: 40vh;
   overflow: scroll;
   padding-bottom: 3rem;
+}
+
+#detail-card.top{
+  top:100px;
+  animation: slide-up 1s;
+}
+#detail-card.top #scroll-sec{
+  height: 80vh;
+}
+
+@keyframes slide-up{
+  0%{
+    transform: translateY(10%);
+  }
+  100%{
+    transform: translateY(0%)
+  }
 }
 </style>
