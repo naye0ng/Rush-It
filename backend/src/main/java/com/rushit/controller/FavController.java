@@ -27,8 +27,8 @@ public class FavController {
 		this.favService = favService;
 	}
 	
-	@PostMapping("/fav")		//post
-	public HashMap<String, String> registerFav(@RequestParam String toilet_id, @RequestParam String user_id, @RequestParam int state){
+		@PostMapping("/like")		//post
+		public ResponseEntity<HashMap<String, String>> registerFav(@RequestBody String toilet_id, @RequestBody String user_id, @RequestBody int state){
 		HashMap<String, String> Container = new HashMap<>();
 				
 		Boolean favorite;
@@ -56,11 +56,11 @@ public class FavController {
 			Container.put("message", "Update Favorite Toilet Success");
 		}
 		Container.put("code", "200");
-		return Container;			
+		return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.OK);			
 	}
 	
 
-	@DeleteMapping("/fav")
+	@DeleteMapping("/like")
 	public HashMap<String, String> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
 		HashMap<String, String> Container = new HashMap<>();
 		Fav favInfo = new Fav(toilet_id, user_id, true);
