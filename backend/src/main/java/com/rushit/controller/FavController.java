@@ -62,17 +62,18 @@ public class FavController {
 	
 
 	@DeleteMapping("/like")
-	public HashMap<String, String> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
+	public ResponseEntity<HashMap<String, String>> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
 		HashMap<String, String> Container = new HashMap<>();
 		Fav favInfo = new Fav(toilet_id, user_id, true);
 		
 		if(favService.removeFav(favInfo)) {
 			Container.put("code", "200");
 			Container.put("message", "Delete Fav Success");
+			return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.OK);
 		} else {
 			Container.put("code", "301");
 			Container.put("message", "Data doesn't exist");
+			return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.NO_CONTENT);
 		}
-		return Container;
 	}
 }
