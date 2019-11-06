@@ -1,3 +1,4 @@
+
 package com.rushit.controller;
 
 import java.lang.reflect.Array;
@@ -204,4 +205,3 @@ public class ToiletController {
 	}
 		
 }
-

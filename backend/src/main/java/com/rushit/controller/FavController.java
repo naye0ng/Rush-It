@@ -30,7 +30,7 @@ public class FavController {
 	@PostMapping("/fav")		//post
 	public HashMap<String, String> registerFav(@RequestParam String toilet_id, @RequestParam String user_id, @RequestParam int state){
 		HashMap<String, String> Container = new HashMap<>();
-		
+				
 		Boolean favorite;
 		if(state == 1) favorite = true;
 		else if(state == -1) favorite = false;
@@ -44,17 +44,18 @@ public class FavController {
 		Fav favInfo = new Fav(toilet_id, user_id, favorite);		
 
 		if(recInfo == null) { // add
-			if(favService.addFav(favInfo)) Container.put("code", "200");
-			else Container.put("code", "Fail");
+			favService.addFav(favInfo);
+			Container.put("message", "Add Fav Success");
 		}
 		else if(recInfo.isFav() == favorite) { // delete
-			if(favService.removeFav(favInfo)) Container.put("code", "200");
-			else Container.put("code", "Fail");
+			favService.removeFav(favInfo);
+			Container.put("message", "Delete Fav Success");
 		}
 		else if(recInfo.isFav() != favorite) { // update
-			if(favService.modifyFav(favInfo)) Container.put("code", "200");
-			else Container.put("code", "Fail");
+			favService.modifyFav(favInfo);
+			Container.put("message", "Update Fav Success");
 		}
+		Container.put("code", "200");
 		return Container;			
 	}
 	
@@ -66,8 +67,10 @@ public class FavController {
 		
 		if(favService.removeFav(favInfo)) {
 			Container.put("code", "200");
+			Container.put("message", "Delete Fav Success");
 		} else {
-			Container.put("code", "Fail");
+			Container.put("code", "301");
+			Container.put("message", "Data doesn't exist");
 		}
 		return Container;
 	}
