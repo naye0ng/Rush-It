@@ -30,9 +30,37 @@ export default {
   data(){
     return {
         showDetail: "124",
-        reviews :[],
+        reviews :[{
+          toilet_name :"서울대학교 본관 1층",
+          time: "2019.11.05",
+          score:5,
+        },
+        {
+          toilet_name :"강남역 지하 1층 신분당선",
+          time: "2019.11.05",
+          score:4,
+        },
+        {
+          toilet_name :"역삼역 멀티캠퍼스",
+          time: "2019.11.05",
+          score:5,
+        },
+        ],
     }
   },
+  methods:{
+    // setReviews(){
+    //    // 화장실 리뷰 조회
+    //   axios.get(url+"/review",{params:{user_id:"test"}})
+    //   .then(response => {
+    //     if(response.data.code == 200){
+    //       this.reviews = response.data.reviews
+    //     }
+    //   }).catch(error=>{
+    //       console.log(error)
+    //   })
+    // }
+  }
 }
 </script>
 <style>
