@@ -156,7 +156,6 @@ export default {
       // console.log(this.isLike,state)
       // 같은 요청이 다시 들어오는건 취소
 
-      console.log(this.toilet_detail)
       if(this.isLike == state){
         let data = {
           'user_id' : this.userID,
@@ -201,9 +200,10 @@ export default {
   },
   mounted(){
     this.getMoreInfomation()
+    this.setStatus()
   },
   updated(){
-    this.setStatus()
+    //this.setStatus()
   }
 }
 </script>
