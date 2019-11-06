@@ -60,8 +60,7 @@
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=3 }"/>
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=4 }"/>
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating==5 }"/>
-                <span class="score-txt"> {{review.rating}}점 </span>
-              
+                <span class="score-txt"> {{review.rating}}점 </span>           
               </b-row>
             <b-row class="review-txt">{{ review.review }}</b-row>
             </b-col>
@@ -126,8 +125,31 @@ export default {
         })
       }
     },
+    setStatus(){
+      const url = "http://localhost:8080"
+      axios.get(url+"/toilet/"+this.toilet.id)
+      .then(response => {
+          this.toilet_detail = response.data
+      }).catch(error=>{
+          console.log(error)
+      })
+      // 로그인된 유저가 존재한다면?
+      if(this.userID){
+        axios.get(url+"/toilet/"+this.toilet.id+'/'+this.userID)
+        .then(response => {
+          // 이거 수정 필요
+          this.isLike = response.data.userLove
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+    },
     like(state){
+      const url = "http://localhost:8080"
+      // console.log(this.isLike,state)
       // 같은 요청이 다시 들어오는건 취소
+
+      console.log(this.toilet_detail)
       if(this.isLike == state){
         let data = {
           'user_id' : this.userID,
@@ -136,10 +158,12 @@ export default {
         let options = {
             method: 'DELETE',
             data: qs.stringify(data),
-            url: url+'/like/'+payload.id 
+            url: url+'/like'
         };
         axios(options).then(response => {
+          this.setStatus()
           this.isLike = 0
+          console.log(response.data)
         }).catch(error=>{
             console.log(error)
         })
@@ -152,18 +176,23 @@ export default {
         let options = {
             method: 'POST',
             data: qs.stringify(data),
-            url: url+'/like/'+payload.id 
+            url: url+'/like'
         };
         axios(options).then(response => {
+          this.setStatus()
           this.isLike = state
         }).catch(error=>{
             console.log(error)
         })
       }
+
     }
   },
   mounted(){
     this.getMoreInfomation()
+  },
+  updated(){
+    this.setStatus()
   }
 }
 </script>

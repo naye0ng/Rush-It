@@ -18,7 +18,7 @@
         <p class="review-cnt">{{toilet.reviews}}</p>
       </b-col>
       <transition name="slide-up-and-down">
-        <Detail v-show="showPopup" v-bind:class="{top:swipe==1}" v-bind:toilet="toilet_rank[detailId]" v-hammer:swipe.vertical="swipeEvent"/>
+        <Detail v-show="showPopup && index == detailId" v-bind:class="{top:swipe==1}" v-bind:toilet="toilet_rank[detailId]" v-hammer:swipe.vertical="swipeEvent"/>
       </transition>
     </b-row>
   </div>
