@@ -28,7 +28,7 @@ public class FavController {
 	}
 	
 		@PostMapping("/like")		//post
-		public ResponseEntity<HashMap<String, String>> registerFav(@RequestBody String toilet_id, @RequestBody String user_id, @RequestBody int state){
+		public ResponseEntity<HashMap<String, String>> registerFav(String toilet_id, String user_id, int state){
 		HashMap<String, String> Container = new HashMap<>();
 				
 		Boolean favorite;
