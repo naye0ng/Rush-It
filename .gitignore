@@ -3,3 +3,4 @@
 data/.DS_Store
 .DS_Store
 mybatis/
+application.properties
