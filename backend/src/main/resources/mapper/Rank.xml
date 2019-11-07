@@ -3,5 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="rank">
+	<resultMap type="tRank" id="tRankResultMap">
+		<result column="toilet_id" property="id" />
+		<result column="name" property="name" />
+		<result column="type" property="type" />
+		<result column="state" property="state" />
+		<result column="address" property="address" />
+		<result column="location_x" property="location_x" />
+		<result column="location_y" property="location_y" />
+		<result column="handicapped" property="handicapped" />
+		<result column="diaper" property="diaper" />
+		<result column="bell" property="bell" />
+		<result column="telephone" property="telephone" />
+		<result column="time" property="time" />
+		<result column="reviews" property="reviews" />
+		<result column="ratings" property="ratings" />
+	</resultMap>
 	
+	<select id="selectToiletRankList" resultMap="tRankResultMap">
+		SELECT		r.toilet_id, t.name, t.type, t.state, t.address, t.location_x, t.location_y, t.telephone,
+					t.time,	t.handicapped, t.diaper, t.bell, count(*) reviews, ROUND(AVG(r.rating),1) ratings
+		FROM		review r
+		JOIN		toilet t
+		ON			r.toilet_id = t.id
+		GROUP BY	toilet_id
+		ORDER BY	ratings DESC, reviews DESC
+		LIMIT		10;
+	</select>
 </mapper>

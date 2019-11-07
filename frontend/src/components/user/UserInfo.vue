@@ -12,7 +12,7 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col align-self="center" style="text-align:right;">
+    <b-col cols="5" align-self="center" style="text-align:right;">
       <font-awesome-icon icon="cog"/>
     </b-col>
   </b-row>

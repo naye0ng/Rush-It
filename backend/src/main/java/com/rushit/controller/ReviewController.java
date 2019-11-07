@@ -29,6 +29,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.rushit.model.service.ReviewService;
+import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
 
 @CrossOrigin(origins= {"*"})
@@ -36,15 +37,24 @@ import com.rushit.model.vo.Review;
 public class ReviewController {
 
 	private ReviewService rs;
+	private UserService us;
 
 	@Autowired
 	public void setRs(ReviewService rs) {
 		this.rs = rs;
 	}
 	
+	@Autowired
+	public void setUs(UserService us) {
+		this.us = us;
+	}
+
 	@PostMapping("/test")
-	public void test(@RequestParam String query) throws IOException {
+	public HashMap<String, String> test(@RequestBody String query) throws IOException {
 		System.out.println(query);
+
+		HashMap<String, String> hash= us.checkUser("honey");
+		return hash;
 	}
 	
 	@GetMapping("/test")
@@ -53,40 +63,49 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/review")
-	public HashMap<String, String> registerReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
+	public ResponseEntity<HashMap<String, String>> registerReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
 		Date currentTime = new Date();
 		HashMap<String, String> hash= new HashMap<>();
 		Review r = new Review(toilet_id, user_id, review, score, currentTime);
 		if(rs.addReview(r)) {
 			hash.put("code", "200");
+			return new ResponseEntity<HashMap<String,String>>(hash, HttpStatus.OK);
 		}
 		else {
 			hash.put("code", "300");
+			return new ResponseEntity<HashMap<String,String>>(hash, HttpStatus.CONFLICT);
 		}
-		return hash;
 	}
 	
 	@DeleteMapping("/review")
-	public HashMap<String, String> deleteReview(@RequestParam String user_id, @RequestParam String toilet_id){
+	public ResponseEntity<HashMap<String, String>> deleteReview(@RequestParam String user_id, @RequestParam String toilet_id){
 		HashMap<String, String> map= new HashMap<>();
 		map.put("user_id", user_id);
 		map.put("toilet_id", toilet_id);
 		HashMap<String, String> ret= new HashMap<>();
 		if(rs.deleteReview(map)) {
 			ret.put("code", "200");
+			return new ResponseEntity<HashMap<String,String>>(map, HttpStatus.OK);
 		}
-		else ret.put("code", "301");
-		return ret;
+		else {
+			ret.put("code", "301");
+			return new ResponseEntity<HashMap<String,String>>(map, HttpStatus.NO_CONTENT);
+		}
 	}
 	
 	@PutMapping("/review")
-	public HashMap<String, String> updateReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
+	public ResponseEntity<HashMap<String, String>> updateReview(@RequestParam Double score, @RequestParam String review, @RequestParam String user_id, @RequestParam String toilet_id){
 		Date currentTime = new Date();
 		HashMap<String, String> ret= new HashMap<>();
 		Review r = new Review(toilet_id, user_id, review, score, currentTime);
-		if(rs.updateReview(r))ret.put("code", "200");
-		else ret.put("code", "301");
-		return ret;
+		if(rs.updateReview(r)) {
+			ret.put("code", "200");
+			return new ResponseEntity<HashMap<String,String>>(ret, HttpStatus.OK);
+		}
+		else {
+			ret.put("code", "301");
+			return new ResponseEntity<HashMap<String,String>>(ret, HttpStatus.NO_CONTENT);
+		}
 	}
 	
 	@RequestMapping(value="/review", method=RequestMethod.GET)

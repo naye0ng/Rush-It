@@ -27,10 +27,11 @@ public class FavController {
 		this.favService = favService;
 	}
 	
-	@PostMapping("/fav")		//post
-	public HashMap<String, String> registerFav(@RequestParam String toilet_id, @RequestParam String user_id, @RequestParam int state){
+
+		@PostMapping("/like")		//post
+		public ResponseEntity<HashMap<String, String>> registerFav(String toilet_id, String user_id, int state){
 		HashMap<String, String> Container = new HashMap<>();
-		
+				
 		Boolean favorite;
 		if(state == 1) favorite = true;
 		else if(state == -1) favorite = false;
@@ -44,31 +45,35 @@ public class FavController {
 		Fav favInfo = new Fav(toilet_id, user_id, favorite);		
 
 		if(recInfo == null) { // add
-			if(favService.addFav(favInfo)) Container.put("code", "200");
-			else Container.put("code", "Fail");
+			favService.addFav(favInfo);
+			Container.put("message", "Add Fav Success");
 		}
 		else if(recInfo.isFav() == favorite) { // delete
-			if(favService.removeFav(favInfo)) Container.put("code", "200");
-			else Container.put("code", "Fail");
+			favService.removeFav(favInfo);
+			Container.put("message", "Delete Fav Success");
 		}
 		else if(recInfo.isFav() != favorite) { // update
-			if(favService.modifyFav(favInfo)) Container.put("code", "200");
-			else Container.put("code", "Fail");
+			favService.modifyFav(favInfo);
+			Container.put("message", "Update Fav Success");
 		}
-		return Container;			
+		Container.put("code", "200");
+		return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.OK);			
 	}
 	
 
-	@DeleteMapping("/fav")
-	public HashMap<String, String> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
+	@DeleteMapping("/like")
+	public ResponseEntity<HashMap<String, String>> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
 		HashMap<String, String> Container = new HashMap<>();
 		Fav favInfo = new Fav(toilet_id, user_id, true);
 		
 		if(favService.removeFav(favInfo)) {
 			Container.put("code", "200");
+			Container.put("message", "Delete Fav Success");
+			return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.OK);
 		} else {
-			Container.put("code", "Fail");
+			Container.put("code", "301");
+			Container.put("message", "Data doesn't exist");
+			return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.NO_CONTENT);
 		}
-		return Container;
 	}
 }
