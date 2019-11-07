@@ -23,7 +23,6 @@ export default {
                     userID : response.data.id,
                     userNickName : response.data.nick,
                   })
-                console.log(response.data)
                 return true
             }
             return false
@@ -39,7 +38,6 @@ export default {
         };
         return axios(options).then(response => {
             if(response.data.code == 200){
-                console.log("회원가입 완료")
                 return true
             }
             return false

@@ -1,7 +1,14 @@
 <template>
   <div id="detail-card" >
     <b-container class="toilet-title">  
-      <b-row class="title-txt">{{toilet.name}}</b-row>
+      <b-row class="title-txt">
+        <b-col>{{toilet.name}}</b-col>
+        <b-col class="text-right " >
+          <span @click="goDirection()">
+            <font-awesome-icon icon="directions"/>
+          </span>
+        </b-col>
+      </b-row>
       <b-row class="title-desc" align-v="center">
         <b-col v-if="toilet.type == 2">카페</b-col>
         <b-col v-else-if="toilet.type == 3">패스트푸드</b-col>
@@ -20,11 +27,11 @@
           <span class="task-txt">( {{toilet_detail.score}}점 )</span>
           </b-col>
         <b-col cols="2" class="text-right default-btn">
-          <font-awesome-icon icon="thumbs-up"/>
+          <font-awesome-icon icon="thumbs-up" v-bind:class="{active_like: isLike == 1}" @click="like(1)"/>
           {{ toilet_detail.like }}
         </b-col>
         <b-col cols="2" class="text-right default-btn">
-          <font-awesome-icon icon="thumbs-down"/>
+          <font-awesome-icon icon="thumbs-down" v-bind:class="{active_dislike: isLike == -1}" @click="like(-1)"/>
           {{ toilet_detail.dislike }}
         </b-col>
       </b-row>
@@ -60,8 +67,7 @@
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=3 }"/>
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=4 }"/>
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating==5 }"/>
-                <span class="score-txt"> {{review.rating}}점 </span>
-              
+                <span class="score-txt"> {{review.rating}}점 </span>           
               </b-row>
             <b-row class="review-txt">{{ review.review }}</b-row>
             </b-col>
@@ -87,13 +93,15 @@ export default {
       toilet_detail:{},
       reviews:[],
       // 이건 로그인 처리 이후에 사용자가 존재할 떄 가능
-      isLike:1,
+      isLike:0,
     }
   },
-  ...mapState({
-    userNickName: state => state.authentication.userNickName,
-    userID: state => state.authentication.userID
-  }),
+  computed: {
+    ...mapState({
+      userNickName: state => state.authentication.userNickName,
+      userID: state => state.authentication.userID
+    })
+  },
   methods: {
     getMoreInfomation(){
       // 화장실 상세정보 조회
@@ -114,22 +122,88 @@ export default {
           console.log(error)
       })
       // 로그인된 유저가 존재한다면?
-      //restgu01_0003
-     
-      // if(userID){
-      //   axios.get(url+"/toilet/"+this.toilet.id,{params:{user_id:this.userID}})
-      //   .then(response => {
-      //     // 이거 수정 필요
-      //     console.log('sdfg')
-      //     console.log(response.data)
-      //   }).catch(error=>{
-      //       console.log(error)
-      //   })
-      // }
+      if(this.userID){
+        axios.get(url+"/toilet/"+this.toilet.id+'/'+this.userID)
+        .then(response => {
+          // 이거 수정 필요
+          this.isLike = response.data.userLove
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+    },
+    setStatus(){
+      const url = "http://localhost:8080"
+      axios.get(url+"/toilet/"+this.toilet.id)
+      .then(response => {
+          this.toilet_detail = response.data
+      }).catch(error=>{
+          console.log(error)
+      })
+      // 로그인된 유저가 존재한다면?
+      if(this.userID){
+        axios.get(url+"/toilet/"+this.toilet.id+'/'+this.userID)
+        .then(response => {
+          // 이거 수정 필요
+          this.isLike = response.data.userLove
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+    },
+    like(state){
+      const url = "http://localhost:8080"
+      // console.log(this.isLike,state)
+      // 같은 요청이 다시 들어오는건 취소
+
+      if(this.isLike == state){
+        let data = {
+          'user_id' : this.userID,
+          'toilet_id' : this.toilet.id,
+        };
+        let options = {
+            method: 'DELETE',
+            data: qs.stringify(data),
+            url: url+'/like'
+        };
+        axios(options).then(response => {
+          this.setStatus()
+          this.isLike = 0
+          console.log(response.data)
+        }).catch(error=>{
+            console.log(error)
+        })
+      }else{
+        let data = {
+          'user_id' : this.userID,
+          'toilet_id' : this.toilet.id,
+          'state': state
+        };
+        let options = {
+            method: 'POST',
+            data: qs.stringify(data),
+            url: url+'/like'
+        };
+        axios(options).then(response => {
+          this.setStatus()
+          this.isLike = state
+        }).catch(error=>{
+            console.log(error)
+        })
+      }
+
+    },
+    goDirection() {
+      var url = "https://map.kakao.com/link/to/" + this.toilet.name + "," + this.toilet.location_x + "," + this.toilet.location_y;
+      window.open(url)
     }
   },
   mounted(){
     this.getMoreInfomation()
+    this.setStatus()
+  },
+  updated(){
+    //this.setStatus()
   }
 }
 </script>
@@ -140,7 +214,7 @@ export default {
   bottom: 2rem;
   left: 0;
   width: 100%;
-  min-height: 65vh;
+  min-height: 50vh;
   max-height:100vh;
   border-radius: 30px 30px 0 0;
   -webkit-box-shadow: 0 12px 15px 5px rgba(0, 0, 0, 0.1)!important;
@@ -198,6 +272,16 @@ export default {
 .toilet-score .task-txt {
   font-weight: 600;
   color: #888;
+}
+
+
+/* 좋아요, 싫어요 */
+.active_like{
+  color: blue;
+}
+
+.active_dislike{
+  color: blueviolet;
 }
 
 /* 여기서부터 상세정보 */

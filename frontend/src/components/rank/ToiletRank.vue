@@ -1,6 +1,5 @@
 <template>
   <div id="toilet-rank">
-    <!-- v-bind:class="{ no1: index == 0 }" -->
     <b-row
       align-v="center"
       class="rank-list"
@@ -8,8 +7,10 @@
       v-for="(toilet, index) in toilet_rank"
       @click="showDetail(index)"
       :key="index"
+      v-bind:class="{ rank01: index==0, rank02: index==1, rank03 : index==2 }"
     >
-      <b-col>{{index + 1}}위</b-col>
+      <b-col v-if="index >= 3">{{index + 1}}위</b-col>
+      <b-col v-else>&nbsp;</b-col>
       <b-col cols="6">{{toilet.name}}</b-col>
       <b-col>{{toilet.ratings}} 점</b-col>
       <b-col>
@@ -18,7 +19,7 @@
         <p class="review-cnt">{{toilet.reviews}}</p>
       </b-col>
       <transition name="slide-up-and-down">
-        <Detail v-show="showPopup" v-bind:class="{top:swipe==1}" v-bind:toilet="toilet_rank[detailId]" v-hammer:swipe.vertical="swipeEvent"/>
+        <Detail v-show="showPopup && index == detailId" v-bind:class="{top:swipe==1}" v-bind:toilet="toilet_rank[detailId]" v-hammer:swipe.vertical="swipeEvent"/>
       </transition>
     </b-row>
   </div>
@@ -79,12 +80,28 @@ export default {
 <style>
 
 #toilet-rank .rank-list {
+  position:relative;
   font-size: 0.8rem;
   margin: 15px;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
   animation: rank-list 0.5s;
+}
+.rank01::before, .rank02::before, .rank03::before{
+  position: absolute;
+  top:-11%;
+  left: 5%;
+  font-size:3rem;
+}
+.rank01::before{
+  content:"🥇"
+}
+.rank02::before{
+  content:"🥈"
+}
+.rank03::before{
+  content:"🥉"
 }
 
 #toilet-rank .rank-list.no1 {

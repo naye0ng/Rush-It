@@ -27,8 +27,9 @@ public class FavController {
 		this.favService = favService;
 	}
 	
-	@PostMapping("/fav")		//post
-	public HashMap<String, String> registerFav(@RequestParam String toilet_id, @RequestParam String user_id, @RequestParam int state){
+
+		@PostMapping("/like")		//post
+		public ResponseEntity<HashMap<String, String>> registerFav(String toilet_id, String user_id, int state){
 		HashMap<String, String> Container = new HashMap<>();
 				
 		Boolean favorite;
@@ -56,22 +57,23 @@ public class FavController {
 			Container.put("message", "Update Fav Success");
 		}
 		Container.put("code", "200");
-		return Container;			
+		return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.OK);			
 	}
 	
 
-	@DeleteMapping("/fav")
-	public HashMap<String, String> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
+	@DeleteMapping("/like")
+	public ResponseEntity<HashMap<String, String>> deleteFav(@RequestParam String toilet_id, @RequestParam String user_id) {
 		HashMap<String, String> Container = new HashMap<>();
 		Fav favInfo = new Fav(toilet_id, user_id, true);
 		
 		if(favService.removeFav(favInfo)) {
 			Container.put("code", "200");
 			Container.put("message", "Delete Fav Success");
+			return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.OK);
 		} else {
 			Container.put("code", "301");
 			Container.put("message", "Data doesn't exist");
+			return new ResponseEntity<HashMap<String,String>>(Container, HttpStatus.NO_CONTENT);
 		}
-		return Container;
 	}
 }

@@ -86,6 +86,9 @@ public class UserController {
 		loginUserInfo.setPw(pw);
 
 		Container = userService.loginUser(loginUserInfo);
+		if(Container.get("nick").equals("")) {
+			return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
 
@@ -102,6 +105,8 @@ public class UserController {
 		}
 		else {
 			Container.put("code", "301");
+			Container.put("message", "User doesn't Exist");
+			return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}
@@ -116,6 +121,8 @@ public class UserController {
 			Container.put("code", "200");
 		} else {
 			Container.put("code", "301");
+			Container.put("message", "User doesn't Exist");
+			return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<HashMap<String, String>>(Container, HttpStatus.OK);
 	}

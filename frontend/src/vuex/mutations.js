@@ -2,7 +2,6 @@ function setUserMarker(state) {
   if(state.map.user_marker != null) {
     state.map.user_marker.setMap(null);
   }
-  console.log(state.map.user_loc)
   var userPosition = new kakao.maps.LatLng(state.map.user_loc.x, state.map.user_loc.y);  
   state.map.user_marker = new kakao.maps.Marker({
     position : userPosition,

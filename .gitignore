@@ -2,5 +2,7 @@
 /.recommenders/
 data/.DS_Store
 .DS_Store
-mybatis/
-__pycache__/
+
+*/mybatis/
+*/application.properties
+*/__pycache__/
