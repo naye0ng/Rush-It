@@ -19,6 +19,7 @@ function make_marker_image(src) {
 
 const state = {
   currentPage : "HomePage",
+  isReview: false,
   authentication : {
     isActive : false,
     isLogin : false,

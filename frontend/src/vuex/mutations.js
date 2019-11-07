@@ -24,9 +24,10 @@ function makeClickListener(map, marker, infowindow, isOpened) {
   };
 }
 
-
-
 export default {
+    setIsReview(state, payload){
+        state.isReview = payload
+    },
     setCurrentPage(state, payload){
         state.currentPage = payload
     },

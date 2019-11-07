@@ -53,13 +53,15 @@
       </b-container>
       <b-container class="toilet-review"> 
         <b-row class="review-cnt" align-v="center" >
+          <!-- 리뷰 작성 -->
           <b-col class="text-left">
             총 {{reviews.length}}개의 리뷰가 있어요.
           </b-col>
           <b-col class="text-right">
-            <button size="sm" class="review-button">리뷰작성</button>
+            <button size="sm" class="review-button" @click="writeReview()">리뷰작성</button>
           </b-col>
         </b-row>
+        <!-- 리뷰 목록 -->
         <b-row class="review-sec" v-for="(review, index) in reviews" :key="index"> 
           <b-col cols="2">
             <div class="user-img">
@@ -81,12 +83,21 @@
         </b-row>
       </b-container>
     </div>
+    <transition name="slide-up-and-down">
+      <writeReview 
+        v-show="isReview"
+        v-bind:toilet_id="toilet.id"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
 import qs from 'qs';
 import axios from 'axios'
+import authentication from '../template/Authentication'
+import writeReview from '../template/writeReview'
+
 import { mapState } from "vuex";
 
 export default {
@@ -94,19 +105,24 @@ export default {
   props:{
     toilet: {type:Object}
   },
+  components:{
+    authentication,
+    writeReview,
+  },
   data(){
     return {
       msg: 'Welcome to Your Vue.js App',
       toilet_detail:{},
       reviews:[],
-      // 이건 로그인 처리 이후에 사용자가 존재할 떄 가능
       isLike:0,
     }
   },
   computed: {
     ...mapState({
       userNickName: state => state.authentication.userNickName,
-      userID: state => state.authentication.userID
+      userID: state => state.authentication.userID,
+      isActive: state => state.authentication.isActive,
+      isReview: state => state.isReview
     })
   },
   methods: {
@@ -119,13 +135,18 @@ export default {
       }).catch(error=>{
           console.log(error)
       })
+
+      console.log(this.toilet.id)
       // 화장실 리뷰 조회
       axios.get(url+"/review",{params:{toilet_id:this.toilet.id}})
       .then(response => {
+        console.log("ddd")
         if(response.data.code == 200){
+          console.log(response.data);
           this.reviews = response.data.reviews
         }
       }).catch(error=>{
+        console.log("ddd")
           console.log(error)
       })
       // 로그인된 유저가 존재한다면?
@@ -181,14 +202,22 @@ export default {
     goDirection() {
       var url = "https://map.kakao.com/link/to/" + this.toilet.name + "," + this.toilet.location_x + "," + this.toilet.location_y;
       window.open(url)
-    }
+    },
+    writeReview(){
+      if(this.userID == ''){
+        this.$store.commit("setAuthentication", { isActive: true });
+        this.$store.commit("setIsReview", false);
+      }else{
+        this.$store.commit("setIsReview", true);
+      }
+    },
   },
   mounted(){
+    console.log("ddddd")
     this.getMoreInfomation()
     this.setStatus()
   },
   updated(){
-    //this.setStatus()
   }
 }
 </script>

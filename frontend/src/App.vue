@@ -50,7 +50,7 @@ p {
 .scroll_ok{
   height: 100vh;
   margin-top: 0;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
   overflow: scroll;
 }
 /* 1초 동안 위로 올라오는 애니메이션 */
