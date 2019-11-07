@@ -2,21 +2,21 @@
   <div id="user-rank"> 
     <!-- 1 ~ 3위 -->
     <b-row align-v="end" class="rank-card">
-      <b-col align-self="center">
+      <b-col align-self="center" class="rank02">
         <div class="user-img">
           <img src="../../assets/user.png">
         </div>
         <p>{{ user_rank[1].nick }}</p>
         <p>{{ user_rank[1].reviewCount }}P</p>
       </b-col>
-      <b-col cols="5">
+      <b-col cols="5" class="rank01">
         <div class="user-img">
           <img src="../../assets/user.png">
         </div>
         <p>{{ user_rank[0].nick }}</p>
         <p>{{ user_rank[0].reviewCount}}P</p>
       </b-col>
-      <b-col align-self="center">
+      <b-col align-self="center" class="rank03">
         <div class="user-img">
           <img src="../../assets/user.png">
         </div>
@@ -85,7 +85,17 @@ export default {
   margin: 0;
   padding: 0;
 }
-
+#user-rank .rank01::before{
+  font-size: 2rem;
+  top: -4%;
+  left: 0;
+}
+#user-rank .rank02::before,
+#user-rank .rank03::before{
+  font-size: 1.5rem;
+  top: -3%;
+  left: 0;
+}
 #user-rank .rank-card .col, 
 #user-rank .rank-card .col-5{
   border-radius: 5px;
