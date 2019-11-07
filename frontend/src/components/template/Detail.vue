@@ -52,7 +52,14 @@
         </b-row>
       </b-container>
       <b-container class="toilet-review"> 
-        <b-row class="review-cnt" >총 {{reviews.length}}개의 리뷰가 있어요.</b-row>
+        <b-row class="review-cnt" align-v="center" >
+          <b-col class="text-left">
+            총 {{reviews.length}}개의 리뷰가 있어요.
+          </b-col>
+          <b-col class="text-right">
+            <button size="sm" class="review-button">리뷰작성</button>
+          </b-col>
+        </b-row>
         <b-row class="review-sec" v-for="(review, index) in reviews" :key="index"> 
           <b-col cols="2">
             <div class="user-img">
@@ -335,5 +342,15 @@ export default {
   100%{
     transform: translateY(0%)
   }
+}
+
+.review-button {
+  background-color: #214079; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 10px;
 }
 </style>
