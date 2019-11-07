@@ -23,9 +23,9 @@ def get_data_list(data_path):
         # 6 : address
         data["address"] = worksheet.cell_value(row_num,6)
         # 10 : x
-        data["location_x"] = worksheet.cell_value(row_num, 10)
+        data["location_y"] = worksheet.cell_value(row_num, 10)
         # 11 : y
-        data["location_y"] = worksheet.cell_value(row_num, 11)
+        data["location_x"] = worksheet.cell_value(row_num, 11)
         # 16 : telephone
         data["telephone"] = worksheet.cell_value(row_num, 16)
 
