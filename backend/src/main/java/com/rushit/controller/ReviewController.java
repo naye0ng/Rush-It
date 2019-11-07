@@ -124,7 +124,7 @@ public class ReviewController {
 		if(list.size()==0) responseData.put("code", "301");
 		
 		else {
-			responseData.put("code", "301");
+			responseData.put("code", "200");
 			for(Review review : list) {
 				HashMap<String, Object> reviewDetail = new HashMap<>();
 				reviewDetail.put("toilet_id", review.getToilet_id());
