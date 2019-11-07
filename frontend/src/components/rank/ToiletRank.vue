@@ -1,5 +1,5 @@
 <template>
-  <div id="toilet-rank">
+  <div id="toilet-rank" class="scroll_ok">
     <b-row
       align-v="center"
       class="rank-list"
@@ -58,7 +58,6 @@ export default {
       })
     },
     swipeEvent(e){
-      console.log(e.type)
       if(e.type == 'swipeup'){
         this.swipe = 1
       }else{

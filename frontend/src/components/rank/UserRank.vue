@@ -1,5 +1,5 @@
 <template>
-  <div id="user-rank"> 
+  <div id="user-rank" class="scroll_ok"> 
     <!-- 1 ~ 3위 -->
     <b-row align-v="end" class="rank-card">
       <b-col align-self="center" class="rank02">

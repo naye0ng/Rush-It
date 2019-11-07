@@ -60,7 +60,7 @@
             </div>
           </b-col>        
           <b-col>
-            <b-row class="review-time">{{ review.time }}</b-row>
+            <b-row class="review-time">{{ review.time.substring(0,10) }}</b-row>
             <b-row class="review-score toilet-score">
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=1 }"/>
                 <font-awesome-icon icon="star" v-bind:class="{ active: review.rating>=2 }"/>
@@ -153,45 +153,23 @@ export default {
     },
     like(state){
       const url = "http://localhost:8080"
-      // console.log(this.isLike,state)
-      // 같은 요청이 다시 들어오는건 취소
 
-      if(this.isLike == state){
-        let data = {
-          'user_id' : this.userID,
-          'toilet_id' : this.toilet.id,
-        };
-        let options = {
-            method: 'DELETE',
-            data: qs.stringify(data),
-            url: url+'/like'
-        };
-        axios(options).then(response => {
-          this.setStatus()
-          this.isLike = 0
-          console.log(response.data)
-        }).catch(error=>{
-            console.log(error)
-        })
-      }else{
-        let data = {
-          'user_id' : this.userID,
-          'toilet_id' : this.toilet.id,
-          'state': state
-        };
-        let options = {
-            method: 'POST',
-            data: qs.stringify(data),
-            url: url+'/like'
-        };
-        axios(options).then(response => {
-          this.setStatus()
-          this.isLike = state
-        }).catch(error=>{
-            console.log(error)
-        })
-      }
-
+      let data = {
+        'user_id' : this.userID,
+        'toilet_id' : this.toilet.id,
+        'state': state
+      };
+      let options = {
+          method: 'POST',
+          data: qs.stringify(data),
+          url: url+'/like'
+      };
+      axios(options).then(response => {
+        this.setStatus()
+        this.isLike = state
+      }).catch(error=>{
+          console.log(error)
+      })
     },
     goDirection() {
       var url = "https://map.kakao.com/link/to/" + this.toilet.name + "," + this.toilet.location_x + "," + this.toilet.location_y;
@@ -279,7 +257,6 @@ export default {
 .active_like{
   color: blue;
 }
-
 .active_dislike{
   color: blueviolet;
 }

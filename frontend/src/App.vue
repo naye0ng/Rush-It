@@ -46,7 +46,13 @@ p {
   margin: 0;
   padding: 0;
 }
-
+/* 스크롤 가능 */
+.scroll_ok{
+  height: 100vh;
+  margin-top: 0;
+  padding-bottom: 2rem;
+  overflow: scroll;
+}
 /* 1초 동안 위로 올라오는 애니메이션 */
 .slide-up-and-down-enter-active{
   animation: slide-move 1s;
