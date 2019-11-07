@@ -1,14 +1,10 @@
 package com.rushit.controller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,10 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.rushit.model.service.ReviewService;
+import com.rushit.model.service.ToiletService;
 import com.rushit.model.service.UserService;
 import com.rushit.model.vo.Review;
 
@@ -38,6 +33,9 @@ public class ReviewController {
 
 	private ReviewService rs;
 	private UserService us;
+	
+	@Autowired
+	private ToiletService ts;
 
 	@Autowired
 	public void setRs(ReviewService rs) {
@@ -48,6 +46,8 @@ public class ReviewController {
 	public void setUs(UserService us) {
 		this.us = us;
 	}
+	
+	
 
 	@PostMapping("/test")
 	public HashMap<String, String> test(@RequestBody String query) throws IOException {
@@ -110,26 +110,37 @@ public class ReviewController {
 	
 	@RequestMapping(value="/review", method=RequestMethod.GET)
 	public HashMap<String, Object> getReivewbyToilet(@RequestParam HashMap<String, String> params) {
-		HashMap<String, Object> ret= new HashMap<>();
-		List<Review> list=null;
+		HashMap<String, Object> responseData= new HashMap<>();
+		List<HashMap<String, Object>> responseList = new ArrayList<>();
+		
+		List<Review> list = null;
 		if(params.keySet().contains("toilet_id")) {
 			list= rs.selectReviewListByToilet(params.get("toilet_id"));
-			if(list.size()==0) ret.put("code", "301");
-			else {
-				ret.put("reviews", list);
-				ret.put("code", "200");
-			}
-			return ret;
 		}
 		else if(params.keySet().contains("user_id")) {
 			list= rs.selectReviewListByUser(params.get("user_id"));
-			if(list.size()==0) ret.put("code", "301");
-			else {
-				ret.put("reviews", list);
-				ret.put("code", "200");
-			}
-			return ret;
 		}
-		return null;
+		
+		if(list.size()==0) responseData.put("code", "301");
+		
+		else {
+			responseData.put("code", "301");
+			for(Review review : list) {
+				HashMap<String, Object> reviewDetail = new HashMap<>();
+				reviewDetail.put("toilet_id", review.getToilet_id());
+				reviewDetail.put("toilet_name", ts.selectToilet(review.getToilet_id()).getName());
+				reviewDetail.put("score", review.getRating());
+				reviewDetail.put("review", review.getReview());
+				reviewDetail.put("time", review.getTimestamp());
+				
+				responseList.add(reviewDetail);
+			}
+			responseData.put("reviews", responseList);
+		}
+		
+		System.out.println(responseData.toString());
+		
+		return responseData;
 	}
+
 }
